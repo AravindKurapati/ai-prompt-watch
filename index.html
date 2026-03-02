@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Prompt Watch</title>
+  <style>
+    :root {
+      --bg:#0d1117;--surface:#161b22;--border:#30363d;
+      --text:#e6edf3;--muted:#8b949e;
+      --green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+    header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .logo h1{font-size:20px;font-weight:700}
+    .logo p{font-size:13px;color:var(--muted)}
+    .live-badge{display:flex;align-items:center;gap:6px;background:#0d2119;border:1px solid var(--green);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--green)}
+    .live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .container{max-width:1000px;margin:0 auto;padding:32px 24px}
+
+    .stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:32px}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+    .stat-card .label{font-size:12px;color:var(--muted);margin-bottom:4px}
+    .stat-card .value{font-size:26px;font-weight:700}
+
+    .sync-section{margin-bottom:28px}
+    .sync-section h2{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .sync-event{background:#2d1b00;border:1px solid var(--yellow);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:12px;font-size:13px;margin-bottom:8px;flex-wrap:wrap}
+    .sync-event .date{color:var(--muted);min-width:88px}
+    .model-badge{padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase}
+
+    .tabs{display:flex;gap:4px;margin-bottom:28px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+    .tab{padding:10px 20px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-size:14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+    .tab:hover{color:var(--text)}
+    .tab.active{color:var(--text);border-bottom-color:var(--blue)}
+    .tab .count{background:var(--border);border-radius:10px;padding:1px 7px;font-size:11px;margin-left:6px}
+
+    .timeline{position:relative}
+    .timeline::before{content:'';position:absolute;left:19px;top:8px;bottom:0;width:2px;background:var(--border)}
+    .entry{position:relative;padding-left:52px;margin-bottom:24px}
+    .dot{position:absolute;left:11px;top:6px;width:18px;height:18px;border-radius:50%;border:2px solid var(--bg);z-index:1}
+    .dot.large{background:var(--red)}
+    .dot.medium{background:var(--yellow)}
+    .dot.small{background:var(--green)}
+
+    .entry-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+    .entry-date{color:var(--muted);font-size:12px}
+    .entry-commit{font-family:monospace;font-size:11px;color:var(--blue);background:#0d1829;padding:1px 6px;border-radius:4px}
+    .entry-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+    .entry-card:hover{border-color:#444d56}
+    .entry-summary{font-size:14px;line-height:1.7;margin-bottom:12px}
+    .entry-stats{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .stat-added{color:var(--green);font-size:13px}
+    .stat-removed{color:var(--red);font-size:13px}
+    .toggle-btn{background:none;border:none;color:var(--blue);font-size:12px;cursor:pointer;padding:0}
+    .toggle-btn:hover{text-decoration:underline}
+
+    .diff-panel{display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+    .diff-panel.open{display:block}
+    .diff-line{font-family:monospace;font-size:12px;padding:2px 8px;border-radius:3px;margin-bottom:2px;word-break:break-word}
+    .diff-added{background:#0d2119;color:var(--green)}
+    .diff-removed{background:#2d1116;color:var(--red)}
+    .diff-label{font-size:11px;color:var(--muted);margin:8px 0 4px;text-transform:uppercase;letter-spacing:.05em}
+
+    .score-badge{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px}
+    .score-bar{width:70px;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+    .score-fill{height:100%;border-radius:3px}
+
+    .empty{text-align:center;padding:60px 20px;color:var(--muted)}
+    footer{border-top:1px solid var(--border);padding:20px 40px;text-align:center;font-size:12px;color:var(--muted)}
+    footer a{color:var(--blue);text-decoration:none}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <h1> AI Prompt Watch</h1>
+    <p>How Claude, ChatGPT, Gemini, Grok & Perplexity's system prompts evolved over time</p>
+  </div>
+  <div class="live-badge"><div class="live-dot"></div>Auto-updated daily</div>
+</header>
+
+<div class="container">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="label">Models Tracked</div><div class="value" id="statModels">—</div></div>
+    <div class="stat-card"><div class="label">Total Changes</div><div class="value" id="statChanges">—</div></div>
+    <div class="stat-card"><div class="label">Sync Events</div><div class="value" id="statSync" style="color:var(--yellow)">—</div></div>
+    <div class="stat-card"><div class="label">Last Updated</div><div class="value" id="statDate" style="font-size:16px">—</div></div>
+  </div>
+
+  <div id="syncSection" style="display:none">
+    <div class="sync-section">
+      <h2>⚡ Synchronized Updates — Multiple Models Changed Together</h2>
+      <div id="syncEvents"></div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="timeline" id="timeline"></div>
+</div>
+
+<footer>
+  Built by <a href="https://github.com/AravindKurapati" target="_blank">Aravind Kurapati</a>
+  · <a href="https://github.com/AravindKurapati/system_prompts_leaks" target="_blank">GitHub</a>
+  · Updated daily via GitHub Actions
+</footer>
+
+<script>
+const MODEL_META = {
+  claude:     {label:"Claude",    color:"#d97706",emoji:"🟠"},
+  openai:     {label:"ChatGPT",   color:"#10a37f",emoji:"🟢"},
+  gemini:     {label:"Gemini",    color:"#4285f4",emoji:"🔵"},
+  grok:       {label:"Grok",      color:"#9333ea",emoji:"🟣"},
+  perplexity: {label:"Perplexity",color:"#20b2aa",emoji:"🩵"},
+};
+
+let data=null, activeModel=null;
+
+fetch("enriched_timeline.json")
+  .then(r=>{if(!r.ok)throw new Error();return r.json()})
+  .then(d=>{data=d;init()})
+  .catch(()=>{
+    document.getElementById("timeline").innerHTML=
+      `<div class="empty"><p style="font-size:32px">⏳</p><p>Run extract_and_analyze.py to generate data.</p></div>`;
+  });
+
+function init(){
+  const total=Object.values(data.timelines).reduce((s,t)=>s+t.length,0);
+  document.getElementById("statModels").textContent=data.models.length;
+  document.getElementById("statChanges").textContent=total;
+  document.getElementById("statSync").textContent=data.synchronized_events?.length||0;
+  document.getElementById("statDate").textContent=
+    new Date(data.generated_at).toLocaleDateString("en-US",{month:"short",day:"numeric"});
+
+  if(data.synchronized_events?.length){
+    document.getElementById("syncSection").style.display="block";
+    document.getElementById("syncEvents").innerHTML=
+      data.synchronized_events.slice(0,4).map(e=>`
+        <div class="sync-event">
+          <span>⚡</span>
+          <span class="date">${e.date}</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${e.models_involved.map(m=>{
+              const meta=MODEL_META[m]||{label:m,color:"#888"};
+              return `<span class="model-badge" style="background:${meta.color}22;color:${meta.color}">${meta.label}</span>`;
+            }).join("")}
+          </div>
+          <span style="color:var(--muted);font-size:12px;margin-left:auto">${e.description}</span>
+        </div>`).join("");
+  }
+
+  const tabsEl=document.getElementById("tabs");
+  data.models.forEach((model,i)=>{
+    const meta=MODEL_META[model]||{label:model,emoji:"🔵"};
+    const count=data.timelines[model]?.length||0;
+    const btn=document.createElement("button");
+    btn.className="tab"+(i===0?" active":"");
+    btn.innerHTML=`${meta.emoji} ${meta.label}<span class="count">${count}</span>`;
+    btn.onclick=()=>{
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      btn.classList.add("active");
+      renderTimeline(model);
+    };
+    tabsEl.appendChild(btn);
+  });
+
+  activeModel=data.models[0];
+  renderTimeline(activeModel);
+}
+
+function renderTimeline(model){
+  const container=document.getElementById("timeline");
+  const entries=data.timelines[model]||[];
+  if(!entries.length){
+    container.innerHTML=`<div class="empty"><p>No changes found for this model.</p></div>`;
+    return;
+  }
+  container.innerHTML=entries.map((entry,i)=>{
+    const total=entry.diff.total_change;
+    const dotClass=total>30?"large":total>10?"medium":"small";
+    const addedHtml=entry.diff.added.slice(0,8).map(l=>`<div class="diff-line diff-added">+ ${esc(l)}</div>`).join("");
+    const removedHtml=entry.diff.removed.slice(0,8).map(l=>`<div class="diff-line diff-removed">- ${esc(l)}</div>`).join("");
+    let scoreBadge="";
+    if(entry.injection_score!=null){
+      const s=entry.injection_score;
+      const c=s>=70?"var(--green)":s>=40?"var(--yellow)":"var(--red)";
+      scoreBadge=`<div class="score-badge"><span style="color:var(--muted)">Injection resistance</span>
+        <div class="score-bar"><div class="score-fill" style="width:${s}%;background:${c}"></div></div>
+        <span style="color:${c};font-weight:600">${s}%</span></div>`;
+    }
+    return `
+      <div class="entry">
+        <div class="dot ${dotClass}"></div>
+        <div class="entry-header">
+          <span class="entry-date">${fmtDate(entry.date)}</span>
+          <span class="entry-commit">${entry.commit}</span>
+          <span style="color:var(--muted);font-size:12px">${esc(entry.message)}</span>
+        </div>
+        <div class="entry-card">
+          <p class="entry-summary">${esc(entry.summary||"Change detected.")}</p>
+          <div class="entry-stats">
+            <span class="stat-added">+${entry.diff.added_count} added</span>
+            <span class="stat-removed">-${entry.diff.removed_count} removed</span>
+            <button class="toggle-btn" onclick="toggleDiff(${i})">show diff ↓</button>
+            ${scoreBadge}
+          </div>
+          <div class="diff-panel" id="diff-${i}">
+            ${removedHtml?`<div class="diff-label">Removed</div>${removedHtml}`:""}
+            ${addedHtml?`<div class="diff-label">Added</div>${addedHtml}`:""}
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function toggleDiff(i){
+  const p=document.getElementById(`diff-${i}`);
+  const open=p.classList.toggle("open");
+  p.previousElementSibling.querySelector(".toggle-btn").textContent=open?"hide diff ↑":"show diff ↓";
+}
+function fmtDate(s){return new Date(s+"T00:00:00").toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})}
+function esc(s=""){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+</script>
+</body>
+</html>

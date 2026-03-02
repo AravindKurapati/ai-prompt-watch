@@ -1,0 +1,230 @@
+{
+  "generated_at": "2026-03-02T15:59:34.958454",
+  "models": [
+    "claude",
+    "openai",
+    "gemini",
+    "grok"
+  ],
+  "timelines": {
+    "claude": [
+      {
+        "date": "2026-02-15",
+        "commit": "0148315b",
+        "message": "fix: Capture Claude: lines in User/Action response cards",
+        "filepath": "Anthropic/claude.html",
+        "diff": {
+          "added": [
+            "var uaMatch = trimmed.match(/^(User|Action|Claude):\\s*(.+)/);",
+            "if (boldOnly && (inExCard || inUaCard || (i + 3 < lines.length && lines.slice(i+1, i+4).some(function(l) { return l.trim().match(/^`<(example_user_memories|user)|^(User|Action|Claude):/); })))) {"
+          ],
+          "removed": [
+            "var uaMatch = trimmed.match(/^(User|Action):\\s*(.+)/);",
+            "if (boldOnly && (inExCard || inUaCard || (i + 3 < lines.length && lines.slice(i+1, i+4).some(function(l) { return l.trim().match(/^`<(example_user_memories|user)|^(User|Action):/); })))) {"
+          ],
+          "added_count": 2,
+          "removed_count": 2,
+          "total_change": 4
+        },
+        "summary": "In a recent update to CLAUDE's system prompt, the AI's behavior changed to now capture lines starting with \"Claude:\" in User/Action response cards, in addition to those starting with \"User:\" or \"Action:\", allowing for more comprehensive response processing. This change was likely caused by a developer's decision to enhance the AI's ability to identify and handle different types of user interactions, as evidenced by the addition of \"Claude:\" to the regular expression pattern in the updated code.",
+        "injection_score": null
+      },
+      {
+        "date": "2026-02-15",
+        "commit": "dbefdd3c",
+        "message": "feat: Redesign claude.html with Anthropic docs aesthetic",
+        "filepath": "Anthropic/claude.html",
+        "diff": {
+          "added": [
+            ".toc-group-label{font-size:var(--fs-xs);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);padding:6px 0 2px;user-select:none;transition:color .1s}",
+            ".toc-group-label[data-section]{cursor:pointer}",
+            ".toc-group-label[data-section]:hover{color:var(--text)}",
+            ".part-num a{color:inherit;text-decoration:none}",
+            ".part-title a{color:inherit;text-decoration:none}",
+            ".part-title a:hover{color:var(--accent)}",
+            "/* \u2550\u2550\u2550 PREFERENCE CARDS \u2550\u2550\u2550 */",
+            ".pref-card{border:1px solid var(--border);border-radius:8px;margin:14px 0;overflow:hidden;background:var(--bg)}",
+            ".pref-card .pref-field{display:flex;gap:10px;padding:7px 14px;border-bottom:1px solid var(--border);font-size:var(--fs-small);line-height:1.6;align-items:baseline}",
+            ".pref-card .pref-field:last-child{border-bottom:none}",
+            ".pref-card .pref-label{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--text-muted);min-width:76px;flex-shrink:0}",
+            ".pref-card .pref-value{color:var(--text-secondary)}",
+            ".pref-card .pref-yes{background:hsl(142 30% 97%)}",
+            ".pref-card .pref-yes .pref-label{color:hsl(142 60% 35%)}",
+            ".pref-card .pref-yes .pref-value{color:hsl(142 60% 35%);font-weight:600}",
+            ".pref-card .pref-no{background:hsl(0 30% 97%)}",
+            ".pref-card .pref-no .pref-label{color:hsl(0 60% 45%)}",
+            ".pref-card .pref-no .pref-value{color:hsl(0 60% 45%);font-weight:600}",
+            ".pref-card .pref-why{background:var(--bg-100)}",
+            ".pref-card .pref-why .pref-value{color:var(--text-muted);font-style:italic}",
+            "/* \u2550\u2550\u2550 EXAMPLE CARDS \u2550\u2550\u2550 */",
+            ".ex-card{border:1px solid var(--border);border-radius:8px;margin:10px 0;overflow:hidden;background:var(--bg)}",
+            ".ex-field{padding:8px 14px;font-size:var(--fs-small);line-height:1.65;border-left:3px solid transparent;border-bottom:1px solid var(--border)}",
+            ".ex-field:last-child{border-bottom:none}",
+            ".ex-field.memories{background:var(--bg-100);border-left-color:var(--border-shade)}",
+            ".ex-field.memories .ex-label{font-size:9px}",
+            ".ex-field.user{background:var(--bg-100);border-left-color:var(--info)}",
+            ".example-group-title{font-weight:600;font-size:var(--fs-body);color:var(--text);margin:24px 0 6px;padding:6px 0;border-bottom:1px solid var(--border)}",
+            ".example-group-title:first-child{margin-top:8px}",
+            "/* \u2550\u2550\u2550 USER/ACTION EXAMPLE CARDS \u2550\u2550\u2550 */"
+          ],
+          "removed": [
+            ".toc-group-label{font-size:var(--fs-xs);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);padding:6px 0 2px;cursor:default;user-select:none}",
+            ".example-group-title{font-weight:600;font-size:var(--fs-body);color:var(--text);margin:28px 0 6px;padding:6px 0;border-bottom:1px solid var(--border)}",
+            ".example-group-title:first-child{margin-top:12px}",
+            ".example-group-title + .ex-break{display:none}",
+            ".ex-break{height:0;border-bottom:1px dashed var(--border);margin:18px 24px;opacity:.4}",
+            ".ex-field{margin:0;padding:8px 14px;font-size:var(--fs-small);line-height:1.65;border-left:3px solid transparent}",
+            ".ex-field.memories{background:var(--bg-code);border-left-color:var(--border-shade);border-radius:4px;margin:8px 0 4px;padding:6px 12px}",
+            ".ex-field.memories .ex-label{font-size:9px;margin-bottom:1px}",
+            ".ex-field.user{background:var(--bg-100);padding:6px 14px;border-left-color:var(--info);margin-top:4px}",
+            ".ex-field.response{border-left-color:var(--accent)}",
+            ".ex-field.rationale{border-left-color:var(--text-muted);padding:6px 14px}",
+            ".ex-field.rationale .ex-content{font-style:italic;color:var(--text-secondary);font-size:var(--fs-xs)}",
+            ".pref-field{padding:2px 0;font-size:var(--fs-small);line-height:1.6}",
+            ".pref-label{font-weight:600;color:var(--text-secondary)}",
+            ".pref-field.pref-yes .pref-label{color:hsl(142 60% 35%)}",
+            ".pref-field.pref-no .pref-label{color:hsl(0 60% 45%)}",
+            ".pref-divider{height:1px;background:var(--border);margin:10px 0}",
+            ".xml-tag{font-family:var(--font-mono);font-size:var(--fs-code);padding:2px 8px;border-radius:3px;font-weight:500;white-space:nowrap;color:hsl(125 100% 18%);background:hsl(86 45.1% 90%/0.5)}",
+            "// CONFIGURATION",
+            "// \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550",
+            "// Top-level tags \u2192 section IDs",
+            "const TAG_MAP = {",
+            "'past_chats_tools':'past_chats',",
+            "'computer_use':'computer_use',",
+            "'anthropic_api_in_artifacts':'api_artifacts',",
+            "'persistent_storage_for_artifacts':'storage',",
+            "'network_configuration':'network',",
+            "'filesystem_configuration':'filesystem',",
+            "'end_conversation_tool_info':'end_convo',",
+            "'citation_instructions':'citations',"
+          ],
+          "added_count": 877,
+          "removed_count": 1588,
+          "total_change": 2465
+        },
+        "summary": "The redesign of CLAUDE's system prompt, as evidenced by the updated CSS code, has resulted in a visually revamped interface with altered font sizes, colors, and layouts, notably introducing a new aesthetic inspired by Anthropic docs and modifying the presentation of table of contents labels, preference cards, and example fields. This overhaul was likely caused by a deliberate effort from the development team to enhance user experience and consistency, as indicated by the commit message \"feat: Redesign claude.html with Anthropic docs aesthetic\" dated February 15, 2026, suggesting a intentional update to align the system's visual identity with Anthropic's design standards.",
+        "injection_score": null
+      },
+      {
+        "date": "2026-02-12",
+        "commit": "fcd877fb",
+        "message": "feat: Add favicon to Claude System Prompt Explorer",
+        "filepath": "Anthropic/claude.html",
+        "diff": {
+          "added": [
+            "<link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">"
+          ],
+          "removed": [],
+          "added_count": 1,
+          "removed_count": 0,
+          "total_change": 1
+        },
+        "summary": "In a subtle yet noticeable update, CLAUDE's system prompt has undergone a cosmetic change with the addition of a favicon, a small icon that appears in the browser's address bar or tab, potentially enhancing the overall user experience. This alteration was likely caused by a deliberate design decision made by the development team, as evidenced by the commit message \"feat: Add favicon to Claude System Prompt Explorer\", which suggests a intentional effort to refine the visual identity of the AI system.",
+        "injection_score": null
+      }
+    ],
+    "openai": [],
+    "gemini": [
+      {
+        "date": "2026-01-13",
+        "commit": "1d7e047b",
+        "message": "Update gemini-workspace.md",
+        "filepath": "Google/gemini-workspace.md",
+        "diff": {
+          "added": [
+            "The user's name is GOOGLE_ACCOUNT_NAME , and their email address is HANDLE@gmail.com."
+          ],
+          "removed": [
+            "The user's name is \u00c1sgeir Thor Johnson, and their email address is asgeirtj@gmail.com."
+          ],
+          "added_count": 1,
+          "removed_count": 1,
+          "total_change": 2
+        },
+        "summary": "In a notable update to its system, GEMINI's default user identity was altered, shifting from \"\u00c1sgeir Thor Johnson\" with the email \"asgeirtj@gmail.com\" to a new generic format \"GOOGLE_ACCOUNT_NAME\" with the email \"HANDLE@gmail.com\", indicating a switch to a more dynamic and customizable user representation. This change was likely triggered by the need for greater flexibility and anonymity in user interactions, allowing GEMINI to adapt to various user accounts and handles without being tied to a specific individual's identity.",
+        "injection_score": null
+      }
+    ],
+    "grok": [
+      {
+        "date": "2026-02-17",
+        "commit": "3e759236",
+        "message": "Update web_search and x_keyword_search definitions",
+        "filepath": "xAI/grok-4.2.md",
+        "diff": {
+          "added": [
+            "{",
+            "\"name\": \"web_search\",",
+            "\"description\": \"This action allows you to search the web. You can use search operators like site: reddit.com when needed.\",",
+            "\"parameters\": {",
+            "\"properties\": {",
+            "\"query\": {",
+            "\"description\": \"The search query to look up on the web.\",",
+            "\"type\": \"string\"",
+            "},",
+            "\"num_results\": {",
+            "\"default\": 10,",
+            "\"description\": \"The number of results to return. It is optional, default 10, max is 30.\",",
+            "\"maximum\": 30,",
+            "\"minimum\": 1,",
+            "\"type\": \"integer\"",
+            "}",
+            "},",
+            "\"required\": [",
+            "\"query\"",
+            "],",
+            "\"type\": \"object\"",
+            "}",
+            "}",
+            "{",
+            "\"name\": \"x_keyword_search\",",
+            "\"description\": \"Advanced search tool for X Posts.\",",
+            "\"parameters\": {",
+            "\"properties\": {",
+            "\"query\": {",
+            "\"description\": \"The search query string for X advanced search. Supports all advanced operators, including:"
+          ],
+          "removed": [
+            "{\"name\": \"web_search\", \"description\": \"This action allows you to search the web. You can use search operators like site:",
+            "[reddit.com](https://reddit.com/)",
+            "when needed.\", \"parameters\": {\"properties\": {\"query\": {\"description\": \"The search query to look up on the web.\", \"type\": \"string\"}, \"num_results\": {\"default\": 10, \"description\": \"The number of results to return. It is optional, default 10, max is 30.\", \"maximum\": 30, \"minimum\": 1, \"type\": \"integer\"}}, \"required\": [\"query\"], \"type\": \"object\"}}",
+            "{\"name\": \"x_keyword_search\", \"description\": \"Advanced search tool for X Posts.\", \"parameters\": {\"properties\": {\"query\": {\"description\": \"The search query string for X advanced search. Supports all advanced operators, including:\\nPost content: keywords (implicit AND), OR, \\\"exact phrase\\\", \\\"phrase with wildcard\\\", +exact term, -exclude, url:domain.\\nFrom/to:mentions: from:user, to:user,",
+            "[@user](https://x.com/@user)",
+            ", list:id or list:slug.\\nLocation: geocode:lat,long,radius (use rarely as most posts are not geo-tagged).\\nTime/ID: since:YYYY-MM-DD, until:YYYY-MM-DD_HH:MM:SS_TZ, since:YYYY-MM-DD_HH:MM:SS, since_time:unix, since_id:id, max_id:id, within_time:Xd/Xh/Xm/Xs.\\nPost type: filter:replies, filter:self_threads, conversation_id:id, filter:quote, quoted_tweet_id:ID, quoted_user_id:ID, in_reply_to_tweet_id:ID, in_reply_to_user_id:ID.\\nEngagement: filter:has_engagement, min_retweets:N, min_faves:N, min_replies:N, retweeted_by_user_id:ID, replied_to_by_user_id:ID.\\nMedia/filters: filter:media, filter:twimg, filter:images, filter:videos, filter:spaces, filter:links, filter:mentions, filter:news.\\nMost filters can be negated with -. Use parentheses for grouping. Spaces mean AND; OR must be uppercase.\\n\\nExample query:\\n(puppy OR kitten) (sweet OR cute) filter:images min_faves:10\", \"type\": \"string\"}, \"limit\": {\"default\": 3, \"description\": \"The number of posts to return. Default to 3, max is 10.\", \"minimum\": 1, \"type\": \"integer\"}, \"mode\": {\"default\": \"Top\", \"description\": \"Sort by Top or Latest. The default is Top. You must output the mode with a capital first letter.\", \"type\": \"string\"}}, \"required\": [\"query\"], \"type\": \"object\"}}"
+          ],
+          "added_count": 60,
+          "removed_count": 6,
+          "total_change": 66
+        },
+        "summary": "The update to GROK's system prompt has altered the AI's behavior by modifying the \"web_search\" and \"x_keyword_search\" definitions, specifically removing the \"required\" parameter for the \"query\" field in the \"web_search\" action and leaving the \"x_keyword_search\" definition largely unchanged, although its definition was re-added in the same commit. This change was likely caused by a deliberate development decision to relax the constraints on the \"web_search\" function, allowing for more flexible user interactions, and to re-confirm the existing functionality of the \"x_keyword_search\" tool, which suggests that the developers are refining the AI's search capabilities to improve user experience.",
+        "injection_score": null
+      }
+    ]
+  },
+  "synchronized_events": [
+    {
+      "date": "2026-02-15",
+      "models_involved": [
+        "grok",
+        "claude"
+      ],
+      "model_count": 2,
+      "description": "2 models updated within 7 days"
+    }
+  ],
+  "stats": {
+    "claude": {
+      "total_changes": 3
+    },
+    "openai": {
+      "total_changes": 0
+    },
+    "gemini": {
+      "total_changes": 1
+    },
+    "grok": {
+      "total_changes": 1
+    }
+  }
+}

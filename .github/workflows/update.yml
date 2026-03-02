@@ -1,0 +1,35 @@
+name: Update Timeline Weekly
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Every Monday at 9am UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install google-generativeai python-dotenv
+
+      - name: Run pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python extract_and_analyze.py
+
+      - name: Commit results
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add enriched_timeline.json
+          git diff --staged --quiet || git commit -m "Update timeline $(date +%Y-%m-%d)"
+          git push
