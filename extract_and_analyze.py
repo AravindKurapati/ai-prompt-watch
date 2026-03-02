@@ -65,6 +65,10 @@ def get_all_versions(filepaths):
                     "content": content_result.stdout,
                     "filepath": filepath,
                 })
+
+        for line in result.stdout.strip().split("\n"):
+            print(f"  RAW LINE: {repr(line)}")  # ADD THIS
+            parts = line.split("|", 2)
     seen = set()
     unique = []
     for c in all_commits:
