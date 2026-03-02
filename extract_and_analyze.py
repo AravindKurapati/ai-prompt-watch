@@ -229,14 +229,10 @@ def run_pipeline(score_injection=False):
             time.sleep(2)
 
         if score_injection and versions:
-    print(f"  Scoring injection resistance...")
-    score = score_injection_resistance(
-        latest_versions[model_name], model_name
-    )
-    if timeline:
-        timeline[-1]["injection_score"] = score
-
-        all_timelines[model_name] = timeline
+            print(f" Scoring injection resistance.....")
+            score = score_injection_resistance(latest_versions[model_name], model_name)
+            if timeline:
+                timeline[-1]["injection_score"] = score
 
     sync_events = find_synchronized_events(all_timelines)
     print(f"\n {len(sync_events)} synchronized events found")
