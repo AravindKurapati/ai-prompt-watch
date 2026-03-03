@@ -191,7 +191,7 @@ function init(){
     document.getElementById("syncSection").style.display="block";
     document.getElementById("syncEvents").innerHTML=data.synchronized_events.slice(0,4).map(e=>`
       <div class="sync-event">
-        <span>⚡</span><span class="date">${e.date}</span>
+        <span class="date">${e.date}</span>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           ${e.models_involved.map(m=>{const meta=MODEL_META[m]||{label:m,color:"#888"};return `<span class="model-badge" style="background:${meta.color}22;color:${meta.color}">${meta.label}</span>`;}).join("")}
         </div>
