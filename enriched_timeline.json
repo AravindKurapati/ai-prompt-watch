@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-02T23:54:44.400258",
+  "generated_at": "2026-03-03T09:36:32.870619",
   "models": [
     "claude",
     "openai",
@@ -26,7 +26,7 @@
           "removed_count": 2,
           "total_change": 4
         },
-        "summary": "This change adds \"Claude\" as a recognized keyword, so the system can now identify lines that start with \"Claude:\" in addition to \"User:\" and \"Action:\". This update helps the system better understand and process responses in the User/Action response cards.",
+        "summary": "The change adds \"Claude\" to a list of keywords that the system checks for in user responses. This means that if a response starts with \"Claude:\", it will be treated the same as responses starting with \"User:\" or \"Action:\". Essentially, the system is now more flexible in how it handles different types of responses.",
         "injection_score": null
       },
       {
@@ -103,7 +103,7 @@
           "removed_count": 1588,
           "total_change": 2465
         },
-        "summary": "Summary unavailable.",
+        "summary": "This change updated the design of CLAUDE's system prompt to match the Anthropic docs style, which includes new fonts, colors, and layouts for things like tables of contents and preference cards. The update removed some old styles and added new ones to give the prompt a fresh look. Overall, it's a visual refresh to make the system prompt look more modern and consistent with other Anthropic documentation.",
         "injection_score": null
       },
       {
@@ -120,8 +120,8 @@
           "removed_count": 0,
           "total_change": 1
         },
-        "summary": "This change added a favicon to CLAUDE's System Prompt Explorer, which is just a small icon that shows up in your browser's tab or bookmark. It's a tiny image file called \"favicon.ico\" that's now linked to the page. This update makes the page look a bit more polished and professional.",
-        "injection_score": 50
+        "summary": "This change adds a little icon, called a favicon, to the CLAUDE System Prompt Explorer. It's a small image that shows up in the browser's address bar or tab, and it's represented by the file \"favicon.ico\". This addition gives the explorer a more personalized and visually appealing touch.",
+        "injection_score": 0
       }
     ],
     "openai": [],
@@ -142,8 +142,8 @@
           "removed_count": 1,
           "total_change": 2
         },
-        "summary": "This change updated the example user info in GEMINI's system prompt. The old name \"\u00c1sgeir Thor Johnson\" and email \"asgeirtj@gmail.com\" were replaced with placeholder text \"GOOGLE_ACCOUNT_NAME\" and \"HANDLE@gmail.com\", making it more generic and flexible.",
-        "injection_score": 50
+        "summary": "Someone updated the system prompt for GEMINI, replacing a specific person's name (\u00c1sgeir Thor Johnson) and email address with generic placeholders (GOOGLE_ACCOUNT_NAME and HANDLE@gmail.com). This change makes the prompt more flexible and anonymous, rather than being tied to a particular individual.",
+        "injection_score": 0
       }
     ],
     "grok": [
