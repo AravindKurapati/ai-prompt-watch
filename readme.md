@@ -130,6 +130,8 @@ A GitHub Actions workflow runs the pipeline every day at 9am UTC, commits the up
 | Vanilla HTML/CSS/JS + Chart.js | Dashboard frontend |
 
 ---
+## Status
+**Ongoing** Injection resistance scoring active across 10 attack vectors. Currently testing and evaluating summary quality of LLM generated diffs and expanding adversarial attack coverage.
 
 ## Credits
 
