@@ -1,10 +1,11 @@
 {
-  "generated_at": "2026-03-07T09:26:37.846609",
+  "generated_at": "2026-03-08T09:28:29.307532",
   "models": [
     "claude",
     "openai",
     "gemini",
-    "grok"
+    "grok",
+    "perplexity"
   ],
   "timelines": {
     "claude": [
@@ -26,8 +27,8 @@
           "removed_count": 2,
           "total_change": 4
         },
-        "summary": "This change adds \"Claude\" as a valid prefix to identify user or action lines in the system. In other words, the system can now recognize lines that start with \"Claude:\" in addition to \"User:\" and \"Action:\". This update makes the system more flexible and able to handle different types of input.",
-        "injection_score": null
+        "summary": "This change updated the system to recognize lines starting with \"Claude:\" in addition to \"User:\" and \"Action:\". The update allows the system to better capture and format responses from Claude, making it more efficient and accurate.",
+        "injection_score": 55
       },
       {
         "date": "2026-02-15",
@@ -103,7 +104,7 @@
           "removed_count": 1588,
           "total_change": 2465
         },
-        "summary": "This change updated the styling of CLAUDE's system prompt to match the Anthropic docs aesthetic, making it look more modern and consistent. The update included changes to fonts, colors, and spacing to improve the overall user experience.",
+        "summary": "This change updates the style of CLAUDE's system prompt to match Anthropic's documentation look. It adds new formatting for things like table of contents labels, preference cards, and removes some old styles for example groups and fields. Overall, it's a visual refresh to make the system prompt look more modern and consistent with Anthropic's brand.",
         "injection_score": null
       },
       {
@@ -120,8 +121,8 @@
           "removed_count": 0,
           "total_change": 1
         },
-        "summary": "This change adds a small icon, called a favicon, to the CLAUDE system prompt explorer. It's like a tiny logo that shows up in the browser's tab, making it easier to identify the page. The favicon is stored in a file called \"favicon.ico\" and is now linked to the system prompt explorer.",
-        "injection_score": 0
+        "summary": "Someone made a small update to CLAUDE's system by adding a favicon, which is the little icon that shows up in your browser's tab. They added a line of code to link to this icon, called \"favicon.ico\". This change makes the browser tab look a bit nicer, but doesn't affect how CLAUDE works.",
+        "injection_score": null
       }
     ],
     "openai": [],
@@ -142,8 +143,8 @@
           "removed_count": 1,
           "total_change": 2
         },
-        "summary": "This change updated the user's info in GEMINI's system, replacing the old name \"\u00c1sgeir Thor Johnson\" with a generic placeholder \"GOOGLE_ACCOUNT_NAME\", and the email address was also changed to a more general format \"HANDLE@gmail.com\". This likely aims to make the system more flexible and adaptable to different users.",
-        "injection_score": 0
+        "summary": "Someone updated the system prompt for GEMINI to change the user's name and email address. The old name \"\u00c1sgeir Thor Johnson\" and email \"asgeirtj@gmail.com\" were replaced with a more generic \"GOOGLE_ACCOUNT_NAME\" and \"HANDLE@gmail.com\". This change likely makes the system more flexible and able to work with different users.",
+        "injection_score": 55
       }
     ],
     "grok": [
@@ -197,17 +198,18 @@
           "removed_count": 6,
           "total_change": 66
         },
-        "summary": "This update changed how GROK's web search and X keyword search features work, specifically adjusting the parameters and requirements for these actions. The changes seem to focus on tweaking the details of how searches are performed and the information that's returned, rather than making any major overhauls. Overall, it's a refinement of the existing search functionality to make it more efficient and effective.",
-        "injection_score": 10
+        "summary": "GROK's system got an update that tweaked how it defines web searches and advanced searches on X Posts. The changes aren't super dramatic, but they do clarify how to use search operators and what parameters are available for each type of search. Overall, it's just a refinement to make the system work a bit more smoothly.",
+        "injection_score": 55
       }
-    ]
+    ],
+    "perplexity": []
   },
   "synchronized_events": [
     {
       "date": "2026-02-15",
       "models_involved": [
-        "claude",
-        "grok"
+        "grok",
+        "claude"
       ],
       "model_count": 2,
       "description": "2 models updated within 7 days"
@@ -225,6 +227,9 @@
     },
     "grok": {
       "total_changes": 1
+    },
+    "perplexity": {
+      "total_changes": 0
     }
   }
 }
