@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-12T04:08:15.871993",
+  "generated_at": "2026-03-12T09:35:24.296398",
   "models": [
     "claude",
     "openai",
@@ -26,8 +26,8 @@
           "removed_count": 2,
           "total_change": 4
         },
-        "summary": "This change updates the system to recognize lines that start with \"Claude:\" in addition to \"User:\" and \"Action:\". The goal is to capture and handle these lines correctly, making the system more accurate and effective.",
-        "injection_score": 62
+        "summary": "This change adds \"Claude\" as a recognized label in the system, so it can now correctly identify lines starting with \"Claude:\" in user action response cards. Before, it only looked for \"User:\" or \"Action:\", but now it includes \"Claude:\" in that check.",
+        "injection_score": 59
       },
       {
         "date": "2026-02-15",
@@ -103,7 +103,7 @@
           "removed_count": 1588,
           "total_change": 2465
         },
-        "summary": "This change updated the design of CLAUDE's system prompt to match Anthropic's style, making it look more modern and consistent. The update affected things like font sizes, colors, and spacing, giving the prompt a fresh new look.",
+        "summary": "This change updates the style and layout of CLAUDE's system prompt, giving it a fresher look with new fonts, colors, and spacing. The redesign aims to match the Anthropic docs aesthetic, making the interface more visually appealing and consistent. Overall, it's a visual refresh that doesn't change the functionality, just the way things look.",
         "injection_score": null
       },
       {
@@ -120,7 +120,7 @@
           "removed_count": 0,
           "total_change": 1
         },
-        "summary": "This change added a small icon, called a favicon, to the CLAUDE system prompt explorer. The favicon is a tiny image that shows up in the browser's tab or bookmark, and it's now being loaded from a file called \"favicon.ico\". This update just gives the page a bit of visual flair, but doesn't change how anything works.",
+        "summary": "This change added a small icon, called a favicon, to the CLAUDE System Prompt Explorer. The favicon is a tiny image that shows up in the browser's tab or bookmark, and in this case, it's being pulled from a file called \"favicon.ico\". This gives the page a more personalized look, but doesn't affect how it works.",
         "injection_score": null
       }
     ],
@@ -142,8 +142,8 @@
           "removed_count": 1,
           "total_change": 2
         },
-        "summary": "This change updated the example user info in GEMINI's system prompt, swapping out a specific name and email for a more generic one that uses \"GOOGLE_ACCOUNT_NAME\" and \"HANDLE@gmail.com\". This suggests that the system is being set up to use the actual user's Google account info, rather than a fixed example.",
-        "injection_score": 55
+        "summary": "Someone updated the system prompt to change the user's name and email address. Now, the user is referred to as \"GOOGLE_ACCOUNT_NAME\" with the email \"HANDLE@gmail.com\", instead of having a specific name and email like \"\u00c1sgeir Thor Johnson\" and \"asgeirtj@gmail.com\". This makes the prompt more generic and less personalized.",
+        "injection_score": 50
       }
     ],
     "grok": [
@@ -197,8 +197,8 @@
           "removed_count": 6,
           "total_change": 66
         },
-        "summary": "GROK updated its system to change how it handles web searches and advanced searches on a platform called X. The update didn't add any major new features, but it did reorganize how the search functions are defined. This change is mostly behind-the-scenes, so it shouldn't affect how you use the search tools.",
-        "injection_score": 59
+        "summary": "Summary unavailable.",
+        "injection_score": 50
       }
     ]
   },
@@ -206,8 +206,8 @@
     {
       "date": "2026-02-15",
       "models_involved": [
-        "claude",
-        "grok"
+        "grok",
+        "claude"
       ],
       "model_count": 2,
       "description": "2 models updated within 7 days"
