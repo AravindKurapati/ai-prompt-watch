@@ -754,6 +754,21 @@
       <h3>Model Activity Profiles</h3>
       <p>Update cadence, change magnitude, and prompt complexity per model</p>
       <div id="activityProfiles"></div>
+      <div class="injection-legend">
+        <span style="font-size:11px;color:var(--text2);font-family:'IBM Plex Mono',monospace;margin-right:8px;">🛡 Injection Resistance — how well the system prompt would cause the model to resist override attacks (0–100)</span>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--green)"></div>
+          <span>70–100 &nbsp;Strong — explicit resistance instructions; reliably refuses extraction &amp; jailbreak attacks</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--yellow)"></div>
+          <span>40–69 &nbsp;Fair — partial resistance; some attack vectors may succeed</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--red)"></div>
+          <span>0–39 &nbsp;Weak — little to no explicit defense; most injection attacks likely succeed</span>
+        </div>
+      </div>
     </div>
   </div>
 
