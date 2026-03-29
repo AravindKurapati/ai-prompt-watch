@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cp ../enriched_timeline.json public/enriched_timeline.json && vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
