@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 2026-03-29 — Phase 2 frontend (branch: cc/phase2-frontend)
+
+### New: React + Vite frontend (frontend/)
+- Vite + React 18, Tailwind CSS v4, dark theme (`#0d1117` bg)
+- Fonts: Syne (headings/tabs), IBM Plex Mono (data/commits), system-ui (body text)
+- Layout: Overview tab (analytics) + per-model tabs (timelines only)
+- StatsBar, TagBadge, FilterBar (OR-logic tag filter)
+- EntryCard: stacked row layout — date/commit → summary → tags → diff/prompt actions
+- DiffViewer: react-diff-viewer-continued, split view, "first 30 lines" truncation label
+- FullPromptViewer: right-side drawer, content_snapshot, copy button, Escape closes
+- ChangesBarChart, PromptLengthChart (recharts), HeatmapChart (CSS grid), ConceptDriftBar
+- ConceptDriftBar: footnote that proportions may sum >100% (non-exclusive tags)
+- 11 tests passing (tagColors utils + ConceptDriftBar)
+
+### Updated: GitHub Actions (.github/workflows/update.yml)
+- Two jobs: pipeline (runs Python, commits JSON) → deploy (needs: pipeline)
+- Deploy: copies enriched_timeline.json to frontend/public/, builds Vite, pushes dist/ to gh-pages via peaceiris/actions-gh-pages
+
+### Archived
+- index.html → archive/index_vanilla.html
+
+---
+
 ## 2026-03-28 — Phase 1 pipeline changes (branch: cc/phase1-pipeline)
 
 ### extract_and_analyze.py

@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg:          #0d1117;
+  --color-surface:     #161b22;
+  --color-border-dim:  #21262d;
+  --color-primary:     #e6edf3;
+  --color-muted:       #8b949e;
+  --color-green-acc:   #3fb950;
+  --color-red-acc:     #f85149;
+  --color-blue-acc:    #58a6ff;
+  --color-yellow-acc:  #d29922;
+  --color-purple-acc:  #a371f7;
+  --color-orange-acc:  #e3882a;
+
+  --font-display: 'Syne', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+body {
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
