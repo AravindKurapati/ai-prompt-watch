@@ -18,9 +18,72 @@
 }
 
 body {
-  background-color: #0d1117;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(88, 166, 255, 0.05) 0%, transparent 60%),
+    #0d1117;
   color: #e6edf3;
   font-family: system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   margin: 0;
+}
+
+/* ── Mesh gradient background ── */
+
+.mesh-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+/* Blob 1 — top-left, blue */
+.mesh-blob-1 {
+  width: 55vw;
+  height: 45vh;
+  top: -5%;
+  left: -5%;
+  background: rgba(88, 166, 255, 0.11);
+  animation: blobDrift1 31s ease-in-out infinite alternate;
+}
+
+/* Blob 2 — top-right, purple */
+.mesh-blob-2 {
+  width: 50vw;
+  height: 42vh;
+  top: 5%;
+  right: -5%;
+  background: rgba(163, 113, 247, 0.10);
+  animation: blobDrift2 43s ease-in-out infinite alternate;
+}
+
+/* Blob 3 — bottom-center, purple */
+.mesh-blob-3 {
+  width: 55vw;
+  height: 50vh;
+  bottom: -10%;
+  left: 25%;
+  background: rgba(163, 113, 247, 0.10);
+  animation: blobDrift3 57s ease-in-out infinite alternate;
+}
+
+@keyframes blobDrift1 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(8vw, 6vh); }
+}
+
+@keyframes blobDrift2 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-6vw, 8vh); }
+}
+
+@keyframes blobDrift3 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(5vw, -7vh); }
 }

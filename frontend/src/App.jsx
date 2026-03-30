@@ -26,18 +26,18 @@ export default function App() {
   const [drawer, setDrawer] = useState({ open: false, entry: null, modelName: null })
 
   if (error) return (
-    <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="relative z-[1] min-h-screen flex items-center justify-center">
       <p className="font-mono text-red-acc text-sm">Failed to load: {error.message}</p>
     </div>
   )
   if (!data) return (
-    <div className="min-h-screen bg-bg flex items-center justify-center">
+    <div className="relative z-[1] min-h-screen flex items-center justify-center">
       <p className="font-mono text-muted text-sm">Loading…</p>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-bg text-primary">
+    <div className="relative z-[1] min-h-screen text-primary">
       <header className="px-6 py-4 border-b border-border-dim">
         <h1 className="font-display text-lg font-semibold">AI Prompt Watch</h1>
         <p className="text-muted text-xs font-mono mt-0.5">
