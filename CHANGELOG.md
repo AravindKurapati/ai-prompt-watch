@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [unreleased]
+- ci: sync Anthropic/, OpenAI/, Google/, xAI/ from upstream before pipeline runs (tolerant — continues if upstream unreachable)
+- feat: animated mesh gradient background — three independently-drifting blobs (31s/43s/57s) + static top-glow
+
+---
+
 ## 2026-03-29 — Phase 2 frontend (branch: cc/phase2-frontend)
 
 ### New: React + Vite frontend (frontend/)
