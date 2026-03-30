@@ -16,6 +16,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Sync prompt files from upstream
+        run: |
+          git remote add upstream https://github.com/asgeirtj/system_prompts_leaks.git || true
+          git fetch upstream main || echo "WARNING: Could not reach upstream, running with existing files"
+          git checkout upstream/main -- Anthropic/ OpenAI/ Google/ xAI/ || echo "WARNING: Upstream checkout failed, using existing files"
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
