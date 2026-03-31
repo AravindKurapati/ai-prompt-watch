@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__get_file_contents",
+      "Bash(python -m pytest test_pipeline.py -v)",
+      "Bash(python -m unittest test_pipeline -v)",
+      "mcp__github__create_pull_request",
+      "Bash(python -m pytest test_pipeline.py -q)",
+      "Bash(python -m unittest test_pipeline.py)",
+      "Bash(bash \"C:/Users/user/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh\" --project-dir \"D:/Aru/NYU/system_prompts_leaks\")",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(xargs grep:*)",
+      "Bash(npm test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(python:*)",
+      "Bash(gh run:*)",
+      "mcp__github__list_commits",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr:*)"
+    ]
+  }
+}

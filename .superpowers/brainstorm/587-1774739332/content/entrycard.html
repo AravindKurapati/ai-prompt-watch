@@ -1,0 +1,108 @@
+<h2>Entry Card Layout</h2>
+<p class="subtitle">Each change in the timeline renders as one of these cards. Which layout works best?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#161b22;color:#e6edf3;padding:10px 12px;border-radius:6px;border:1px solid #21262d">
+        <!-- Row 1: date + commit + counts -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div>
+            <span style="color:#8b949e">2026-03-10</span>
+            <span style="color:#30363d"> · </span>
+            <span style="color:#58a6ff;font-size:10px">a3f2b1c</span>
+            <span style="color:#30363d"> · </span>
+            <span style="color:#8b949e;font-size:10px">update safety guidelines</span>
+          </div>
+          <div style="display:flex;gap:8px;font-size:10px">
+            <span style="color:#3fb950">+12</span>
+            <span style="color:#f85149">−5</span>
+          </div>
+        </div>
+        <!-- Row 2: summary -->
+        <div style="color:#e6edf3;margin-bottom:6px;line-height:1.5">
+          Claude added explicit prohibitions on generating malware and clarified that "creative writing" cannot be used as a loophole for harmful content.
+        </div>
+        <!-- Row 3: tags -->
+        <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="background:#f8514922;color:#f85149;border:1px solid #f8514944;padding:1px 7px;border-radius:10px;font-size:10px">safety</span>
+          <span style="background:#58a6ff22;color:#58a6ff;border:1px solid #58a6ff44;padding:1px 7px;border-radius:10px;font-size:10px">policy</span>
+        </div>
+        <!-- Row 4: actions -->
+        <div style="display:flex;gap:6px">
+          <button style="background:#21262d;color:#8b949e;border:1px solid #30363d;padding:3px 10px;border-radius:4px;font-size:10px;font-family:monospace">▶ diff</button>
+          <button style="background:#21262d;color:#8b949e;border:1px solid #30363d;padding:3px 10px;border-radius:4px;font-size:10px;font-family:monospace">⊞ full prompt</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Stacked rows</h3>
+      <p>Date/commit/counts on one row → summary → tags → actions. Clean linear read top-to-bottom. Most vertical space.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#161b22;color:#e6edf3;padding:10px 12px;border-radius:6px;border:1px solid #21262d">
+        <div style="display:flex;gap:12px">
+          <!-- Left col: metadata -->
+          <div style="min-width:80px;border-right:1px solid #21262d;padding-right:10px">
+            <div style="color:#8b949e;margin-bottom:2px">2026-03-10</div>
+            <div style="color:#58a6ff;margin-bottom:6px">a3f2b1c</div>
+            <div style="color:#3fb950;margin-bottom:1px">+12</div>
+            <div style="color:#f85149">−5</div>
+          </div>
+          <!-- Right col: content -->
+          <div style="flex:1">
+            <div style="color:#8b949e;font-size:10px;margin-bottom:3px">update safety guidelines</div>
+            <div style="color:#e6edf3;margin-bottom:6px;line-height:1.5">Claude added explicit prohibitions on generating malware and clarified the "creative writing" loophole.</div>
+            <div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">
+              <span style="background:#f8514922;color:#f85149;border:1px solid #f8514944;padding:1px 7px;border-radius:10px;font-size:10px">safety</span>
+              <span style="background:#58a6ff22;color:#58a6ff;border:1px solid #58a6ff44;padding:1px 7px;border-radius:10px;font-size:10px">policy</span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button style="background:#21262d;color:#8b949e;border:1px solid #30363d;padding:3px 10px;border-radius:4px;font-size:10px;font-family:monospace">▶ diff</button>
+              <button style="background:#21262d;color:#8b949e;border:1px solid #30363d;padding:3px 10px;border-radius:4px;font-size:10px;font-family:monospace">⊞ full prompt</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Metadata sidebar</h3>
+      <p>Date/commit/counts in a left column, summary + tags + actions in the main area. Keeps metadata visually separate from content. More compact vertically.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="font-family:monospace;font-size:11px;background:#161b22;color:#e6edf3;padding:10px 12px;border-radius:6px;border:1px solid #21262d">
+        <!-- Header row: all metadata inline -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+          <span style="background:#f8514922;color:#f85149;border:1px solid #f8514944;padding:1px 7px;border-radius:10px;font-size:10px">safety</span>
+          <span style="background:#58a6ff22;color:#58a6ff;border:1px solid #58a6ff44;padding:1px 7px;border-radius:10px;font-size:10px">policy</span>
+          <span style="color:#30363d;margin-left:auto">·</span>
+          <span style="color:#8b949e;font-size:10px">2026-03-10</span>
+          <span style="color:#58a6ff;font-size:10px">a3f2b1c</span>
+          <span style="color:#3fb950;font-size:10px">+12</span>
+          <span style="color:#f85149;font-size:10px">−5</span>
+        </div>
+        <!-- Summary -->
+        <div style="color:#e6edf3;margin-bottom:6px;line-height:1.5">
+          Claude added explicit prohibitions on generating malware and clarified that "creative writing" cannot be used as a loophole for harmful content.
+        </div>
+        <!-- Actions inline at bottom right -->
+        <div style="display:flex;justify-content:flex-end;gap:6px">
+          <button style="background:transparent;color:#8b949e;border:none;padding:2px 6px;font-size:10px;font-family:monospace;cursor:pointer">▶ diff</button>
+          <button style="background:transparent;color:#8b949e;border:none;padding:2px 6px;font-size:10px;font-family:monospace;cursor:pointer">⊞ full prompt</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tags-first, borderless</h3>
+      <p>Tag badges + all metadata in one compact header row. Summary is the visual focus. Actions are subtle ghost buttons. Minimal chrome, maximum content density.</p>
+    </div>
+  </div>
+
+</div>
