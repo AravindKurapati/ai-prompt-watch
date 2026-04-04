@@ -1,0 +1,19 @@
+{
+  "id": "2026-04-04T03-01-54-577Z-dark-developer-research-dashboard-ai",
+  "createdAt": "2026-04-04T03:01:54.587Z",
+  "prompt": "Dark developer research dashboard — AI Prompt Watch. GitHub-dark aesthetic. Dense commit-log timeline feed with sidebar analytics. Linear/GitHub density.",
+  "mode": null,
+  "url": null,
+  "viewport": "desktop",
+  "repoRoot": "D:\\Aru\\NYU\\system_prompts_leaks",
+  "cwd": "D:\\Aru\\NYU\\system_prompts_leaks",
+  "requestPath": "D:\\Aru\\NYU\\system_prompts_leaks\\.aidesigner\\runs\\2026-04-04T03-01-54-577Z-dark-developer-research-dashboard-ai\\request.json",
+  "repoContextPath": "D:\\Aru\\NYU\\system_prompts_leaks\\.aidesigner\\runs\\2026-04-04T03-01-54-577Z-dark-developer-research-dashboard-ai\\repo-context.json",
+  "designHtmlPath": "D:\\Aru\\NYU\\system_prompts_leaks\\.aidesigner\\runs\\2026-04-04T03-01-54-577Z-dark-developer-research-dashboard-ai\\design.html",
+  "previewPath": null,
+  "previewError": "Preview rendering requires puppeteer. Install it in the repo or alongside @aidesigner/agent-skills.",
+  "parentRunId": null,
+  "usage": null,
+  "transport": "mcp",
+  "remoteRunId": "b88c6ce0-445a-4f18-8cbb-ba11c03bc8b2"
+}

@@ -1,0 +1,480 @@
+<!--
+  aesthetic_dna: "Technical, High-Density, Developer-First, Monochromatic Base with Semantic Accents"
+  ui_paradigm: "Repository/Commit History Layout with Analytical Sidebar"
+  palette: "GitHub Dark (Surface: #0d1117, Cards: #161b22, Borders: #21262d, Accents: #3fb950, #f85149, #58a6ff, #d29922, #a371f7, #e3882a)"
+-->
+<!DOCTYPE html>
+<html lang="en" class="antialiased text-[#c9d1d9] bg-[#0d1117] font-mono selection:bg-[#58a6ff] selection:text-[#0d1117]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Watch - Developer Dashboard</title>
+
+    <!-- Fonts: Syne & IBM Plex Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for precise palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gh: {
+                            bg: '#0d1117',
+                            surface: '#161b22',
+                            border: '#21262d',
+                            text: '#c9d1d9',
+                            muted: '#8b949e',
+                            blue: '#58a6ff',
+                            green: '#3fb950',
+                            red: '#f85149',
+                            yellow: '#d29922',
+                            purple: '#a371f7',
+                            orange: '#e3882a',
+                        }
+                    },
+                    fontFamily: {
+                        syne: ['Syne', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace'],
+                    },
+                    fontSize: {
+                        'micro': '0.65rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar to maintain OS-level dark theme integration */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #21262d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b949e;
+        }
+
+        /* Pulse Animation for Live Badge */
+        @keyframes radar-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background-color: #3fb950;
+            z-index: -1;
+            animation: radar-pulse 2s infinite cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Grid specific utilities */
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 3px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            background-color: #21262d;
+        }
+
+        /* Interactive States for ghost buttons */
+        .ghost-btn {
+            transition: all 0.15s ease-in-out;
+        }
+        .ghost-btn:hover {
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        /* Layout containment to prevent horizontal scroll */
+        body { overflow-x: hidden; }
+    </style>
+</head>
+<body class="min-h-screen pb-12 flex flex-col">
+
+    <!-- 1. HEADER (Macro-Architecture: Global Shell) -->
+    <header class="border-b border-gh-border bg-gh-surface/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <!-- Tool Brand -->
+                <div class="flex items-center gap-2">
+                    <i class="ph ph-cpu text-xl text-gh-muted"></i>
+                    <h1 class="font-syne font-semibold text-lg tracking-wide text-white leading-none translate-y-[1px]">AI Prompt Watch</h1>
+                    <span class="font-mono text-xs text-gh-muted bg-gh-border/50 px-2 py-0.5 rounded ml-2">v2.4.1</span>
+                </div>
+            </div>
+
+            <!-- Global Stats & Live Badge -->
+            <div class="flex items-center gap-4 text-xs font-mono">
+                <div class="hidden md:flex items-center gap-3 text-gh-muted">
+                    <span>4 models monitored</span>
+                    <span class="w-[3px] h-[3px] rounded-full bg-gh-border"></span>
+                    <span>12 updates today</span>
+                    <span class="w-[3px] h-[3px] rounded-full bg-gh-border"></span>
+                    <span>Last run: <span class="text-gh-text">2026-04-03 14:22:01 UTC</span></span>
+                </div>
+                <div class="flex items-center gap-2 border border-gh-border bg-gh-bg px-2.5 py-1 rounded-full shadow-sm shadow-[#000000a0]">
+                    <div class="relative flex items-center justify-center w-2 h-2">
+                        <div class="w-1.5 h-1.5 bg-gh-green rounded-full"></div>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <span class="text-gh-green text-[10px] uppercase font-bold tracking-wider pt-[0.5px]">Live</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. TAB BAR (Macro-Architecture: Navigation Layer) -->
+    <div class="bg-gh-bg border-b border-gh-border">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-6">
+            <nav class="flex gap-1 overflow-x-auto no-scrollbar" aria-label="Tabs">
+                <button class="flex items-center gap-2 text-sm font-syne font-medium px-4 py-2.5 transition-colors border-b-2 border-gh-blue text-white mb-[-1px]">
+                    <i class="ph ph-kanban"></i> Overview
+                </button>
+                <button class="flex items-center gap-2 text-sm font-syne font-medium px-4 py-2.5 transition-colors border-b-2 border-transparent text-gh-muted hover:text-white mb-[-1px] group">
+                    Claude <span class="font-mono text-micro bg-gh-surface border border-gh-border px-1.5 py-0.5 rounded-full text-gh-text group-hover:bg-gh-border/50 transition-colors">1.2k</span>
+                </button>
+                <button class="flex items-center gap-2 text-sm font-syne font-medium px-4 py-2.5 transition-colors border-b-2 border-transparent text-gh-muted hover:text-white mb-[-1px] group">
+                    ChatGPT <span class="font-mono text-micro bg-gh-surface border border-gh-border px-1.5 py-0.5 rounded-full text-gh-text group-hover:bg-gh-border/50 transition-colors">892</span>
+                </button>
+                <button class="flex items-center gap-2 text-sm font-syne font-medium px-4 py-2.5 transition-colors border-b-2 border-transparent text-gh-muted hover:text-white mb-[-1px] group">
+                    Gemini <span class="font-mono text-micro bg-gh-surface border border-gh-border px-1.5 py-0.5 rounded-full text-gh-text group-hover:bg-gh-border/50 transition-colors">445</span>
+                </button>
+                <button class="flex items-center gap-2 text-sm font-syne font-medium px-4 py-2.5 transition-colors border-b-2 border-transparent text-gh-muted hover:text-white mb-[-1px] group">
+                    Grok <span class="font-mono text-micro bg-gh-surface border border-gh-border px-1.5 py-0.5 rounded-full text-gh-text group-hover:bg-gh-border/50 transition-colors">218</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- MAIN VIEWSPACE -->
+    <main class="max-w-[1400px] w-full mx-auto px-4 md:px-6 pt-6 flex-1 flex flex-col lg:flex-row gap-6 relative">
+
+        <!-- 4. TIMELINE CARDS (Meso-Architecture: Core UI / Left Column) -->
+        <div class="flex-1 min-w-0 flex flex-col gap-4">
+
+            <!-- Section Header -->
+            <div class="flex items-center justify-between pb-2 border-b border-gh-border">
+                <h2 class="font-syne font-semibold text-lg text-white">Recent Prompt Commits</h2>
+                <div class="flex gap-2">
+                    <button class="ghost-btn flex items-center justify-center border border-gh-border bg-gh-surface text-gh-muted px-2 py-1 rounded text-xs gap-1">
+                        <i class="ph ph-faders"></i> Filter
+                    </button>
+                    <button class="ghost-btn flex items-center gap-1 text-gh-muted border border-gh-border px-2 py-1 rounded text-xs bg-gh-surface">
+                        <i class="ph ph-sort-descending"></i> Sort: Desc
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feed Container -->
+            <div class="flex flex-col gap-3">
+
+                <!-- Card 1 -->
+                <article class="bg-gh-surface border border-gh-border rounded-lg p-3 hover:border-gh-muted/50 transition-colors duration-200">
+                    <!-- Row 1: Meta -->
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 text-xs">
+                        <div class="flex items-baseline gap-2 flex-1 min-w-0">
+                            <span class="text-gh-muted whitespace-nowrap">2 minutes ago</span>
+                            <span class="text-gh-blue font-semibold hover:underline cursor-pointer font-mono">claude-3-opus@a8f9e1b</span>
+                            <span class="text-gh-muted truncate max-w-[200px] md:max-w-md hidden sm:inline" title="Update tool usage constraints around local execution">Update tool usage constraints around local execution</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-right">
+                            <div class="flex items-center gap-1 font-mono">
+                                <span class="text-gh-green">+42</span><span class="text-gh-muted/50">/</span><span class="text-gh-red">-12</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Summary -->
+                    <p class="text-sm text-gh-text mb-3 leading-relaxed w-full md:w-11/12 font-mono">
+                        Modified internal guidelines to explicitly prevent the model from simulating local bash environment execution paths unless explicitly requested via <code class="text-xs bg-gh-bg border border-gh-border px-1 py-0.5 rounded text-gh-orange">tool_bash</code> context block. Added stricter refusal templates.
+                    </p>
+
+                    <!-- Row 3: Tags -->
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <span class="border border-gh-red text-gh-red bg-gh-red/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">policy</span>
+                        <span class="border border-gh-blue text-gh-blue bg-gh-blue/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">tool_definition</span>
+                        <span class="border border-gh-muted text-gh-muted bg-gh-muted/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">claude-v3</span>
+                    </div>
+
+                    <!-- Row 4: Actions -->
+                    <div class="flex items-center gap-2 pt-2 mt-1 border-t border-gh-border/50">
+                        <button class="ghost-btn text-xs text-gh-blue flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-blue/10">
+                            <i class="ph ph-file-code"></i> diff view
+                        </button>
+                        <button class="ghost-btn text-xs text-gh-muted flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-bg border border-transparent hover:border-gh-border">
+                            <i class="ph ph-corners-out"></i> expand prompt
+                        </button>
+                        <div class="ml-auto flex items-center gap-2">
+                             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&h=64&q=80" alt="Anthropic System Engineer avatar" class="w-4 h-4 rounded-full border border-gh-border grayscale opacity-80" />
+                             <span class="text-xs text-gh-muted font-mono">system_anthropic</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="bg-gh-surface border border-gh-border rounded-lg p-3 hover:border-gh-muted/50 transition-colors duration-200">
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 text-xs">
+                        <div class="flex items-baseline gap-2 flex-1 min-w-0">
+                            <span class="text-gh-muted whitespace-nowrap">4 hours ago</span>
+                            <span class="text-gh-blue font-semibold hover:underline cursor-pointer font-mono">gpt-4-turbo@cf442a9</span>
+                            <span class="text-gh-muted truncate max-w-[200px] md:max-w-md hidden sm:inline" title="Refine tone parameter to decrease obsequiousness">Refine tone parameter to decrease obsequiousness</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-right">
+                            <div class="flex items-center gap-1 font-mono">
+                                <span class="text-gh-green">+18</span><span class="text-gh-muted/50">/</span><span class="text-gh-red">-30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gh-text mb-3 leading-relaxed w-full md:w-11/12 font-mono">
+                        Removed legacy "always apologize" semantic block. Interjected structural prompt directives to enforce direct, clinical answers when user confidence is high. Adjusted preamble length.
+                    </p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <span class="border border-gh-purple text-gh-purple bg-gh-purple/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">persona</span>
+                        <span class="border border-gh-muted text-gh-muted bg-gh-muted/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">formatting</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2 mt-1 border-t border-gh-border/50">
+                        <button class="ghost-btn text-xs text-gh-blue flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-blue/10">
+                            <i class="ph ph-file-code"></i> diff view
+                        </button>
+                        <button class="ghost-btn text-xs text-gh-muted flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-bg border border-transparent hover:border-gh-border">
+                            <i class="ph ph-corners-out"></i> expand prompt
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="bg-gh-surface border border-gh-border rounded-lg p-3 hover:border-gh-muted/50 transition-colors duration-200">
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 text-xs">
+                        <div class="flex items-baseline gap-2 flex-1 min-w-0">
+                            <span class="text-gh-muted whitespace-nowrap">Yesterday, 14:20</span>
+                            <span class="text-gh-blue font-semibold hover:underline cursor-pointer font-mono">gemini-1.5-pro@88d1ee2</span>
+                            <span class="text-gh-muted truncate max-w-[200px] md:max-w-md hidden sm:inline" title="Incorporate deep-context memory retrieval schema">Incorporate deep-context memory retrieval schema</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-right">
+                            <div class="flex items-center gap-1 font-mono">
+                                <span class="text-gh-green">+850</span><span class="text-gh-muted/50">/</span><span class="text-gh-red">-0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gh-text mb-3 leading-relaxed w-full md:w-11/12 font-mono border-l-[3px] border-gh-green pl-3 ml-1">
+                        Massive context window update. Injected new XML parsing logic `&lt;context_retrieval&gt;` block to govern how the model scans previous turns to maintain narrative consistency over 1M tokens. Expect latency adjustments.
+                    </p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <span class="border border-gh-yellow text-gh-yellow bg-gh-yellow/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">memory</span>
+                        <span class="border border-gh-green text-gh-green bg-gh-green/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">capability</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2 mt-1 border-t border-gh-border/50">
+                        <button class="ghost-btn text-xs text-gh-blue flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-blue/10">
+                            <i class="ph ph-file-code"></i> diff view
+                        </button>
+                        <button class="ghost-btn text-xs text-gh-muted flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-bg border border-transparent hover:border-gh-border">
+                            <i class="ph ph-corners-out"></i> expand prompt
+                        </button>
+                        <span class="ml-auto border border-gh-border text-gh-muted bg-gh-bg rounded px-1.5 py-[1px] text-[10px] font-mono"><i class="ph ph-warning-circle text-gh-yellow"></i> Large Diff</span>
+                    </div>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="bg-gh-surface border border-gh-border rounded-lg p-3 hover:border-gh-muted/50 transition-colors duration-200 opacity-80">
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 text-xs">
+                        <div class="flex items-baseline gap-2 flex-1 min-w-0">
+                            <span class="text-gh-muted whitespace-nowrap">2026-03-30</span>
+                            <span class="text-gh-blue font-semibold hover:underline cursor-pointer font-mono">grok-1.5@bba001f</span>
+                            <span class="text-gh-muted truncate max-w-[200px] md:max-w-md hidden sm:inline" title="Adjust irony classifier thresholds">Adjust irony classifier thresholds</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-right">
+                            <div class="flex items-center gap-1 font-mono">
+                                <span class="text-gh-green">+5</span><span class="text-gh-muted/50">/</span><span class="text-gh-red">-1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gh-text mb-3 leading-relaxed w-full md:w-11/12 font-mono">
+                        Minor adjustment to system weights regarding satirical outputs mapped to `user_intent: serious` scenarios.
+                    </p>
+
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                        <span class="border border-gh-purple text-gh-purple bg-gh-purple/10 rounded-full px-2 py-[2px] text-[10px] font-semibold uppercase tracking-wide">persona</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2 mt-1 border-t border-gh-border/50">
+                        <button class="ghost-btn text-xs text-gh-blue flex items-center gap-1.5 px-2 py-1 rounded hover:bg-gh-blue/10">
+                            <i class="ph ph-file-code"></i> diff view
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Loading State / Sentinel -->
+                <div class="py-4 flex items-center justify-center text-xs font-mono text-gh-muted gap-2 border border-dashed border-gh-border rounded-lg">
+                    <i class="ph ph-circle-notch animate-spin"></i> Loading older commits...
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 3. OVERVIEW (Macro-Architecture: Utility/Context Sidebar) -->
+        <aside class="w-full lg:w-[320px] xl:w-[380px] shrink-0 flex flex-col gap-6 lg:sticky lg:top-20 self-start pb-8">
+
+            <!-- Dashboard Vitals -->
+            <div class="bg-gh-surface border border-gh-border rounded-lg p-4 flex flex-col gap-5">
+                <h3 class="font-syne font-semibold text-sm text-white uppercase tracking-wider border-b border-gh-border pb-2">Intelligence Vitals</h3>
+
+                <!-- Macro Charts Row (Bar + Line) -->
+                <div class="grid grid-cols-2 gap-4">
+
+                    <!-- Frequency Bar Chart -->
+                    <div class="flex flex-col gap-1">
+                        <span class="text-micro text-gh-muted font-syne uppercase tracking-wider">Changes/Model (30d)</span>
+                        <div class="flex items-end gap-1 h-12 pt-2 border-b border-gh-border pb-1">
+                            <div class="flex-1 bg-gh-border rounded-t-sm hover:bg-gh-blue transition-colors cursor-crosshair h-[80%] relative group">
+                                <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] px-1 py-0.5 rounded opacity-0 group-hover:opacity-100 font-mono transition-opacity pointer-events-none">124</div>
+                            </div>
+                            <div class="flex-1 bg-gh-border rounded-t-sm hover:bg-gh-blue transition-colors cursor-crosshair h-[40%] relative group">
+                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] px-1 py-0.5 rounded opacity-0 group-hover:opacity-100 font-mono transition-opacity pointer-events-none">62</div>
+                            </div>
+                            <div class="flex-1 bg-gh-border rounded-t-sm hover:bg-gh-blue transition-colors cursor-crosshair h-[15%] relative group">
+                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] px-1 py-0.5 rounded opacity-0 group-hover:opacity-100 font-mono transition-opacity pointer-events-none">23</div>
+                            </div>
+                            <div class="flex-1 bg-gh-border rounded-t-sm hover:bg-gh-blue transition-colors cursor-crosshair h-[65%] relative group">
+                                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] px-1 py-0.5 rounded opacity-0 group-hover:opacity-100 font-mono transition-opacity pointer-events-none">98</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-[8px] text-gh-muted font-mono px-0.5">
+                            <span>CLD</span><span>GPT</span><span>GEM</span><span>GRK</span>
+                        </div>
+                    </div>
+
+                    <!-- Prompt Length Line Chart -->
+                    <div class="flex flex-col gap-1">
+                        <span class="text-micro text-gh-muted font-syne uppercase tracking-wider">Avg Prompt Length</span>
+                        <div class="h-12 pt-2 border-b border-gh-border pb-1 relative flex items-end">
+                            <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible preserve-3d" preserveAspectRatio="none">
+                                <!-- Grid Lines -->
+                                <line x1="0" y1="10" x2="100" y2="10" stroke="#21262d" stroke-width="0.5" stroke-dasharray="2 2" />
+                                <line x1="0" y1="25" x2="100" y2="25" stroke="#21262d" stroke-width="0.5" stroke-dasharray="2 2" />
+
+                                <!-- Data Line -->
+                                <path d="M0,35 L10,32 L20,34 L30,28 L40,29 L50,15 L60,18 L70,8 L80,10 L90,4 L100,2"
+                                      fill="none" stroke="#d29922" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" />
+
+                                <!-- Gradient Fill under line -->
+                                <path d="M0,35 L10,32 L20,34 L30,28 L40,29 L50,15 L60,18 L70,8 L80,10 L90,4 L100,2 L100,40 L0,40 Z"
+                                      fill="url(#grad)" opacity="0.2" vector-effect="non-scaling-stroke" />
+
+                                <defs>
+                                    <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#d29922"/>
+                                        <stop offset="100%" stop-color="#0d1117" stop-opacity="0"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between text-[8px] text-gh-muted font-mono">
+                            <span>Q1</span><span>Q2</span><span>Trend</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Activity Heatmap Grid -->
+                <div class="flex flex-col gap-2 mt-2">
+                    <div class="flex justify-between items-end">
+                        <span class="text-micro text-gh-muted font-syne uppercase tracking-wider">Commit Heatmap (YTD)</span>
+                        <span class="text-micro text-gh-muted font-mono">Less <span class="inline-block w-2 h-2 bg-[#21262d]"></span> <span class="inline-block w-2 h-2 bg-[#1b4721]"></span> <span class="inline-block w-2 h-2 bg-[#2ea043]"></span> <span class="inline-block w-2 h-2 bg-[#39d353]"></span> More</span>
+                    </div>
+
+                    <div class="heatmap-grid w-full gap-1">
+                        <!-- Claude Row -->
+                        <div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div>
+                        <div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div>
+                        <div class="col-span-24 text-[9px] text-right text-gh-muted -translate-y-1">Claude</div>
+
+                        <!-- ChatGPT Row -->
+                        <div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#2ea043]"></div>
+                        <div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#2ea043]"></div>
+                        <div class="col-span-24 text-[9px] text-right text-gh-muted -translate-y-1">ChatGPT</div>
+
+                        <!-- Gemini Row -->
+                        <div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div>
+                        <div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#39d353]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#2ea043]"></div><div class="heatmap-cell bg-[#1b4721]"></div><div class="heatmap-cell bg-[#21262d]"></div><div class="heatmap-cell bg-[#1b4721]"></div>
+                        <div class="col-span-24 text-[9px] text-right text-gh-muted -translate-y-1">Gemini</div>
+                    </div>
+                </div>
+
+                <!-- Tag Composition (Stacked Bar Chart) -->
+                <div class="flex flex-col gap-2 mt-2 pt-4 border-t border-gh-border">
+                    <span class="text-micro text-gh-muted font-syne uppercase tracking-wider mb-1">Global Tag Composition</span>
+
+                    <div class="w-full flex h-2.5 rounded overflow-hidden">
+                        <div class="bg-gh-blue" style="width: 35%" title="tool_definition (35%)"></div>
+                        <div class="bg-gh-purple" style="width: 25%" title="persona (25%)"></div>
+                        <div class="bg-gh-red" style="width: 15%" title="policy (15%)"></div>
+                        <div class="bg-gh-green" style="width: 15%" title="capability (15%)"></div>
+                        <div class="bg-gh-yellow" style="width: 10%" title="memory (10%)"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-2">
+                        <div class="flex items-center gap-1.5 text-xs text-gh-text"><span class="w-2 h-2 rounded-full bg-gh-blue inline-block"></span> <span class="font-mono text-[9px]">tool_def (35%)</span></div>
+                        <div class="flex items-center gap-1.5 text-xs text-gh-text"><span class="w-2 h-2 rounded-full bg-gh-purple inline-block"></span> <span class="font-mono text-[9px]">persona (25%)</span></div>
+                        <div class="flex items-center gap-1.5 text-xs text-gh-text"><span class="w-2 h-2 rounded-full bg-gh-red inline-block"></span> <span class="font-mono text-[9px]">policy (15%)</span></div>
+                        <div class="flex items-center gap-1.5 text-xs text-gh-text"><span class="w-2 h-2 rounded-full bg-gh-green inline-block"></span> <span class="font-mono text-[9px]">capability(15%)</span></div>
+                        <div class="flex items-center gap-1.5 text-xs text-gh-text"><span class="w-2 h-2 rounded-full bg-gh-yellow inline-block"></span> <span class="font-mono text-[9px]">memory (10%)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Block (Info) -->
+            <div class="bg-[#0d1117] border border-gh-border border-dashed rounded-lg p-4 text-xs font-mono text-gh-muted">
+                <i class="ph ph-info mb-2 text-gh-text text-base block"></i>
+                <p class="leading-relaxed">
+                    AI Prompt Watch tracks publicly verifiable or reverse-engineered system instruction sets. Diffs are calculated based on inferred delta changes between verified generations. This is a heuristic tool, not direct source-code access.
+                </p>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-gh-border pt-4 px-6 text-center lg:text-left pb-4">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-gh-muted font-mono">
+            <p>&copy; 2026 AI Prompt Watch Protocol.</p>
+            <div class="flex gap-4 mt-2 md:mt-0">
+                <a href="#" class="hover:text-gh-blue transition-colors">API Access</a>
+                <a href="#" class="hover:text-gh-blue transition-colors">Methodology</a>
+                <a href="#" class="hover:text-gh-blue transition-colors flex items-center gap-1 text-gh-text"><i class="ph ph-github-logo"></i> View Source</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -8,7 +8,7 @@ const TOOLTIP = {
   cursor:       { fill: '#21262d' },
 }
 
-export default function ChangesBarChart({ stats }) {
+export default function ChangesBarChart({ stats, height = 160 }) {
   const data = Object.entries(stats).map(([key, s]) => ({
     name:    MODEL_META[key]?.label ?? key,
     changes: s.total_changes,
@@ -18,7 +18,7 @@ export default function ChangesBarChart({ stats }) {
   return (
     <div>
       <h3 className="font-display text-xs text-muted uppercase tracking-widest mb-3">Changes per model</h3>
-      <ResponsiveContainer width="100%" height={160}>
+      <ResponsiveContainer width="100%" height={height}>
         <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
           <XAxis dataKey="name" tick={{ fill: '#8b949e', fontSize: 11, fontFamily: 'IBM Plex Mono' }} axisLine={false} tickLine={false} />
           <YAxis allowDecimals={false} tick={{ fill: '#8b949e', fontSize: 11, fontFamily: 'IBM Plex Mono' }} axisLine={false} tickLine={false} />

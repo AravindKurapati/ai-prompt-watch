@@ -1,0 +1,34 @@
+{
+  "id": "2026-04-04T03-01-54-577Z-dark-developer-research-dashboard-ai",
+  "createdAt": "2026-04-04T03:01:59.458Z",
+  "repoRoot": "D:\\Aru\\NYU\\system_prompts_leaks",
+  "prompt": "Dark developer research dashboard — AI Prompt Watch. GitHub-dark aesthetic. Dense commit-log timeline feed with sidebar analytics. Linear/GitHub density.",
+  "targetRouteHint": null,
+  "targetFileHint": null,
+  "detectedFrameworks": [],
+  "componentLibraries": [],
+  "stylingSystems": [],
+  "routeCandidates": [],
+  "tokenSources": [],
+  "componentDirectories": [],
+  "htmlStructure": {
+    "title": "AI Prompt Watch - Developer Dashboard",
+    "primaryHeading": "AI Prompt Watch",
+    "sectionCount": 0,
+    "buttonCount": 14,
+    "formCount": 0,
+    "cardLikeCount": 0,
+    "hasNavigation": true,
+    "hasFooter": true,
+    "hasPricingSignals": false,
+    "hasDashboardSignals": true
+  },
+  "recommendations": [
+    "Use the generated preview as the visual truth source while porting the layout."
+  ],
+  "warnings": [
+    "No frontend framework was detected. Validate the target surface manually before porting.",
+    "No obvious route targets were detected. Choose a target file deliberately before editing.",
+    "The artifact looks dashboard-like, but no dashboard route was detected automatically."
+  ]
+}

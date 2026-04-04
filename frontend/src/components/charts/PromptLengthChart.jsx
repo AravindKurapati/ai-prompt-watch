@@ -8,7 +8,7 @@ const TOOLTIP = {
   cursor:       { stroke: '#21262d' },
 }
 
-export default function PromptLengthChart({ timelines }) {
+export default function PromptLengthChart({ timelines, height = 200 }) {
   const allDates = new Set()
   const byModel = {}
 
@@ -42,7 +42,7 @@ export default function PromptLengthChart({ timelines }) {
   return (
     <div>
       <h3 className="font-display text-xs text-muted uppercase tracking-widest mb-3">Prompt length over time</h3>
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={height}>
         <LineChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
           <XAxis dataKey="date" tick={{ fill: '#8b949e', fontSize: 10, fontFamily: 'IBM Plex Mono' }} axisLine={false} tickLine={false} />
           <YAxis tick={{ fill: '#8b949e', fontSize: 10, fontFamily: 'IBM Plex Mono' }} axisLine={false} tickLine={false} />
