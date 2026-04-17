@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## [unreleased]
+- feat: Netflix-style research browse redesign with spotlight hero, model profile rail, horizontal change rows, and tabbed research drawer
+- feat: add cinematic local background asset and polished model brand marks for a more professional visual system
+- feat: shift redesign toward a modern intelligence-terminal style with clearer onboarding copy and restrained typography
+- feat: add prompt_delta, impact_score, impact_level, and richer per-model stats for browse ranking
+- test: cover pipeline impact metadata and frontend browse-row utilities
 - ci: sync Anthropic/, OpenAI/, Google/, xAI/ from upstream before pipeline runs (tolerant — continues if upstream unreachable)
 - feat: animated mesh gradient background — three independently-drifting blobs (31s/43s/57s) + static top-glow
 

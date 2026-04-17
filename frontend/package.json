@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "cp ../enriched_timeline.json public/enriched_timeline.json && vite",
-    "build": "vite build",
+    "sync-data": "node -e \"require('fs').copyFileSync('../enriched_timeline.json','public/enriched_timeline.json')\"",
+    "dev": "npm run sync-data && vite",
+    "build": "npm run sync-data && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
