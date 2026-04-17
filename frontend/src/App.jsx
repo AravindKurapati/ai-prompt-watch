@@ -1,107 +1,168 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTimeline } from './hooks/useTimeline'
-import ModelTabs from './components/ModelTabs'
-import FullPromptViewer from './components/FullPromptViewer'
+import { MODEL_META } from './utils/tagColors'
+import { flattenTimeline, getBrowseRows, getModelProfile, getSpotlightEntry } from './utils/timelineBrowse'
+import BrowseRow from './components/BrowseRow'
+import ModelProfileRail from './components/ModelProfileRail'
+import ResearchDrawer from './components/ResearchDrawer'
+import SpotlightHero from './components/SpotlightHero'
 import ChangesBarChart from './components/charts/ChangesBarChart'
 import PromptLengthChart from './components/charts/PromptLengthChart'
 import HeatmapChart from './components/charts/HeatmapChart'
 import ConceptDriftBar from './components/ConceptDriftBar'
 
-function LiveBadge() {
+function Header({ data, selectedModel, onClear }) {
+  const total = Object.values(data.stats).reduce((sum, model) => sum + (model.total_changes ?? 0), 0)
+  const updated = data.generated_at?.slice(0, 10) ?? 'n/a'
+  const activeLabel = selectedModel ? MODEL_META[selectedModel]?.label : 'All models'
+
   return (
-    <div className="flex items-center gap-1.5 border border-border-dim bg-bg px-2.5 py-1 rounded-full">
-      <span className="live-dot" />
-      <span className="text-green-acc text-[10px] uppercase font-mono font-bold tracking-wider">Live</span>
-    </div>
+    <header className="top-nav">
+      <div>
+        <span className="brand-kicker">AI Prompt Watch</span>
+        <strong>{activeLabel}</strong>
+      </div>
+      <nav aria-label="Dashboard stats">
+        <span>{data.models.length} models</span>
+        <span>{total} changes</span>
+        <span>updated {updated}</span>
+      </nav>
+      {selectedModel && <button type="button" onClick={onClear}>All models</button>}
+    </header>
   )
 }
 
-function IntelligenceVitals({ data }) {
+function AnalyticsShelf({ data }) {
   return (
-    <aside className="hidden lg:flex w-[350px] shrink-0 flex-col sticky top-[57px] self-start max-h-[calc(100vh-57px)] overflow-y-auto pb-8">
-      <div className="bg-surface border border-border-dim rounded-lg p-4 flex flex-col gap-5">
-        <h3 className="font-display text-xs text-muted uppercase tracking-wider border-b border-border-dim pb-2">
-          Intelligence Vitals
-        </h3>
-        <ChangesBarChart stats={data.stats} height={120} />
-        <div className="border-t border-border-dim pt-4">
-          <PromptLengthChart timelines={data.timelines} height={150} />
-        </div>
-        <div className="border-t border-border-dim pt-4">
-          <HeatmapChart timelines={data.timelines} />
-        </div>
-        <div className="border-t border-border-dim pt-4">
-          <ConceptDriftBar timelines={data.timelines} />
-        </div>
+    <section className="analytics-shelf" aria-labelledby="research-vitals">
+      <div className="row-heading">
+        <h2 id="research-vitals">Research Vitals</h2>
+        <span>signal board</span>
       </div>
-    </aside>
+      <div className="analytics-grid">
+        <div className="analytics-panel"><ChangesBarChart stats={data.stats} height={170} /></div>
+        <div className="analytics-panel"><PromptLengthChart timelines={data.timelines} height={170} /></div>
+        <div className="analytics-panel"><HeatmapChart timelines={data.timelines} /></div>
+        <div className="analytics-panel wide"><ConceptDriftBar timelines={data.timelines} /></div>
+      </div>
+    </section>
+  )
+}
+
+function ExplainerPanel() {
+  return (
+    <section className="explainer-panel" aria-labelledby="what-this-is">
+      <div>
+        <p className="eyebrow">Plain English</p>
+        <h2 id="what-this-is">What this project tracks</h2>
+        <p>
+          AI companies hide a lot of product behavior inside system prompts. This dashboard watches public leak commits
+          and turns prompt diffs into readable signals: what changed, which model changed, and whether the change looks
+          related to safety, tools, memory, policy, persona, or formatting.
+        </p>
+      </div>
+      <div className="explainer-grid">
+        <article>
+          <span>01</span>
+          <strong>Prompt</strong>
+          <p>The instruction file that shapes how a model behaves before you type anything.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <strong>Diff</strong>
+          <p>The exact lines added and removed between two prompt versions.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <strong>Signal</strong>
+          <p>A tagged change that hints at a product, policy, safety, or tool behavior shift.</p>
+        </article>
+      </div>
+    </section>
   )
 }
 
 export default function App() {
   const { data, error } = useTimeline()
-  const [drawer, setDrawer] = useState({ open: false, entry: null, modelName: null })
+  const [selectedModel, setSelectedModel] = useState(null)
+  const [drawer, setDrawer] = useState({ entry: null, tab: 'overview' })
 
-  if (error) return (
-    <div className="relative z-[1] min-h-screen flex items-center justify-center">
-      <p className="font-mono text-red-acc text-sm">Failed to load: {error.message}</p>
-    </div>
-  )
-  if (!data) return (
-    <div className="relative z-[1] min-h-screen flex items-center justify-center">
-      <p className="font-mono text-muted text-sm">Loading…</p>
-    </div>
-  )
+  const view = useMemo(() => {
+    if (!data) return null
+    const allEntries = flattenTimeline(data.timelines)
+    const visibleEntries = selectedModel ? allEntries.filter(entry => entry.model === selectedModel) : allEntries
+    const profiles = Object.keys(MODEL_META).map(model =>
+      getModelProfile(model, data.stats, flattenTimeline({ [model]: data.timelines[model] ?? [] }))
+    )
+    return {
+      allEntries,
+      visibleEntries,
+      profiles,
+      rows: getBrowseRows(visibleEntries),
+      spotlight: getSpotlightEntry(visibleEntries),
+    }
+  }, [data, selectedModel])
 
-  const total = Object.values(data.stats).reduce((s, m) => s + m.total_changes, 0)
-  const updated = data.generated_at?.slice(0, 10) ?? '—'
+  if (error) {
+    return (
+      <main className="state-screen">
+        <p>Failed to load timeline: {error.message}</p>
+      </main>
+    )
+  }
+
+  if (!data || !view) {
+    return (
+      <main className="state-screen">
+        <p>Loading prompt intelligence...</p>
+      </main>
+    )
+  }
+
+  const totalChanges = view.visibleEntries.length
+  const updated = data.generated_at?.slice(0, 10) ?? 'n/a'
+  const selectedLabel = selectedModel ? MODEL_META[selectedModel]?.label : null
+
+  function openDrawer(entry, tab = 'overview') {
+    setDrawer({ entry, tab })
+  }
 
   return (
-    <div className="relative z-[1] min-h-screen text-primary flex flex-col">
+    <div className="app-shell">
+      <Header data={data} selectedModel={selectedModel} onClear={() => setSelectedModel(null)} />
 
-      {/* Sticky header */}
-      <header className="sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-border-dim">
-        <div className="px-6 h-14 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <h1 className="font-display font-semibold text-lg tracking-wide shrink-0">AI Prompt Watch</h1>
-            <p className="text-muted text-xs font-mono hidden md:block truncate">
-              tracking system prompt changes across frontier AI models
-            </p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted">
-              <span><span className="text-primary">{data.models.length}</span> models</span>
-              <span className="text-border-dim">·</span>
-              <span><span className="text-primary">{total}</span> changes</span>
-              <span className="text-border-dim">·</span>
-              <span>updated <span className="text-primary">{updated}</span></span>
-            </div>
-            <LiveBadge />
-          </div>
-        </div>
-      </header>
-
-      {/* Two-column body */}
-      <div className="flex flex-1 gap-6 px-6 pt-6 pb-8 w-full mx-auto" style={{ maxWidth: 1400 }}>
-        {/* Left: tab bar + timeline */}
-        <div className="flex-1 min-w-0">
-          <ModelTabs
-            timelines={data.timelines}
-            onViewPrompt={(entry, modelName) => setDrawer({ open: true, entry, modelName })}
-          />
-        </div>
-
-        {/* Right: sticky analytics sidebar */}
-        <IntelligenceVitals data={data} />
-      </div>
-
-      {drawer.open && drawer.entry && (
-        <FullPromptViewer
-          entry={drawer.entry}
-          modelName={drawer.modelName}
-          onClose={() => setDrawer({ open: false, entry: null, modelName: null })}
+      <main>
+        <SpotlightHero
+          entry={view.spotlight}
+          totalChanges={totalChanges}
+          updated={updated}
+          selectedLabel={selectedLabel}
+          onOpen={openDrawer}
         />
-      )}
+
+        <ExplainerPanel />
+
+        <ModelProfileRail
+          profiles={view.profiles}
+          selectedModel={selectedModel}
+          onSelect={setSelectedModel}
+        />
+
+        <div className="browse-stack">
+          {view.rows.map(row => (
+            <BrowseRow key={row.id} title={row.title} entries={row.entries} onOpen={openDrawer} />
+          ))}
+        </div>
+
+        <AnalyticsShelf data={data} />
+      </main>
+
+      <ResearchDrawer
+        key={drawer.entry ? `${drawer.entry.model}-${drawer.entry.commit}-${drawer.tab}` : 'closed'}
+        entry={drawer.entry}
+        initialTab={drawer.tab}
+        onClose={() => setDrawer({ entry: null, tab: 'overview' })}
+      />
     </div>
   )
 }

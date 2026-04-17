@@ -10,7 +10,14 @@ See archive/SPEC_scoring.md for removal rationale.
 """
 
 import unittest
-from extract_and_analyze import strip_html, tag_diff, build_timeline
+from extract_and_analyze import (
+    strip_html,
+    tag_diff,
+    build_timeline,
+    compute_impact_score,
+    impact_level,
+    build_model_stats,
+)
 
 
 class TestStripHtml(unittest.TestCase):
@@ -143,11 +150,78 @@ class TestBuildTimelineFields(unittest.TestCase):
         timeline = build_timeline(versions)
         self.assertIsNone(timeline[0]["summary"])
 
+    def test_prompt_delta_matches_snapshot_length_change(self):
+        versions = self._make_versions("<p>short</p>", "<p>much longer text</p>")
+        timeline = build_timeline(versions)
+        self.assertEqual(timeline[0]["prompt_delta"], len("much longer text") - len("short"))
+
+    def test_impact_fields_present(self):
+        versions = self._make_versions("old", "refuse harmful requests and follow policy")
+        timeline = build_timeline(versions)
+        self.assertIn("impact_score", timeline[0])
+        self.assertIn("impact_level", timeline[0])
+        self.assertIn(timeline[0]["impact_level"], {"low", "medium", "high"})
+
     def test_empty_diff_excluded(self):
         """Entries with no diff should not appear in timeline."""
         versions = self._make_versions("same content", "same content")
         timeline = build_timeline(versions)
         self.assertEqual(len(timeline), 0)
+
+
+class TestImpactScoring(unittest.TestCase):
+
+    def test_score_increases_with_important_tags(self):
+        diff = {"total_change": 10}
+        baseline = compute_impact_score(diff, ["other"], 0)
+        tagged = compute_impact_score(diff, ["safety", "policy"], 0)
+        self.assertGreater(tagged, baseline)
+
+    def test_score_increases_with_prompt_delta(self):
+        diff = {"total_change": 10}
+        small = compute_impact_score(diff, ["other"], 0)
+        large = compute_impact_score(diff, ["other"], 5000)
+        self.assertGreater(large, small)
+
+    def test_impact_level_thresholds(self):
+        self.assertEqual(impact_level(10), "low")
+        self.assertEqual(impact_level(50), "medium")
+        self.assertEqual(impact_level(180), "high")
+
+
+class TestModelStats(unittest.TestCase):
+
+    def test_empty_stats_are_stable(self):
+        stats = build_model_stats([])
+        self.assertEqual(stats["total_changes"], 0)
+        self.assertIsNone(stats["latest_change_date"])
+        self.assertIsNone(stats["current_prompt_length"])
+        self.assertEqual(stats["dominant_tags"], [])
+
+    def test_stats_include_prompt_growth_and_dominant_tags(self):
+        timeline = [
+            {
+                "date": "2026-02-02",
+                "prompt_length": 150,
+                "prompt_delta": 50,
+                "impact_level": "high",
+                "behavioral_tags": ["safety", "policy"],
+            },
+            {
+                "date": "2026-01-01",
+                "prompt_length": 100,
+                "prompt_delta": -10,
+                "impact_level": "low",
+                "behavioral_tags": ["safety"],
+            },
+        ]
+        stats = build_model_stats(timeline)
+        self.assertEqual(stats["total_changes"], 2)
+        self.assertEqual(stats["latest_change_date"], "2026-02-02")
+        self.assertEqual(stats["current_prompt_length"], 150)
+        self.assertEqual(stats["prompt_growth"], 40)
+        self.assertEqual(stats["dominant_tags"][0], "safety")
+        self.assertEqual(stats["high_impact_changes"], 1)
 
 
 if __name__ == "__main__":

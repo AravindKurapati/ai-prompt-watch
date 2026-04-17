@@ -42,13 +42,24 @@ A git repository with prompt files organized by provider:
         "summary": "Plain English summary from Groq",
         "injection_score": null,             // deprecated, always null now
         "behavioral_tags": ["safety", "tool_definition"],  // NEW - see spec.md
-        "content_snapshot": "full prompt text at this commit"  // NEW - see spec.md
+        "content_snapshot": "full prompt text at this commit",  // NEW - see spec.md
+        "prompt_length": 12345,
+        "prompt_delta": 512,
+        "impact_score": 184,
+        "impact_level": "high"
       }
     ]
   },
   "synchronized_events": [],               // deprecated, kept for schema compat
   "stats": {
-    "claude": { "total_changes": 3 }
+    "claude": {
+      "total_changes": 3,
+      "latest_change_date": "2026-02-15",
+      "current_prompt_length": 193065,
+      "prompt_growth": 1200,
+      "dominant_tags": ["tool_definition", "safety"],
+      "high_impact_changes": 1
+    }
   }
 }
 ```
@@ -60,10 +71,11 @@ A git repository with prompt files organized by provider:
 ## Frontend (`frontend/`)
 
 ### What It Renders
-1. **Stats bar** - models tracked, total changes, last updated
-2. **Analytics section** - bar chart (changes per model), heatmap (changes per month), model activity profiles
-3. **Tab per model** - timeline of changes for that model
-4. **Per-entry card** - date, commit hash, summary, +/- line counts, diff toggle
+1. **Spotlight hero** - highest-impact visible prompt change with fast actions
+2. **Model profile rail** - Claude, ChatGPT, Gemini, and Grok as selectable model profiles
+3. **Browse rows** - latest, high-impact, safety/policy, tools/capabilities, and prompt-growth rows
+4. **Research drawer** - overview, side-by-side diff, and full prompt reader
+5. **Analytics shelf** - charts for model activity, prompt length, monthly heatmap, and tag composition
 
 ### Model Metadata
 ```js
