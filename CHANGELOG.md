@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [unreleased]
+- feat: add professional website polish with model dossiers, prompt library, explorer search, empty states, credibility caveat, drawer improvements, and subtle motion
 - feat: add a realistic research-desk hero background asset and soften the global grid overlay
 - feat: reshape the frontend into a professional research website with image-backed hero, editorial findings, model coverage cards, and register-style explorer
 - feat: research tooling phase 1 with schema_version 2, split prompt snapshots, prompt section detection, source provenance, comparison matrix data, and CI validation
