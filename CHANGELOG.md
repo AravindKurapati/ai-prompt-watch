@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## [unreleased]
+- feat: add a realistic research-desk hero background asset and soften the global grid overlay
+- feat: reshape the frontend into a professional research website with image-backed hero, editorial findings, model coverage cards, and register-style explorer
+- feat: research tooling phase 1 with schema_version 2, split prompt snapshots, prompt section detection, source provenance, comparison matrix data, and CI validation
+- feat: add research-mode frontend controls for date ranges, model comparison matrix, methodology, known limitations, provenance, and lazy-loaded full prompt snapshots
+- test: add schema v2 regression fixture and validator coverage for split snapshots and generated timeline structure
 - feat: Netflix-style research browse redesign with spotlight hero, model profile rail, horizontal change rows, and tabbed research drawer
 - feat: add cinematic local background asset and polished model brand marks for a more professional visual system
 - feat: shift redesign toward a modern intelligence-terminal style with clearer onboarding copy and restrained typography

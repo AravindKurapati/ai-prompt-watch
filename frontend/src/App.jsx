@@ -1,43 +1,266 @@
 import { useMemo, useState } from 'react'
 import { useTimeline } from './hooks/useTimeline'
 import { MODEL_META } from './utils/tagColors'
-import { flattenTimeline, getBrowseRows, getModelProfile, getSpotlightEntry } from './utils/timelineBrowse'
-import BrowseRow from './components/BrowseRow'
-import ModelProfileRail from './components/ModelProfileRail'
+import { flattenTimeline, getModelProfile, getSpotlightEntry, cleanSummary, formatDelta, formatNumber } from './utils/timelineBrowse'
+import ComparisonMatrix from './components/ComparisonMatrix'
+import DateRangeFilter from './components/DateRangeFilter'
+import MethodologyPanel from './components/MethodologyPanel'
+import ModelMark from './components/ModelMark'
 import ResearchDrawer from './components/ResearchDrawer'
-import SpotlightHero from './components/SpotlightHero'
+import TagBadge from './components/TagBadge'
 import ChangesBarChart from './components/charts/ChangesBarChart'
 import PromptLengthChart from './components/charts/PromptLengthChart'
 import HeatmapChart from './components/charts/HeatmapChart'
 import ConceptDriftBar from './components/ConceptDriftBar'
 
-function Header({ data, selectedModel, onClear }) {
+function SiteHeader({ data }) {
   const total = Object.values(data.stats).reduce((sum, model) => sum + (model.total_changes ?? 0), 0)
   const updated = data.generated_at?.slice(0, 10) ?? 'n/a'
-  const activeLabel = selectedModel ? MODEL_META[selectedModel]?.label : 'All models'
 
   return (
-    <header className="top-nav">
-      <div>
-        <span className="brand-kicker">AI Prompt Watch</span>
-        <strong>{activeLabel}</strong>
-      </div>
-      <nav aria-label="Dashboard stats">
-        <span>{data.models.length} models</span>
-        <span>{total} changes</span>
-        <span>updated {updated}</span>
+    <header className="site-header">
+      <a className="site-brand" href="#top" aria-label="AI Prompt Watch home">
+        <span className="brand-mark">APW</span>
+        <span>AI Prompt Watch</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#research">Research</a>
+        <a href="#models">Models</a>
+        <a href="#explorer">Explorer</a>
+        <a href="#library">Library</a>
+        <a href="#methodology">Methodology</a>
       </nav>
-      {selectedModel && <button type="button" onClick={onClear}>All models</button>}
+      <div className="header-meta" aria-label="Dataset status">
+        <span>{data.models.length} models</span>
+        <span>{formatNumber(total)} changes</span>
+        <span>updated {updated}</span>
+      </div>
     </header>
   )
 }
 
-function AnalyticsShelf({ data }) {
+function HeroEvidence({ entry, onOpen }) {
+  if (!entry) {
+    return (
+      <aside className="evidence-panel">
+        <p className="panel-kicker">Latest finding</p>
+        <h2>No tracked changes in this view</h2>
+        <p className="panel-copy">Adjust the evidence window to inspect model prompt activity.</p>
+      </aside>
+    )
+  }
+
+  const added = entry.diff?.added_count ?? 0
+  const removed = entry.diff?.removed_count ?? 0
+  const addedPreview = entry.diff?.added?.slice(0, 2) ?? []
+  const removedPreview = entry.diff?.removed?.slice(0, 1) ?? []
+
   return (
-    <section className="analytics-shelf" aria-labelledby="research-vitals">
-      <div className="row-heading">
-        <h2 id="research-vitals">Research Vitals</h2>
-        <span>signal board</span>
+    <aside className="evidence-panel" style={{ '--model-color': entry.modelColor }}>
+      <div className="evidence-topline">
+        <p className="panel-kicker">Latest finding</p>
+        <span className={`impact-pill impact-${entry.impact_level}`}>{entry.impact_level}</span>
+      </div>
+      <div className="evidence-model">
+        <ModelMark model={entry.model} color={entry.modelColor} size="md" />
+        <div>
+          <strong>{entry.modelLabel}</strong>
+          <span>{entry.date} / {entry.commit}</span>
+        </div>
+      </div>
+      <h2>{cleanSummary(entry)}</h2>
+      <div className="tag-strip">
+        {(entry.behavioral_tags ?? ['other']).slice(0, 3).map(tag => <TagBadge key={tag} tag={tag} />)}
+      </div>
+      <div className="diff-preview" aria-label="Diff preview">
+        {addedPreview.map((line, index) => <code key={`add-${index}`} className="line-add">+ {line}</code>)}
+        {removedPreview.map((line, index) => <code key={`remove-${index}`} className="line-remove">- {line}</code>)}
+      </div>
+      <div className="evidence-stats">
+        <span><strong>+{formatNumber(added)}</strong> added</span>
+        <span><strong>-{formatNumber(removed)}</strong> removed</span>
+        <span><strong>{formatDelta(entry.prompt_delta)}</strong> chars</span>
+      </div>
+      <div className="evidence-actions">
+        <button type="button" className="primary-action" onClick={() => onOpen(entry, 'diff')}>View diff</button>
+        <button type="button" className="secondary-action" onClick={() => onOpen(entry, 'prompt')}>Full prompt</button>
+      </div>
+    </aside>
+  )
+}
+
+function HeroSection({ spotlight, onOpen }) {
+  return (
+    <section className="website-hero" id="top">
+      <div className="hero-copy">
+        <p className="eyebrow">Public prompt research archive</p>
+        <h1>Track how AI system prompts evolve.</h1>
+        <p>
+          A professional research interface for studying safety, tools, policy, persona, and instruction drift
+          across frontier assistants through versioned prompt evidence.
+        </p>
+        <div className="hero-actions">
+          <a className="primary-action" href="#explorer">Explore changes</a>
+          <a className="secondary-action" href="#methodology">View methodology</a>
+        </div>
+      </div>
+      <HeroEvidence entry={spotlight} onOpen={onOpen} />
+    </section>
+  )
+}
+
+function FindingCard({ entry, onOpen }) {
+  const added = entry.diff?.added_count ?? 0
+  const removed = entry.diff?.removed_count ?? 0
+
+  return (
+    <article className="finding-card" style={{ '--model-color': entry.modelColor }}>
+      <div className="finding-model">
+        <span className="model-chip">
+          <ModelMark model={entry.model} color={entry.modelColor} size="sm" />
+          {entry.modelLabel}
+        </span>
+        <span>{entry.date}</span>
+      </div>
+      <div className="finding-copy">
+        <h3>{cleanSummary(entry)}</h3>
+        <div className="tag-strip">
+          {(entry.behavioral_tags ?? ['other']).slice(0, 4).map(tag => <TagBadge key={tag} tag={tag} />)}
+        </div>
+      </div>
+      <div className="finding-meta">
+        <span className={`impact-pill impact-${entry.impact_level}`}>{entry.impact_level}</span>
+        <span className="mono-stat">+{formatNumber(added)} / -{formatNumber(removed)}</span>
+        <button type="button" onClick={() => onOpen(entry, 'diff')}>Diff</button>
+        <button type="button" onClick={() => onOpen(entry, 'prompt')}>Prompt</button>
+      </div>
+    </article>
+  )
+}
+
+function FindingsSection({ entries, onOpen }) {
+  return (
+    <section className="content-section" id="research" aria-labelledby="findings-heading">
+      <div className="section-heading">
+        <p className="eyebrow">Research</p>
+        <h2 id="findings-heading">Latest high-signal findings</h2>
+        <p>Prioritized changes with enough context to move from summary to raw evidence in one click.</p>
+      </div>
+      <div className="findings-list">
+        {entries.slice(0, 3).map(entry => (
+          <FindingCard key={`${entry.model}-${entry.commit}-${entry.date}`} entry={entry} onOpen={onOpen} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ModelCoverage({ profiles, selectedModel, onSelect }) {
+  return (
+    <section className="content-section" id="models" aria-labelledby="models-heading">
+      <div className="section-heading">
+        <p className="eyebrow">Coverage</p>
+        <h2 id="models-heading">Model coverage</h2>
+        <p>Each profile summarizes the tracked prompt file, recent activity, and dominant change categories.</p>
+      </div>
+      <div className="model-grid">
+        {profiles.map(profile => {
+          const active = selectedModel === profile.model
+          return (
+            <button
+              key={profile.model}
+              type="button"
+              className={`model-card ${active ? 'active' : ''}`}
+              style={{ '--model-color': profile.color }}
+              onClick={() => onSelect(active ? null : profile.model)}
+            >
+              <span className="model-card-head">
+                <ModelMark model={profile.model} color={profile.color} size="lg" />
+                <span>
+                  <strong>{profile.label}</strong>
+                  <em>{profile.provider}</em>
+                </span>
+              </span>
+              <span className="model-status">
+                {profile.totalChanges ? `${formatNumber(profile.totalChanges)} tracked changes` : 'Quiet tracked window'}
+              </span>
+              <span className="model-stat-row"><span>Prompt length</span><strong>{formatNumber(profile.currentPromptLength)}</strong></span>
+              <span className="model-stat-row"><span>Growth</span><strong>{formatDelta(profile.promptGrowth)}</strong></span>
+              <span className="model-stat-row"><span>Latest change</span><strong>{profile.latestDate ?? 'No commits'}</strong></span>
+              <div className="mini-bars" aria-hidden="true">
+                {profile.dominantTags.slice(0, 3).map((tag, index) => (
+                  <span key={tag} style={{ width: `${88 - index * 18}%` }}>{tag}</span>
+                ))}
+              </div>
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function ExplorerTable({ entries, onOpen }) {
+  return (
+    <div className="explorer-table" role="table" aria-label="Prompt change register">
+      <div className="explorer-row table-head" role="row">
+        <span role="columnheader">Date</span>
+        <span role="columnheader">Model</span>
+        <span role="columnheader">Signal</span>
+        <span role="columnheader">Finding</span>
+        <span role="columnheader">Change</span>
+        <span role="columnheader">Actions</span>
+      </div>
+      {entries.slice(0, 14).map(entry => (
+        <div className="explorer-row" role="row" key={`${entry.model}-${entry.commit}-${entry.date}`}>
+          <span role="cell">{entry.date}</span>
+          <span role="cell">
+            <span className="model-chip">
+              <ModelMark model={entry.model} color={entry.modelColor} size="sm" />
+              {entry.modelLabel}
+            </span>
+          </span>
+          <span role="cell" className="tag-strip">
+            {(entry.behavioral_tags ?? ['other']).slice(0, 2).map(tag => <TagBadge key={tag} tag={tag} />)}
+          </span>
+          <span role="cell" className="table-summary">{cleanSummary(entry)}</span>
+          <span role="cell" className="mono-stat">{formatDelta(entry.prompt_delta)} chars</span>
+          <span role="cell" className="table-actions">
+            <button type="button" onClick={() => onOpen(entry, 'diff')}>Diff</button>
+            <button type="button" onClick={() => onOpen(entry, 'prompt')}>Prompt</button>
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ExplorerSection({ entries, dateRange, setDateRange, latestDate, selectedModel, setSelectedModel, onOpen }) {
+  return (
+    <section className="content-section explorer-section" id="explorer" aria-labelledby="explorer-heading">
+      <div className="section-heading split">
+        <div>
+          <p className="eyebrow">Explorer</p>
+          <h2 id="explorer-heading">Research explorer</h2>
+          <p>Filter the archive, then open the exact diff or full prompt snapshot behind any finding.</p>
+        </div>
+        {selectedModel && (
+          <button type="button" className="secondary-action" onClick={() => setSelectedModel(null)}>All models</button>
+        )}
+      </div>
+      <DateRangeFilter range={dateRange} onChange={setDateRange} latestDate={latestDate} />
+      <ExplorerTable entries={entries} onOpen={onOpen} />
+    </section>
+  )
+}
+
+function AnalyticsSection({ data }) {
+  return (
+    <section className="content-section analytics-shelf" id="library" aria-labelledby="library-heading">
+      <div className="section-heading">
+        <p className="eyebrow">Library</p>
+        <h2 id="library-heading">Prompt archive signals</h2>
+        <p>Charts are supporting evidence for growth, category concentration, and update cadence.</p>
       </div>
       <div className="analytics-grid">
         <div className="analytics-panel"><ChangesBarChart stats={data.stats} height={170} /></div>
@@ -49,59 +272,34 @@ function AnalyticsShelf({ data }) {
   )
 }
 
-function ExplainerPanel() {
-  return (
-    <section className="explainer-panel" aria-labelledby="what-this-is">
-      <div>
-        <p className="eyebrow">Plain English</p>
-        <h2 id="what-this-is">What this project tracks</h2>
-        <p>
-          AI companies hide a lot of product behavior inside system prompts. This dashboard watches public leak commits
-          and turns prompt diffs into readable signals: what changed, which model changed, and whether the change looks
-          related to safety, tools, memory, policy, persona, or formatting.
-        </p>
-      </div>
-      <div className="explainer-grid">
-        <article>
-          <span>01</span>
-          <strong>Prompt</strong>
-          <p>The instruction file that shapes how a model behaves before you type anything.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <strong>Diff</strong>
-          <p>The exact lines added and removed between two prompt versions.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <strong>Signal</strong>
-          <p>A tagged change that hints at a product, policy, safety, or tool behavior shift.</p>
-        </article>
-      </div>
-    </section>
-  )
-}
-
 export default function App() {
   const { data, error } = useTimeline()
   const [selectedModel, setSelectedModel] = useState(null)
+  const [dateRange, setDateRange] = useState({ preset: 'all', start: '', end: '' })
   const [drawer, setDrawer] = useState({ entry: null, tab: 'overview' })
 
   const view = useMemo(() => {
     if (!data) return null
     const allEntries = flattenTimeline(data.timelines)
-    const visibleEntries = selectedModel ? allEntries.filter(entry => entry.model === selectedModel) : allEntries
+    const latestDate = allEntries[0]?.date ?? ''
+    const visibleEntries = allEntries.filter(entry => {
+      if (selectedModel && entry.model !== selectedModel) return false
+      if (dateRange.start && entry.date < dateRange.start) return false
+      if (dateRange.end && entry.date > dateRange.end) return false
+      return true
+    })
     const profiles = Object.keys(MODEL_META).map(model =>
       getModelProfile(model, data.stats, flattenTimeline({ [model]: data.timelines[model] ?? [] }))
     )
     return {
       allEntries,
       visibleEntries,
+      latestDate,
       profiles,
-      rows: getBrowseRows(visibleEntries),
       spotlight: getSpotlightEntry(visibleEntries),
+      highSignal: [...visibleEntries].sort((a, b) => b.impact_score - a.impact_score || String(b.date).localeCompare(String(a.date))),
     }
-  }, [data, selectedModel])
+  }, [data, selectedModel, dateRange])
 
   if (error) {
     return (
@@ -119,42 +317,32 @@ export default function App() {
     )
   }
 
-  const totalChanges = view.visibleEntries.length
-  const updated = data.generated_at?.slice(0, 10) ?? 'n/a'
-  const selectedLabel = selectedModel ? MODEL_META[selectedModel]?.label : null
-
   function openDrawer(entry, tab = 'overview') {
     setDrawer({ entry, tab })
   }
 
   return (
     <div className="app-shell">
-      <Header data={data} selectedModel={selectedModel} onClear={() => setSelectedModel(null)} />
+      <SiteHeader data={data} />
 
       <main>
-        <SpotlightHero
-          entry={view.spotlight}
-          totalChanges={totalChanges}
-          updated={updated}
-          selectedLabel={selectedLabel}
+        <HeroSection spotlight={view.spotlight} onOpen={openDrawer} />
+        <FindingsSection entries={view.highSignal} onOpen={openDrawer} />
+        <ModelCoverage profiles={view.profiles} selectedModel={selectedModel} onSelect={setSelectedModel} />
+        <ExplorerSection
+          entries={view.visibleEntries}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          latestDate={view.latestDate}
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
           onOpen={openDrawer}
         />
-
-        <ExplainerPanel />
-
-        <ModelProfileRail
-          profiles={view.profiles}
-          selectedModel={selectedModel}
-          onSelect={setSelectedModel}
-        />
-
-        <div className="browse-stack">
-          {view.rows.map(row => (
-            <BrowseRow key={row.id} title={row.title} entries={row.entries} onOpen={openDrawer} />
-          ))}
+        <AnalyticsSection data={data} />
+        <ComparisonMatrix comparison={data.comparison} stats={data.stats} />
+        <div id="methodology">
+          <MethodologyPanel sources={data.model_sources} />
         </div>
-
-        <AnalyticsShelf data={data} />
       </main>
 
       <ResearchDrawer
