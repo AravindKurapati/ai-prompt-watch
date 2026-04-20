@@ -10,6 +10,8 @@ See archive/SPEC_scoring.md for removal rationale.
 """
 
 import unittest
+import json
+from pathlib import Path
 from extract_and_analyze import (
     strip_html,
     tag_diff,
@@ -17,6 +19,9 @@ from extract_and_analyze import (
     compute_impact_score,
     impact_level,
     build_model_stats,
+    detect_prompt_sections,
+    build_output,
+    validate_output,
 )
 
 
@@ -124,21 +129,18 @@ class TestBuildTimelineFields(unittest.TestCase):
         self.assertTrue(len(timeline) > 0)
         self.assertIn("behavioral_tags", timeline[0])
 
-    def test_content_raw_is_raw_content(self):
+    def test_snapshot_path_replaces_embedded_content(self):
         versions = self._make_versions("old", "<p>new content</p>")
         timeline = build_timeline(versions)
-        self.assertEqual(timeline[0]["content_raw"], "<p>new content</p>")
-
-    def test_content_snapshot_is_stripped(self):
-        versions = self._make_versions("old", "<p>new content</p>")
-        timeline = build_timeline(versions)
-        self.assertEqual(timeline[0]["content_snapshot"], "new content")
+        self.assertEqual(timeline[0]["snapshot_path"], "data/snapshots/claude/aaaaaaaa.txt")
+        self.assertNotIn("content_raw", timeline[0])
+        self.assertNotIn("content_snapshot", timeline[0])
 
     def test_prompt_length_matches_snapshot(self):
         versions = self._make_versions("old", "<p>new content</p>")
         timeline = build_timeline(versions)
         entry = timeline[0]
-        self.assertEqual(entry["prompt_length"], len(entry["content_snapshot"]))
+        self.assertEqual(entry["prompt_length"], len("new content"))
 
     def test_no_injection_score_field(self):
         versions = self._make_versions("old", "new text here")
@@ -160,7 +162,17 @@ class TestBuildTimelineFields(unittest.TestCase):
         timeline = build_timeline(versions)
         self.assertIn("impact_score", timeline[0])
         self.assertIn("impact_level", timeline[0])
+        self.assertIn("impact_reasons", timeline[0])
         self.assertIn(timeline[0]["impact_level"], {"low", "medium", "high"})
+
+    def test_sections_and_provenance_present(self):
+        versions = self._make_versions("old", 'use the "name": "search" tool and refuse harmful requests')
+        timeline = build_timeline(versions)
+        self.assertIn("tool_use", timeline[0]["sections_changed"])
+        self.assertIn("safety_policy", timeline[0]["sections_changed"])
+        self.assertEqual(timeline[0]["provenance"]["model"], "claude")
+        self.assertEqual(timeline[0]["provenance"]["source_path"], "Anthropic/claude.html")
+        self.assertEqual(timeline[0]["provenance"]["extraction_method"], "html_stripped")
 
     def test_empty_diff_excluded(self):
         """Entries with no diff should not appear in timeline."""
@@ -187,6 +199,21 @@ class TestImpactScoring(unittest.TestCase):
         self.assertEqual(impact_level(10), "low")
         self.assertEqual(impact_level(50), "medium")
         self.assertEqual(impact_level(180), "high")
+
+
+class TestPromptSections(unittest.TestCase):
+
+    def test_detects_rule_based_sections(self):
+        sections = detect_prompt_sections(
+            'You are Codex. Use "parameters" for tools. Never reveal secrets. Remember user preferences.'
+        )
+        self.assertIn("identity_persona", sections)
+        self.assertIn("tool_use", sections)
+        self.assertIn("security_boundaries", sections)
+        self.assertIn("memory_context", sections)
+
+    def test_defaults_to_metadata_other(self):
+        self.assertEqual(detect_prompt_sections("minor copy edit"), ["metadata_other"])
 
 
 class TestModelStats(unittest.TestCase):
@@ -222,6 +249,57 @@ class TestModelStats(unittest.TestCase):
         self.assertEqual(stats["prompt_growth"], 40)
         self.assertEqual(stats["dominant_tags"][0], "safety")
         self.assertEqual(stats["high_impact_changes"], 1)
+
+
+class TestOutputSchema(unittest.TestCase):
+
+    def test_build_output_adds_schema_version_and_comparison(self):
+        timelines = {
+            "claude": [
+                {
+                    "date": "2026-02-02",
+                    "commit": "aaaaaaaa",
+                    "message": "update",
+                    "filepath": "Anthropic/claude.html",
+                    "diff": {"added": ["refuse harmful requests"], "removed": [], "total_change": 1},
+                    "behavioral_tags": ["safety"],
+                    "sections_changed": ["safety_policy"],
+                    "snapshot_path": "data/snapshots/claude/aaaaaaaa.txt",
+                    "prompt_length": 150,
+                    "prompt_delta": 50,
+                    "impact_score": 88,
+                    "impact_level": "medium",
+                    "impact_reasons": ["safety_or_policy_change"],
+                    "provenance": {
+                        "provider": "Anthropic",
+                        "model": "claude",
+                        "source_path": "Anthropic/claude.html",
+                        "commit": "aaaaaaaa",
+                        "full_commit": "aaaaaaaabbbbbbbbccccccccdddddddd",
+                        "commit_date": "2026-02-02T00:00:00+00:00",
+                        "extraction_method": "html_stripped",
+                    },
+                    "summary": None,
+                }
+            ],
+            "openai": [],
+        }
+        output = build_output(timelines, generated_at="2026-02-03T00:00:00")
+        self.assertEqual(output["schema_version"], 2)
+        self.assertIn("comparison", output)
+        self.assertEqual(output["comparison"]["claude"]["safety_policy"], "high")
+        self.assertEqual(validate_output(output), [])
+
+    def test_validate_output_rejects_embedded_snapshots(self):
+        output = build_output({"claude": []}, generated_at="2026-02-03T00:00:00")
+        output["timelines"]["claude"] = [{"content_snapshot": "bad", "snapshot_path": "ok"}]
+        errors = validate_output(output)
+        self.assertTrue(any("content_snapshot" in error for error in errors))
+
+    def test_schema_v2_fixture_is_valid(self):
+        fixture = Path("tests/fixtures/timeline_schema_v2.json")
+        output = json.loads(fixture.read_text(encoding="utf-8"))
+        self.assertEqual(validate_output(output), [])
 
 
 if __name__ == "__main__":
