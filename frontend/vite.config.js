@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/system_prompts_leaks/',
+  base: '/ai-prompt-watch/',
   build: {
     rollupOptions: {
       output: {
