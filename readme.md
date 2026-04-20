@@ -1,10 +1,9 @@
 # AI Prompt Watch
 
-> Track how Claude, ChatGPT, Gemini, and Grok's system prompts evolve over time.
+> Track how Claude, ChatGPT, Gemini and Grok's system prompts evolve over time.
 
-**[Live Dashboard →](https://aravindkurapati.github.io/system_prompts_leaks)**
 
-![AI Prompt Watch dashboard](docs/screenshot.png)
+![AI Prompt Watch dashboard](screenshot.png)
 
 ---
 
