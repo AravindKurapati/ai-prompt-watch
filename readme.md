@@ -9,9 +9,9 @@
 
 ## What This Is
 
-A research dashboard that tracks how frontier AI models' system prompts change over time. Every day, a pipeline syncs the latest prompt files, diffs them against previous versions, classifies the changes by behavioral category, and publishes an updated dashboard.
+A research dashboard that tracks how frontier AI models' system prompts change over time. Every day, a pipeline syncs the latest prompt files, diffs them against previous versions, classifies the changes by behavioral category and publishes an updated dashboard.
 
-Built for developers and AI researchers who want to understand how model behavior, safety posture, and product decisions evolve — without manually digging through git history.
+
 
 > **Note:** Prompt files are sourced from the community-maintained collection at [asgeirtj/system_prompts_leaks](https://github.com/asgeirtj/system_prompts_leaks). This repo is the analysis layer built on top: the diff pipeline, behavioral tagging, and dashboard UI are all original work.
 
