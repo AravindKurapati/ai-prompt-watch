@@ -26,6 +26,7 @@ function SiteHeader({ data }) {
       <nav aria-label="Primary navigation">
         <a href="#research">Research</a>
         <a href="#models">Models</a>
+        <a href="#dossiers">Dossiers</a>
         <a href="#explorer">Explorer</a>
         <a href="#library">Library</a>
         <a href="#methodology">Methodology</a>
@@ -37,6 +38,31 @@ function SiteHeader({ data }) {
       </div>
     </header>
   )
+}
+
+function getAssessment(entry) {
+  const tags = entry.behavioral_tags ?? []
+  if (tags.includes('safety') || tags.includes('policy')) return 'Likely safety or policy boundary update'
+  if (tags.includes('tool_definition')) return 'Likely tool behavior or interface definition change'
+  if (tags.includes('memory')) return 'Likely memory or context-handling update'
+  if (tags.includes('persona')) return 'Likely assistant identity or tone adjustment'
+  if (tags.includes('capability')) return 'Likely product capability or workflow expansion'
+  return 'Tracked prompt text changed in the canonical source file'
+}
+
+function matchesSearch(entry, query) {
+  const text = [
+    entry.modelLabel,
+    entry.model,
+    entry.date,
+    entry.commit,
+    entry.message,
+    entry.filepath,
+    entry.summary,
+    ...(entry.behavioral_tags ?? []),
+  ].join(' ').toLowerCase()
+
+  return text.includes(query.trim().toLowerCase())
 }
 
 function HeroEvidence({ entry, onOpen }) {
@@ -68,6 +94,7 @@ function HeroEvidence({ entry, onOpen }) {
           <span>{entry.date} / {entry.commit}</span>
         </div>
       </div>
+      <p className="assessment-line">{getAssessment(entry)}</p>
       <h2>{cleanSummary(entry)}</h2>
       <div className="tag-strip">
         {(entry.behavioral_tags ?? ['other']).slice(0, 3).map(tag => <TagBadge key={tag} tag={tag} />)}
@@ -81,11 +108,25 @@ function HeroEvidence({ entry, onOpen }) {
         <span><strong>-{formatNumber(removed)}</strong> removed</span>
         <span><strong>{formatDelta(entry.prompt_delta)}</strong> chars</span>
       </div>
+      <p className="source-note">Source: {entry.filepath ?? 'canonical prompt file'}</p>
       <div className="evidence-actions">
         <button type="button" className="primary-action" onClick={() => onOpen(entry, 'diff')}>View diff</button>
         <button type="button" className="secondary-action" onClick={() => onOpen(entry, 'prompt')}>Full prompt</button>
       </div>
     </aside>
+  )
+}
+
+function CredibilityStrip() {
+  return (
+    <section className="credibility-strip" aria-label="Research caveats">
+      <span>Evidence first</span>
+      <p>
+        This archive tracks public file changes. Tags and impact labels describe prompt text movement, not verified
+        live model behavior.
+      </p>
+      <a href="#methodology">Read methodology</a>
+    </section>
   )
 }
 
@@ -147,9 +188,13 @@ function FindingsSection({ entries, onOpen }) {
         <p>Prioritized changes with enough context to move from summary to raw evidence in one click.</p>
       </div>
       <div className="findings-list">
-        {entries.slice(0, 3).map(entry => (
-          <FindingCard key={`${entry.model}-${entry.commit}-${entry.date}`} entry={entry} onOpen={onOpen} />
-        ))}
+        {entries.length ? (
+          entries.slice(0, 3).map(entry => (
+            <FindingCard key={`${entry.model}-${entry.commit}-${entry.date}`} entry={entry} onOpen={onOpen} />
+          ))
+        ) : (
+          <EmptyState title="No findings in this window" body="Try expanding the date range or clearing the selected model filter." />
+        )}
       </div>
     </section>
   )
@@ -200,7 +245,86 @@ function ModelCoverage({ profiles, selectedModel, onSelect }) {
   )
 }
 
+function ModelDossier({ profile, entries, onOpen }) {
+  if (!profile) return null
+
+  const modelEntries = entries.filter(entry => entry.model === profile.model)
+  const latest = modelEntries[0]
+
+  return (
+    <section className="content-section dossier-section" id="dossiers" aria-labelledby="dossier-heading" style={{ '--model-color': profile.color }}>
+      <div className="section-heading split">
+        <div>
+          <p className="eyebrow">Dossier</p>
+          <h2 id="dossier-heading">{profile.label} model profile</h2>
+          <p>
+            A focused view of one tracked prompt file, including current size, recent movement, and dominant signals.
+          </p>
+        </div>
+        <span className="model-chip">
+          <ModelMark model={profile.model} color={profile.color} size="sm" />
+          {profile.provider}
+        </span>
+      </div>
+      <div className="dossier-grid">
+        <article className="dossier-main">
+          <div className="dossier-head">
+            <ModelMark model={profile.model} color={profile.color} size="lg" />
+            <div>
+              <h3>{profile.label}</h3>
+              <p>{profile.totalChanges ? `${formatNumber(profile.totalChanges)} tracked changes` : 'No tracked commits in this dataset window.'}</p>
+            </div>
+          </div>
+          <div className="dossier-metrics">
+            <span><strong>{formatNumber(profile.currentPromptLength)}</strong> prompt length</span>
+            <span><strong>{formatDelta(profile.promptGrowth)}</strong> tracked growth</span>
+            <span><strong>{profile.latestDate ?? 'quiet'}</strong> latest change</span>
+          </div>
+          <div className="tag-strip">
+            {profile.dominantTags.length
+              ? profile.dominantTags.map(tag => <TagBadge key={tag} tag={tag} />)
+              : <span className="empty-tag">quiet tracked window</span>}
+          </div>
+        </article>
+        <article className="dossier-latest">
+          <p className="eyebrow">Latest movement</p>
+          {latest ? (
+            <>
+              <h3>{cleanSummary(latest)}</h3>
+              <p>{getAssessment(latest)}</p>
+              <div className="dossier-actions">
+                <button type="button" className="secondary-action" onClick={() => onOpen(latest, 'diff')}>Open diff</button>
+                <button type="button" className="secondary-action" onClick={() => onOpen(latest, 'prompt')}>Prompt snapshot</button>
+              </div>
+            </>
+          ) : (
+            <EmptyState title="No commits tracked" body="This canonical file has no commits in the selected dataset window." />
+          )}
+        </article>
+      </div>
+    </section>
+  )
+}
+
+function EmptyState({ title, body }) {
+  return (
+    <div className="empty-state">
+      <strong>{title}</strong>
+      <p>{body}</p>
+    </div>
+  )
+}
+
 function ExplorerTable({ entries, onOpen }) {
+  if (!entries.length) {
+    return (
+      <EmptyState
+        title="No changes match these filters"
+        body="Broaden the date range, select all models, or search for a different prompt concept."
+      />
+    )
+  }
+
   return (
     <div className="explorer-table" role="table" aria-label="Prompt change register">
       <div className="explorer-row table-head" role="row">
@@ -235,7 +359,7 @@ function ExplorerTable({ entries, onOpen }) {
   )
 }
 
-function ExplorerSection({ entries, dateRange, setDateRange, latestDate, selectedModel, setSelectedModel, onOpen }) {
+function ExplorerSection({ entries, dateRange, setDateRange, latestDate, selectedModel, setSelectedModel, searchQuery, setSearchQuery, onOpen }) {
   return (
     <section className="content-section explorer-section" id="explorer" aria-labelledby="explorer-heading">
       <div className="section-heading split">
@@ -248,18 +372,68 @@ function ExplorerSection({ entries, dateRange, setDateRange, latestDate, selecte
           <button type="button" className="secondary-action" onClick={() => setSelectedModel(null)}>All models</button>
         )}
       </div>
+      <div className="search-panel">
+        <label htmlFor="prompt-search">Search the archive</label>
+        <input
+          id="prompt-search"
+          type="search"
+          value={searchQuery}
+          onChange={event => setSearchQuery(event.target.value)}
+          placeholder="Try refusal, browsing, memory, policy, tool schema..."
+        />
+        <span>{formatNumber(entries.length)} matching changes</span>
+      </div>
       <DateRangeFilter range={dateRange} onChange={setDateRange} latestDate={latestDate} />
       <ExplorerTable entries={entries} onOpen={onOpen} />
     </section>
   )
 }
 
-function AnalyticsSection({ data }) {
+function PromptLibrary({ profiles, onOpen }) {
   return (
-    <section className="content-section analytics-shelf" id="library" aria-labelledby="library-heading">
+    <section className="content-section prompt-library" id="library" aria-labelledby="library-heading">
       <div className="section-heading">
         <p className="eyebrow">Library</p>
-        <h2 id="library-heading">Prompt archive signals</h2>
+        <h2 id="library-heading">Prompt snapshot library</h2>
+        <p>Open the latest tracked prompt snapshot for each model, with the source caveat kept visible.</p>
+      </div>
+      <div className="library-table" role="table" aria-label="Prompt snapshot library">
+        <div className="library-row table-head" role="row">
+          <span role="columnheader">Model</span>
+          <span role="columnheader">Snapshot</span>
+          <span role="columnheader">Length</span>
+          <span role="columnheader">Source</span>
+          <span role="columnheader">Action</span>
+        </div>
+        {profiles.map(profile => (
+          <div className="library-row" role="row" key={profile.model}>
+            <span role="cell">
+              <span className="model-chip">
+                <ModelMark model={profile.model} color={profile.color} size="sm" />
+                {profile.label}
+              </span>
+            </span>
+            <span role="cell">{profile.latestDate ?? 'No tracked snapshot'}</span>
+            <span role="cell">{formatNumber(profile.currentPromptLength)}</span>
+            <span role="cell">{profile.latest?.filepath ?? 'canonical file unavailable'}</span>
+            <span role="cell" className="table-actions">
+              {profile.latest
+                ? <button type="button" onClick={() => onOpen(profile.latest, 'prompt')}>Open</button>
+                : <span className="empty-tag">quiet</span>}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function AnalyticsSection({ data }) {
+  return (
+    <section className="content-section analytics-shelf" id="signals" aria-labelledby="signals-heading">
+      <div className="section-heading">
+        <p className="eyebrow">Signals</p>
+        <h2 id="signals-heading">Prompt archive signals</h2>
         <p>Charts are supporting evidence for growth, category concentration, and update cadence.</p>
       </div>
       <div className="analytics-grid">
@@ -276,6 +450,7 @@ export default function App() {
   const { data, error } = useTimeline()
   const [selectedModel, setSelectedModel] = useState(null)
   const [dateRange, setDateRange] = useState({ preset: 'all', start: '', end: '' })
+  const [searchQuery, setSearchQuery] = useState('')
   const [drawer, setDrawer] = useState({ entry: null, tab: 'overview' })
 
   const view = useMemo(() => {
@@ -286,6 +461,7 @@ export default function App() {
       if (selectedModel && entry.model !== selectedModel) return false
       if (dateRange.start && entry.date < dateRange.start) return false
       if (dateRange.end && entry.date > dateRange.end) return false
+      if (searchQuery.trim() && !matchesSearch(entry, searchQuery)) return false
       return true
     })
     const profiles = Object.keys(MODEL_META).map(model =>
@@ -298,8 +474,9 @@ export default function App() {
       profiles,
       spotlight: getSpotlightEntry(visibleEntries),
       highSignal: [...visibleEntries].sort((a, b) => b.impact_score - a.impact_score || String(b.date).localeCompare(String(a.date))),
+      selectedProfile: profiles.find(profile => profile.model === selectedModel) ?? profiles.find(profile => profile.totalChanges) ?? profiles[0],
     }
-  }, [data, selectedModel, dateRange])
+  }, [data, selectedModel, dateRange, searchQuery])
 
   if (error) {
     return (
@@ -327,8 +504,10 @@ export default function App() {
 
       <main>
         <HeroSection spotlight={view.spotlight} onOpen={openDrawer} />
+        <CredibilityStrip />
         <FindingsSection entries={view.highSignal} onOpen={openDrawer} />
         <ModelCoverage profiles={view.profiles} selectedModel={selectedModel} onSelect={setSelectedModel} />
+        <ModelDossier profile={view.selectedProfile} entries={view.allEntries} onOpen={openDrawer} />
         <ExplorerSection
           entries={view.visibleEntries}
           dateRange={dateRange}
@@ -336,8 +515,11 @@ export default function App() {
           latestDate={view.latestDate}
           selectedModel={selectedModel}
           setSelectedModel={setSelectedModel}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
           onOpen={openDrawer}
         />
+        <PromptLibrary profiles={view.profiles} onOpen={openDrawer} />
         <AnalyticsSection data={data} />
         <ComparisonMatrix comparison={data.comparison} stats={data.stats} />
         <div id="methodology">
