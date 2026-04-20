@@ -19,13 +19,13 @@ A research dashboard that tracks how frontier AI models' system prompts change o
 
 ## Features
 
-- **Behavioral tag classification** — every change is automatically classified: `safety`, `tool_definition`, `persona`, `capability`, `formatting`, `memory`, `policy`
-- **Full prompt viewer** — read the complete system prompt at any point in history, one click from the timeline
-- **Real diff view** — side-by-side diff of what was added and removed in each change
-- **Tag filter** — filter any model's timeline to show only safety changes, only tool definition changes, etc.
-- **Concept drift chart** — see what proportion of each model's changes fall into each behavioral category
-- **Prompt length over time** — track how much instruction each model operates under across versions
-- **Auto-updated daily** — GitHub Actions syncs upstream prompt files, runs the pipeline, and redeploys
+- **Behavioral tag classification** - every change is automatically classified: `safety`, `tool_definition`, `persona`, `capability`, `formatting`, `memory`, `policy`
+- **Full prompt viewer** - read the complete system prompt at any point in history, one click from the timeline
+- **Real diff view** - side-by-side diff of what was added and removed in each change
+- **Tag filter** - filter any model's timeline to show only safety changes, only tool definition changes, etc.
+- **Concept drift chart** - see what proportion of each model's changes fall into each behavioral category
+- **Prompt length over time** - track how much instruction each model operates under across versions
+- **Auto-updated daily** - GitHub Actions syncs upstream prompt files, runs the pipeline, and redeploys
 
 ---
 
