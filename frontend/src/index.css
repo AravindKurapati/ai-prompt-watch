@@ -66,10 +66,10 @@ button {
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(180deg, rgba(13, 17, 23, 0.08), rgba(13, 17, 23, 0.48) 500px, #0d1117 1040px),
-    linear-gradient(90deg, rgba(13, 17, 23, 0.94) 0%, rgba(13, 17, 23, 0.58) 48%, rgba(13, 17, 23, 0.92) 100%),
-    url("./assets/prompt-cinema-bg.png") center top / cover no-repeat;
-  filter: saturate(1.02) contrast(1.08);
+    linear-gradient(180deg, rgba(3, 6, 10, 0.18), rgba(3, 6, 10, 0.7) 600px, #0d1117 1120px),
+    linear-gradient(90deg, rgba(3, 6, 10, 0.9) 0%, rgba(3, 6, 10, 0.34) 54%, rgba(3, 6, 10, 0.82) 100%),
+    url("./assets/prompt-forensics-bg.png") center top / cover no-repeat;
+  filter: saturate(0.82) contrast(1.05) brightness(0.82);
 }
 
 .app-shell::after {
@@ -78,10 +78,10 @@ button {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, transparent 0, rgba(13, 17, 23, 0.56) 760px, #0d1117 1120px),
-    linear-gradient(rgba(230, 237, 243, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(230, 237, 243, 0.012) 1px, transparent 1px);
-  background-size: auto, 72px 72px, 72px 72px;
+    linear-gradient(180deg, transparent 0, rgba(13, 17, 23, 0.62) 760px, #0d1117 1120px),
+    linear-gradient(rgba(230, 237, 243, 0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 237, 243, 0.008) 1px, transparent 1px);
+  background-size: auto, 96px 96px, 96px 96px;
   mask-image: linear-gradient(180deg, transparent, black 18%, black 58%, transparent);
   pointer-events: none;
 }
@@ -102,9 +102,9 @@ button {
   gap: 18px;
   min-height: 66px;
   padding: 10px 28px;
-  border-bottom: 1px solid rgba(230, 237, 243, 0.11);
-  background: rgba(5, 8, 13, 0.82);
-  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(230, 237, 243, 0.09);
+  background: rgba(2, 5, 9, 0.78);
+  backdrop-filter: blur(22px);
 }
 
 .site-brand {
@@ -121,10 +121,10 @@ button {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 1px solid rgba(88, 166, 255, 0.38);
+  border: 1px solid rgba(160, 177, 190, 0.34);
   border-radius: 8px;
-  background: rgba(88, 166, 255, 0.12);
-  color: #58a6ff;
+  background: rgba(230, 237, 243, 0.05);
+  color: #b8c4cf;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 900;
@@ -136,9 +136,9 @@ button {
   justify-content: center;
   gap: 6px;
   padding: 4px;
-  border: 1px solid rgba(230, 237, 243, 0.1);
+  border: 1px solid rgba(230, 237, 243, 0.11);
   border-radius: 8px;
-  background: rgba(13, 17, 23, 0.72);
+  background: rgba(4, 8, 13, 0.68);
 }
 
 .site-header nav a {
@@ -168,7 +168,7 @@ button {
   display: grid;
   grid-template-columns: minmax(340px, 0.82fr) minmax(540px, 1.18fr);
   gap: 42px;
-  align-items: center;
+  align-items: start;
   min-height: 760px;
   padding: 86px 0 72px;
 }
@@ -180,7 +180,7 @@ button {
 .eyebrow,
 .panel-kicker {
   margin: 0;
-  color: #58a6ff;
+  color: #9db2c5;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 800;
@@ -189,13 +189,13 @@ button {
 }
 
 .hero-copy h1 {
-  max-width: 760px;
+  max-width: 720px;
   margin: 18px 0 18px;
   color: #fff;
   font-family: var(--font-display), Inter, sans-serif;
-  font-size: clamp(48px, 6.2vw, 86px);
+  font-size: clamp(46px, 5.8vw, 76px);
   font-weight: 820;
-  line-height: 0.98;
+  line-height: 1;
   letter-spacing: 0;
 }
 
@@ -235,9 +235,9 @@ button {
   border: 1px solid rgba(230, 237, 243, 0.16);
   border-radius: 8px;
   background:
-    linear-gradient(120deg, rgba(1, 4, 9, 0.82), rgba(13, 17, 23, 0.38) 48%, rgba(1, 4, 9, 0.84)),
-    url("./assets/prompt-cinema-bg.png") 64% 46% / cover no-repeat;
-  box-shadow: 0 32px 110px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    linear-gradient(120deg, rgba(1, 4, 9, 0.88), rgba(13, 17, 23, 0.38) 48%, rgba(1, 4, 9, 0.82)),
+    url("./assets/prompt-forensics-bg.png") 63% 43% / cover no-repeat;
+  box-shadow: 0 34px 112px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(14px);
   isolation: isolate;
 }
@@ -253,16 +253,15 @@ button {
 .prompt-assembly::before {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(88, 166, 255, 0.18), transparent 32%, rgba(63, 185, 80, 0.14) 66%, transparent),
-    linear-gradient(180deg, rgba(248, 81, 73, 0.12), transparent 42%, rgba(210, 153, 34, 0.13));
-  mix-blend-mode: screen;
+    linear-gradient(90deg, rgba(157, 178, 197, 0.16), transparent 34%, rgba(230, 237, 243, 0.08) 66%, transparent),
+    linear-gradient(180deg, rgba(77, 93, 107, 0.18), transparent 48%, rgba(255, 255, 255, 0.04));
 }
 
 .prompt-assembly::after {
   background:
-    linear-gradient(rgba(230, 237, 243, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(230, 237, 243, 0.04) 1px, transparent 1px);
-  background-size: 34px 34px;
+    linear-gradient(rgba(230, 237, 243, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 237, 243, 0.02) 1px, transparent 1px);
+  background-size: 46px 46px;
   mask-image: linear-gradient(180deg, black, transparent 82%);
 }
 
@@ -297,8 +296,8 @@ button {
   position: absolute;
   height: 1px;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.72), rgba(210, 153, 34, 0.7), transparent);
-  box-shadow: 0 0 18px rgba(88, 166, 255, 0.24);
+  background: linear-gradient(90deg, transparent, rgba(157, 178, 197, 0.64), rgba(214, 226, 235, 0.42), transparent);
+  box-shadow: 0 0 16px rgba(157, 178, 197, 0.18);
 }
 
 .rail-a {
@@ -319,7 +318,7 @@ button {
   top: 74%;
   left: 2%;
   width: 84%;
-  background: linear-gradient(90deg, transparent, rgba(63, 185, 80, 0.7), rgba(248, 81, 73, 0.58), transparent);
+  background: linear-gradient(90deg, transparent, rgba(63, 185, 80, 0.34), rgba(248, 81, 73, 0.3), transparent);
   transform: rotate(-4deg);
 }
 
@@ -331,8 +330,8 @@ button {
   border: 1px solid rgba(230, 237, 243, 0.17);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(230, 237, 243, 0.08), transparent),
-    rgba(5, 9, 15, 0.72);
+    linear-gradient(180deg, rgba(230, 237, 243, 0.07), transparent),
+    rgba(4, 8, 13, 0.78);
   box-shadow: 0 18px 54px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(14px);
 }
@@ -343,7 +342,7 @@ button {
 
 .assembly-layer span,
 .assembly-core span {
-  color: color-mix(in srgb, var(--model-color, #58a6ff) 72%, #e6edf3);
+  color: #aebdca;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 900;
@@ -393,7 +392,7 @@ button {
   align-content: center;
   padding: 18px;
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--model-color, #58a6ff) 18%, transparent), transparent 64%),
+    linear-gradient(145deg, rgba(230, 237, 243, 0.1), transparent 64%),
     rgba(1, 4, 9, 0.84);
 }
 
@@ -696,6 +695,7 @@ button {
 }
 
 .finding-card {
+  position: relative;
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr) auto;
   align-items: center;
@@ -703,16 +703,27 @@ button {
   border: 1px solid rgba(230, 237, 243, 0.12);
   border-radius: 8px;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--model-color) 10%, transparent), transparent 36%),
-    rgba(12, 17, 24, 0.86);
+    linear-gradient(180deg, rgba(230, 237, 243, 0.05), transparent),
+    rgba(6, 10, 15, 0.88);
   padding: 18px;
+  overflow: hidden;
   transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.finding-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: color-mix(in srgb, var(--model-color, #9db2c5) 48%, #e6edf3);
+  opacity: 0.72;
 }
 
 .finding-card:hover,
 .model-card:hover,
 .model-card.active {
-  border-color: color-mix(in srgb, var(--model-color, #58a6ff) 58%, #30363d);
+  border-color: rgba(230, 237, 243, 0.22);
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.28);
 }
 
 .finding-card:hover,
@@ -745,19 +756,36 @@ button {
 }
 
 .model-card {
+  position: relative;
   display: grid;
   gap: 14px;
   min-height: 300px;
-  border: 1px solid rgba(230, 237, 243, 0.13);
+  border: 1px solid rgba(230, 237, 243, 0.12);
   border-radius: 8px;
   background:
-    linear-gradient(160deg, color-mix(in srgb, var(--model-color) 13%, transparent), transparent 52%),
-    rgba(12, 17, 24, 0.88);
+    linear-gradient(180deg, rgba(230, 237, 243, 0.055), rgba(230, 237, 243, 0.012)),
+    rgba(5, 9, 14, 0.84);
   color: #e6edf3;
   padding: 20px;
+  overflow: hidden;
   text-align: left;
   cursor: pointer;
   transition: border-color 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+.model-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--model-color, #9db2c5) 56%, #d6e2eb), transparent 74%);
+  opacity: 0.76;
+}
+
+.model-card.active {
+  background:
+    linear-gradient(180deg, rgba(230, 237, 243, 0.07), rgba(230, 237, 243, 0.018)),
+    rgba(7, 12, 18, 0.9);
 }
 
 .model-card-head {
@@ -774,7 +802,7 @@ button {
 .model-card-head em {
   display: block;
   margin-top: 5px;
-  color: color-mix(in srgb, var(--model-color) 70%, #e6edf3);
+  color: #a2adb8;
   font-family: var(--font-mono);
   font-size: 11px;
   font-style: normal;
@@ -803,16 +831,22 @@ button {
 }
 
 .mini-bars {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 7px;
   margin-top: 4px;
 }
 
 .mini-bars span {
-  min-width: 34%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto !important;
+  min-width: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--model-color) 34%, rgba(230, 237, 243, 0.06));
-  color: #c9d1d9;
+  border: 1px solid rgba(230, 237, 243, 0.1);
+  background: rgba(230, 237, 243, 0.055);
+  color: #aeb8c2;
   padding: 4px 8px;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -820,6 +854,14 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.mini-bars span::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--model-color, #9db2c5) 58%, #d6e2eb);
 }
 
 .dossier-section {
@@ -838,8 +880,8 @@ button {
   border: 1px solid rgba(230, 237, 243, 0.12);
   border-radius: 8px;
   background:
-    linear-gradient(160deg, color-mix(in srgb, var(--model-color, #58a6ff) 11%, transparent), transparent 52%),
-    rgba(12, 17, 24, 0.86);
+    linear-gradient(180deg, rgba(230, 237, 243, 0.05), transparent),
+    rgba(6, 10, 15, 0.86);
   padding: 20px;
 }
 
@@ -1257,8 +1299,9 @@ button {
   align-items: center;
   gap: 7px;
   width: fit-content;
+  border: 1px solid rgba(230, 237, 243, 0.1);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--model-color, #58a6ff) 22%, transparent);
+  background: rgba(230, 237, 243, 0.045);
   color: #e6edf3;
   padding: 4px 9px;
   font-family: var(--font-mono);
@@ -1270,13 +1313,13 @@ button {
   display: inline-grid;
   place-items: center;
   flex: 0 0 auto;
-  border: 1px solid color-mix(in srgb, var(--model-color, #58a6ff) 64%, rgba(230, 237, 243, 0.18));
+  border: 1px solid color-mix(in srgb, var(--model-color, #9db2c5) 36%, rgba(230, 237, 243, 0.24));
   border-radius: 8px;
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--model-color, #58a6ff) 26%, transparent), rgba(255, 255, 255, 0.04)),
-    #0d1117;
+    linear-gradient(145deg, color-mix(in srgb, var(--model-color, #9db2c5) 12%, transparent), rgba(255, 255, 255, 0.035)),
+    #090d13;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  color: #fff;
+  color: #e6edf3;
   font-family: var(--font-display);
   font-weight: 850;
   line-height: 1;

@@ -214,10 +214,10 @@ function HeroSection({ spotlight, onOpen }) {
     <section className="website-hero" id="top">
       <div className="hero-copy">
         <p className="eyebrow">Public prompt research archive</p>
-        <h1>Track how AI system prompts evolve.</h1>
+        <h1>Track prompt evolution.</h1>
         <p>
-          A professional research interface for studying safety, tools, policy, persona, and instruction drift
-          across frontier assistants through versioned prompt evidence.
+          A research console for studying safety, tools, policy, persona, and instruction drift across frontier
+          assistants through versioned prompt evidence.
         </p>
         <div className="hero-actions">
           <a className="primary-action" href="#explorer">Explore changes</a>
