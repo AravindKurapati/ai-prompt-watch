@@ -10,10 +10,10 @@ export const TAG_COLORS = {
 }
 
 export const MODEL_META = {
-  claude:  { label: 'Claude',  color: '#d97706', mark: 'C', provider: 'Anthropic' },
-  openai:  { label: 'ChatGPT', color: '#10a37f', mark: 'GPT', provider: 'OpenAI' },
-  gemini:  { label: 'Gemini',  color: '#4285f4', mark: 'G', provider: 'Google' },
-  grok:    { label: 'Grok',    color: '#9333ea', mark: 'x', provider: 'xAI' },
+  claude:  { label: 'Claude',  color: '#b68a4a', mark: 'C', provider: 'Anthropic' },
+  openai:  { label: 'ChatGPT', color: '#75b6a6', mark: 'GPT', provider: 'OpenAI' },
+  gemini:  { label: 'Gemini',  color: '#7ea3d8', mark: 'G', provider: 'Google' },
+  grok:    { label: 'Grok',    color: '#a487c8', mark: 'x', provider: 'xAI' },
 }
 
 export const ALL_TAGS = Object.keys(TAG_COLORS)

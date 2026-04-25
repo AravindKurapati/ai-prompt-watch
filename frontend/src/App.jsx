@@ -65,6 +65,21 @@ function matchesSearch(entry, query) {
   return text.includes(query.trim().toLowerCase())
 }
 
+function compactLine(line, maxLength = 94) {
+  const cleaned = String(line ?? '').replace(/\s+/g, ' ').trim()
+  if (!cleaned) return ''
+  return cleaned.length > maxLength ? `${cleaned.slice(0, maxLength - 1)}...` : cleaned
+}
+
+function getPreviewLines(lines, fallback, count = 3) {
+  const preview = (lines ?? [])
+    .map(line => compactLine(line))
+    .filter(Boolean)
+    .slice(0, count)
+
+  return preview.length ? preview : fallback
+}
+
 function HeroEvidence({ entry, onOpen }) {
   if (!entry) {
     return (
@@ -117,6 +132,70 @@ function HeroEvidence({ entry, onOpen }) {
   )
 }
 
+function PromptAssemblyScene({ entry }) {
+  const tags = entry?.behavioral_tags?.length ? entry.behavioral_tags : ['safety', 'tool_definition', 'persona']
+  const addedLines = getPreviewLines(entry?.diff?.added, [
+    'must follow the system prompt hierarchy',
+    'tool call arguments are validated before execution',
+    'surface policy-relevant prompt movement',
+  ])
+  const removedLines = getPreviewLines(entry?.diff?.removed, [
+    'older instruction block replaced',
+    'legacy formatting guidance removed',
+  ], 2)
+  const modelLabel = entry?.modelLabel ?? 'Tracked model'
+  const changeTotal = (entry?.diff?.added_count ?? 0) + (entry?.diff?.removed_count ?? 0)
+
+  return (
+    <aside className="prompt-assembly" style={{ '--model-color': entry?.modelColor ?? '#58a6ff' }} aria-label="Prompt intelligence assembly">
+      <div className="assembly-topline">
+        <span>Prompt assembly</span>
+        <strong>{modelLabel}</strong>
+      </div>
+
+      <div className="assembly-stage" aria-hidden="true">
+        <span className="assembly-rail rail-a" />
+        <span className="assembly-rail rail-b" />
+        <span className="assembly-rail rail-c" />
+
+        <div className="assembly-layer layer-source">
+          <span>Source</span>
+          <code>{entry?.filepath ?? 'canonical prompt file'}</code>
+        </div>
+
+        <div className="assembly-layer layer-diff">
+          <span>Diff</span>
+          {addedLines.slice(0, 2).map((line, index) => (
+            <code className="line-add" key={`assembly-add-${index}`}>+ {line}</code>
+          ))}
+          {removedLines.slice(0, 1).map((line, index) => (
+            <code className="line-remove" key={`assembly-remove-${index}`}>- {line}</code>
+          ))}
+        </div>
+
+        <div className="assembly-layer layer-tags">
+          <span>Behavior</span>
+          <div className="assembly-tags">
+            {tags.slice(0, 4).map(tag => <TagBadge key={tag} tag={tag} />)}
+          </div>
+        </div>
+
+        <div className="assembly-core">
+          <span>Snapshot</span>
+          <strong>{formatNumber(entry?.prompt_length)} chars</strong>
+          <em>{formatNumber(changeTotal)} changed lines</em>
+        </div>
+      </div>
+
+      <div className="assembly-footer">
+        <span><strong>{formatDelta(entry?.prompt_delta)}</strong> prompt delta</span>
+        <span><strong>{entry?.impact_level ?? 'n/a'}</strong> impact</span>
+        <span><strong>{entry?.date ?? 'n/a'}</strong> latest signal</span>
+      </div>
+    </aside>
+  )
+}
+
 function CredibilityStrip() {
   return (
     <section className="credibility-strip" aria-label="Research caveats">
@@ -135,17 +214,20 @@ function HeroSection({ spotlight, onOpen }) {
     <section className="website-hero" id="top">
       <div className="hero-copy">
         <p className="eyebrow">Public prompt research archive</p>
-        <h1>Track how AI system prompts evolve.</h1>
+        <h1>Track prompt evolution.</h1>
         <p>
-          A professional research interface for studying safety, tools, policy, persona, and instruction drift
-          across frontier assistants through versioned prompt evidence.
+          A research console for studying safety, tools, policy, persona, and instruction drift across frontier
+          assistants through versioned prompt evidence.
         </p>
         <div className="hero-actions">
           <a className="primary-action" href="#explorer">Explore changes</a>
           <a className="secondary-action" href="#methodology">View methodology</a>
         </div>
       </div>
-      <HeroEvidence entry={spotlight} onOpen={onOpen} />
+      <div className="hero-stage">
+        <PromptAssemblyScene entry={spotlight} />
+        <HeroEvidence entry={spotlight} onOpen={onOpen} />
+      </div>
     </section>
   )
 }
