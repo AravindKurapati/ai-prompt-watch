@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [unreleased]
+- feat: add an image-backed prompt assembly hero with layered source, diff, behavior tag, and snapshot panels
 - feat: add professional website polish with model dossiers, prompt library, explorer search, empty states, credibility caveat, drawer improvements, and subtle motion
 - feat: add a realistic research-desk hero background asset and soften the global grid overlay
 - feat: reshape the frontend into a professional research website with image-backed hero, editorial findings, model coverage cards, and register-style explorer

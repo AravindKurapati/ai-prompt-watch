@@ -66,10 +66,10 @@ button {
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(180deg, rgba(13, 17, 23, 0.08), rgba(13, 17, 23, 0.52) 520px, #0d1117 980px),
-    linear-gradient(90deg, rgba(13, 17, 23, 0.94) 0%, rgba(13, 17, 23, 0.62) 46%, rgba(13, 17, 23, 0.9) 100%),
-    url("./assets/prompt-research-bg.png") center top / cover no-repeat;
-  filter: saturate(0.82) contrast(1.08);
+    linear-gradient(180deg, rgba(13, 17, 23, 0.08), rgba(13, 17, 23, 0.48) 500px, #0d1117 1040px),
+    linear-gradient(90deg, rgba(13, 17, 23, 0.94) 0%, rgba(13, 17, 23, 0.58) 48%, rgba(13, 17, 23, 0.92) 100%),
+    url("./assets/prompt-cinema-bg.png") center top / cover no-repeat;
+  filter: saturate(1.02) contrast(1.08);
 }
 
 .app-shell::after {
@@ -166,10 +166,10 @@ button {
 
 .website-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(380px, 480px);
-  gap: 38px;
+  grid-template-columns: minmax(340px, 0.82fr) minmax(540px, 1.18fr);
+  gap: 42px;
   align-items: center;
-  min-height: 690px;
+  min-height: 760px;
   padding: 86px 0 72px;
 }
 
@@ -220,6 +220,212 @@ button {
 
 .hero-actions {
   margin-top: 30px;
+}
+
+.hero-stage {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.prompt-assembly {
+  position: relative;
+  overflow: hidden;
+  min-height: 424px;
+  border: 1px solid rgba(230, 237, 243, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(120deg, rgba(1, 4, 9, 0.82), rgba(13, 17, 23, 0.38) 48%, rgba(1, 4, 9, 0.84)),
+    url("./assets/prompt-cinema-bg.png") 64% 46% / cover no-repeat;
+  box-shadow: 0 32px 110px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  isolation: isolate;
+}
+
+.prompt-assembly::before,
+.prompt-assembly::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.prompt-assembly::before {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(88, 166, 255, 0.18), transparent 32%, rgba(63, 185, 80, 0.14) 66%, transparent),
+    linear-gradient(180deg, rgba(248, 81, 73, 0.12), transparent 42%, rgba(210, 153, 34, 0.13));
+  mix-blend-mode: screen;
+}
+
+.prompt-assembly::after {
+  background:
+    linear-gradient(rgba(230, 237, 243, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 237, 243, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(180deg, black, transparent 82%);
+}
+
+.assembly-topline,
+.assembly-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  color: #8b949e;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.assembly-topline strong,
+.assembly-footer strong {
+  color: #e6edf3;
+}
+
+.assembly-stage {
+  position: relative;
+  min-height: 316px;
+  margin: 0 18px;
+}
+
+.assembly-rail {
+  position: absolute;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.72), rgba(210, 153, 34, 0.7), transparent);
+  box-shadow: 0 0 18px rgba(88, 166, 255, 0.24);
+}
+
+.rail-a {
+  top: 27%;
+  left: -10%;
+  width: 112%;
+  transform: rotate(-11deg);
+}
+
+.rail-b {
+  top: 55%;
+  left: -6%;
+  width: 118%;
+  transform: rotate(7deg);
+}
+
+.rail-c {
+  top: 74%;
+  left: 2%;
+  width: 84%;
+  background: linear-gradient(90deg, transparent, rgba(63, 185, 80, 0.7), rgba(248, 81, 73, 0.58), transparent);
+  transform: rotate(-4deg);
+}
+
+.assembly-layer,
+.assembly-core {
+  position: absolute;
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(230, 237, 243, 0.17);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(230, 237, 243, 0.08), transparent),
+    rgba(5, 9, 15, 0.72);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.assembly-layer {
+  padding: 13px;
+}
+
+.assembly-layer span,
+.assembly-core span {
+  color: color-mix(in srgb, var(--model-color, #58a6ff) 72%, #e6edf3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.assembly-layer code {
+  display: block;
+  overflow: hidden;
+  color: #c9d1d9;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.48;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layer-source {
+  top: 12px;
+  left: 4px;
+  width: 46%;
+}
+
+.layer-diff {
+  top: 66px;
+  right: 0;
+  width: 58%;
+}
+
+.layer-tags {
+  left: 28px;
+  bottom: 20px;
+  width: 42%;
+}
+
+.assembly-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.assembly-core {
+  right: 12%;
+  bottom: 34px;
+  width: min(238px, 42%);
+  min-height: 126px;
+  align-content: center;
+  padding: 18px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--model-color, #58a6ff) 18%, transparent), transparent 64%),
+    rgba(1, 4, 9, 0.84);
+}
+
+.assembly-core strong {
+  color: #fff;
+  font-family: var(--font-display), Inter, sans-serif;
+  font-size: 32px;
+  line-height: 0.95;
+}
+
+.assembly-core em {
+  color: #8b949e;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.assembly-footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-top: 0;
+}
+
+.assembly-footer span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  border: 1px solid rgba(230, 237, 243, 0.12);
+  border-radius: 8px;
+  background: rgba(1, 4, 9, 0.52);
+  padding: 10px;
+  overflow-wrap: anywhere;
 }
 
 .primary-action,
@@ -1374,6 +1580,10 @@ button {
     grid-column: 1 / -1;
   }
 
+  .hero-stage {
+    grid-column: 1 / -1;
+  }
+
   .evidence-panel {
     grid-column: 1 / -1;
   }
@@ -1425,6 +1635,36 @@ button {
 
   .hero-copy p:not(.eyebrow) {
     font-size: 16px;
+  }
+
+  .prompt-assembly {
+    min-height: auto;
+  }
+
+  .assembly-stage {
+    display: grid;
+    gap: 10px;
+    min-height: auto;
+    margin: 0 14px 14px;
+  }
+
+  .assembly-rail {
+    display: none;
+  }
+
+  .assembly-layer,
+  .assembly-core {
+    position: relative;
+    inset: auto;
+    width: auto;
+  }
+
+  .assembly-core {
+    min-height: 116px;
+  }
+
+  .assembly-footer {
+    grid-template-columns: 1fr;
   }
 
   .evidence-stats,
