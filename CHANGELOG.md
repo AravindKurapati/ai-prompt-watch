@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [unreleased]
+- feat: add an interactive Prompt Physics Lab with canvas-based prompt sheet motion and research controls
 - feat: replace the synthetic dashboard backdrop with a generated forensic prompt-desk image and mute model-card color treatment
 - feat: add an image-backed prompt assembly hero with layered source, diff, behavior tag, and snapshot panels
 - feat: add professional website polish with model dossiers, prompt library, explorer search, empty states, credibility caveat, drawer improvements, and subtle motion

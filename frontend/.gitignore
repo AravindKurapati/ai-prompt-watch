@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.chrome-preview-profile/
+preview-*.png
 
 # Editor directories and files
 .vscode/*

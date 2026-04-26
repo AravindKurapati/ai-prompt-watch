@@ -689,6 +689,163 @@ button {
   line-height: 1.65;
 }
 
+.physics-lab-section {
+  scroll-margin-top: 92px;
+}
+
+.physics-lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  gap: 14px;
+  min-height: 560px;
+  border: 1px solid rgba(230, 237, 243, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(120deg, rgba(230, 237, 243, 0.055), transparent 48%),
+    rgba(4, 8, 13, 0.86);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+
+.physics-stage {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(1, 4, 9, 0.42), transparent 52%),
+    url("./assets/prompt-forensics-bg.png") center / cover no-repeat;
+}
+
+.physics-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(1, 4, 9, 0.72), rgba(1, 4, 9, 0.24) 44%, rgba(1, 4, 9, 0.82)),
+    linear-gradient(90deg, rgba(1, 4, 9, 0.58), transparent 62%);
+  pointer-events: none;
+}
+
+.physics-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.physics-readout {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  gap: 10px;
+  max-width: 580px;
+  border: 1px solid rgba(230, 237, 243, 0.13);
+  border-radius: 8px;
+  background: rgba(1, 4, 9, 0.68);
+  padding: 16px;
+  backdrop-filter: blur(14px);
+}
+
+.physics-readout span,
+.physics-readout em {
+  color: #8b949e;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-style: normal;
+  overflow-wrap: anywhere;
+}
+
+.physics-readout strong {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.physics-controls {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 18px;
+  border-left: 1px solid rgba(230, 237, 243, 0.1);
+  background:
+    linear-gradient(180deg, rgba(230, 237, 243, 0.05), transparent),
+    rgba(2, 6, 10, 0.76);
+  backdrop-filter: blur(16px);
+}
+
+.physics-controls label {
+  display: grid;
+  gap: 7px;
+  color: #aeb8c2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.physics-controls select,
+.physics-controls input[type="range"] {
+  width: 100%;
+}
+
+.physics-controls select {
+  min-height: 38px;
+  border: 1px solid rgba(230, 237, 243, 0.14);
+  border-radius: 6px;
+  background: rgba(13, 17, 23, 0.92);
+  color: #e6edf3;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.physics-controls input[type="range"] {
+  accent-color: color-mix(in srgb, var(--model-color, #9db2c5) 64%, #e6edf3);
+}
+
+.physics-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.physics-metrics span {
+  display: grid;
+  gap: 4px;
+  min-height: 62px;
+  border: 1px solid rgba(230, 237, 243, 0.1);
+  border-radius: 8px;
+  background: rgba(13, 17, 23, 0.64);
+  color: #8b949e;
+  padding: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.physics-metrics strong {
+  color: #e6edf3;
+  font-size: 14px;
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+
+.physics-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 2px;
+}
+
+.physics-actions .primary-action,
+.physics-actions .secondary-action {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
 .findings-list {
   display: grid;
   gap: 12px;
@@ -1610,7 +1767,8 @@ button {
   .model-grid,
   .analytics-grid,
   .methodology-grid,
-  .dossier-grid {
+  .dossier-grid,
+  .physics-lab {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -1641,6 +1799,15 @@ button {
 
   .research-controls {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .physics-lab {
+    grid-template-columns: 1fr;
+  }
+
+  .physics-controls {
+    border-left: 0;
+    border-top: 1px solid rgba(230, 237, 243, 0.1);
   }
 
   .credibility-strip,
@@ -1718,8 +1885,24 @@ button {
   .dossier-metrics,
   .research-controls,
   .methodology-grid,
+  .physics-metrics,
   .section-heading.split {
     grid-template-columns: 1fr;
+  }
+
+  .physics-lab,
+  .physics-stage {
+    min-height: auto;
+  }
+
+  .physics-stage {
+    aspect-ratio: 1 / 1.08;
+  }
+
+  .physics-readout {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
   }
 
   .section-heading.split {
