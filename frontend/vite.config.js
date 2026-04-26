@@ -14,6 +14,7 @@ export default defineConfig({
   },
   test: {
     environment: 'happy-dom',
+    exclude: ['**/node_modules/**', '**/dist/**', '**/.chrome-preview-profile/**'],
     globals: true,
     setupFiles: './src/test-setup.js',
   },
