@@ -6,7 +6,7 @@ import ComparisonMatrix from './components/ComparisonMatrix'
 import DateRangeFilter from './components/DateRangeFilter'
 import MethodologyPanel from './components/MethodologyPanel'
 import ModelMark from './components/ModelMark'
-import PromptPhysicsLab from './components/PromptPhysicsLab'
+import PromptChangeReplay from './components/PromptChangeReplay'
 import ResearchDrawer from './components/ResearchDrawer'
 import TagBadge from './components/TagBadge'
 import ChangesBarChart from './components/charts/ChangesBarChart'
@@ -26,7 +26,7 @@ function SiteHeader({ data }) {
       </a>
       <nav aria-label="Primary navigation">
         <a href="#research">Research</a>
-        <a href="#lab">Lab</a>
+        <a href="#replay">Replay</a>
         <a href="#models">Models</a>
         <a href="#dossiers">Dossiers</a>
         <a href="#explorer">Explorer</a>
@@ -589,7 +589,7 @@ export default function App() {
       <main>
         <HeroSection spotlight={view.spotlight} onOpen={openDrawer} />
         <CredibilityStrip />
-        <PromptPhysicsLab entries={view.allEntries} profiles={view.profiles} onOpen={openDrawer} />
+        <PromptChangeReplay entries={view.allEntries} profiles={view.profiles} onOpen={openDrawer} />
         <FindingsSection entries={view.highSignal} onOpen={openDrawer} />
         <ModelCoverage profiles={view.profiles} selectedModel={selectedModel} onSelect={setSelectedModel} />
         <ModelDossier profile={view.selectedProfile} entries={view.allEntries} onOpen={openDrawer} />
