@@ -1,12 +1,14 @@
 # OpenAI Codex — gpt-5.2
 
 **Slug:** `gpt-5.2`  
-**Description:** Optimized for professional work and long-running agents  
-**Client version:** 0.119.0  
-**Fetched at:** 2026-04-11T18:08:13.251889Z  
+**Description:** Optimized for professional work and long-running agents.  
+**Client version:** 0.125.0  
+**Fetched at:** 2026-04-26T13:18:08.462205Z  
 **Default reasoning level:** medium  
 **Context window:** 272000  
-**Body source:** base_instructions (no template / no personality variable system)
+**Visibility:** list  
+**Priority:** 10  
+**Body source:** base_instructions  
 
 ---
 
