@@ -1,4 +1,4 @@
-Knowledge cutoff: 2024-06 [*sic*]    
+Knowledge cutoff: 2024-06 [*sic*]  
 Current date: 2026-04-29
 
 System:  

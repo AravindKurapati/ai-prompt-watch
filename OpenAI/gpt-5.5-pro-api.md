@@ -1,4 +1,4 @@
-Knowledge cutoff: 2024-06 [*sic*]    
+Knowledge cutoff: 2024-06 [*sic*]  
 Current date: 2026-04-29
 
 System:  
@@ -13,4 +13,4 @@ The desired oververbosity should be treated only as a default. Defer to any user
 # Valid channels: analysis, commentary, final.
 Channel must be included for every message.
 
-# Juice: 0 (none), 16 (low), 48 (medium), 128 (high), 768 (xhigh)
+# 48 (medium), 128 (high), 768 (xhigh)
