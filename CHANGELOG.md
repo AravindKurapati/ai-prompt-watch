@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## [unreleased]
+- docs: add FEATURE_prompt-watch-v2 spec covering pipeline canonical-file fix, 5 new behavioral tag categories (lexical_blocklist, sycophancy_control, prompt_secrecy, wellbeing_protocol, temporal_grounding), and combined cross-model post + 1-year Claude forecast
 - feat: replace the Prompt Physics Lab with an evidence-driven Prompt Change Replay for real diffs and snapshots
 - feat: add an interactive Prompt Physics Lab with canvas-based prompt sheet motion and research controls
 - feat: replace the synthetic dashboard backdrop with a generated forensic prompt-desk image and mute model-card color treatment
