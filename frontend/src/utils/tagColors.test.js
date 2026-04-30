@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { filterEntries, computeTagProportions, ALL_TAGS } from './tagColors'
+import { filterEntries, computeTagProportions, ALL_TAGS, TAG_COLORS } from './tagColors'
 
 const e = (tags) => ({ behavioral_tags: tags })
 
@@ -45,5 +45,17 @@ describe('computeTagProportions', () => {
   it('proportions sum above 1 for multi-tagged entries', () => {
     const p = computeTagProportions([e(['safety', 'policy'])])
     expect(Object.values(p).reduce((a, b) => a + b, 0)).toBeGreaterThan(1)
+  })
+})
+
+describe('TAG_COLORS palette extension', () => {
+  const newTags = ['lexical_blocklist', 'sycophancy_control', 'prompt_secrecy', 'wellbeing_protocol', 'temporal_grounding']
+
+  it.each(newTags)('has a color for %s', (tag) => {
+    expect(TAG_COLORS[tag]).toMatch(/^#[0-9a-fA-F]{6}$/)
+  })
+
+  it('exposes the new tags in ALL_TAGS', () => {
+    for (const tag of newTags) expect(ALL_TAGS).toContain(tag)
   })
 })

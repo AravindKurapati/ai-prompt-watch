@@ -1,12 +1,17 @@
 export const TAG_COLORS = {
-  safety:          '#f85149',
-  tool_definition: '#58a6ff',
-  persona:         '#a371f7',
-  capability:      '#3fb950',
-  formatting:      '#8b949e',
-  memory:          '#d29922',
-  policy:          '#e3882a',
-  other:           '#30363d',
+  safety:              '#f85149',
+  tool_definition:     '#58a6ff',
+  persona:             '#a371f7',
+  capability:          '#3fb950',
+  formatting:          '#8b949e',
+  memory:              '#d29922',
+  policy:              '#e3882a',
+  lexical_blocklist:   '#c69026',
+  sycophancy_control:  '#d68a8a',
+  prompt_secrecy:      '#6e5494',
+  wellbeing_protocol:  '#ff9e64',
+  temporal_grounding:  '#56b6c2',
+  other:               '#30363d',
 }
 
 export const MODEL_META = {

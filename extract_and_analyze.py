@@ -22,18 +22,16 @@ SCHEMA_VERSION = 2
 SNAPSHOT_PUBLIC_DIR = Path("frontend/public/data/snapshots")
 
 MODELS = {
-    "claude":  ["Anthropic/claude.html"],
-    "openai":  ["OpenAI/GPT-4o.md"],
-    "gemini":  ["Google/gemini-workspace.md"],
-    "grok":    ["xAI/grok-4.2.md"],
-    # Perplexity omitted — it is a search wrapper (RAG), not a frontier model
-    # with a substantive evolving system prompt.
+    "claude":  ["Anthropic/claude-opus-4.7.md", "Anthropic/claude-opus-4.6.md", "Anthropic/claude-sonnet-4.6.md"],
+    "openai":  ["OpenAI/gpt-5.5-thinking.md", "OpenAI/gpt-5.4-thinking.md", "OpenAI/gpt-5.3-instant.md", "OpenAI/gpt-5.3-chat-api.md", "OpenAI/gpt-5.1-default.md"],
+    "gemini":  ["Google/gemini-3-pro.md", "Google/gemini-3.1-pro.md", "Google/gemini-2.5-pro-webapp.md"],
+    "grok":    ["xAI/grok-4.3-beta.md", "xAI/grok-4.2.md", "xAI/grok-4.1-beta.md", "xAI/grok-4.md", "xAI/grok-3.md"],
 }
 MODEL_METADATA = {
-    "claude": {"provider": "Anthropic", "canonical_path": "Anthropic/claude.html"},
-    "openai": {"provider": "OpenAI", "canonical_path": "OpenAI/GPT-4o.md"},
-    "gemini": {"provider": "Google", "canonical_path": "Google/gemini-workspace.md"},
-    "grok": {"provider": "xAI", "canonical_path": "xAI/grok-4.2.md"},
+    "claude": {"provider": "Anthropic", "canonical_path": "Anthropic/claude-opus-4.7.md"},
+    "openai": {"provider": "OpenAI", "canonical_path": "OpenAI/gpt-5.5-thinking.md"},
+    "gemini": {"provider": "Google", "canonical_path": "Google/gemini-3-pro.md"},
+    "grok":   {"provider": "xAI", "canonical_path": "xAI/grok-4.3-beta.md"},
 }
 
 SECTION_RULES = {
@@ -76,13 +74,18 @@ def tag_diff(diff):
     text = " ".join(diff["added"] + diff["removed"]).lower()
     tags = []
     rules = {
-        "tool_definition": ['"name":', '"parameters":', '"description":', 'function'],
-        "safety":          ['refuse', 'harmful', 'dangerous', 'prohibited', 'must not', 'never', 'safety'],
-        "persona":         ['you are', 'your name', 'assistant', 'personality', 'tone', 'voice'],
-        "capability":      ['can now', 'able to', 'support', 'feature', 'enabled', 'available'],
-        "formatting":      ['markdown', 'bullet', 'heading', 'format', 'style', '.css', 'font'],
-        "memory":          ['remember', 'recall', 'memory', 'conversation history'],
-        "policy":          ['policy', 'guideline', 'terms', 'privacy', 'legal', 'comply'],
+        "tool_definition":      ['"name":', '"parameters":', '"description":', 'function'],
+        "safety":               ['refuse', 'harmful', 'dangerous', 'prohibited', 'must not', 'never', 'safety'],
+        "persona":              ['you are', 'your name', 'assistant', 'personality', 'tone', 'voice'],
+        "capability":           ['can now', 'able to', 'support', 'feature', 'enabled', 'available'],
+        "formatting":           ['markdown', 'bullet', 'heading', 'format', 'style', '.css', 'font'],
+        "memory":               ['remember', 'recall', 'memory', 'conversation history'],
+        "policy":               ['policy', 'guideline', 'terms', 'privacy', 'legal', 'comply'],
+        "lexical_blocklist":    ['avoid filler', 'do not say', "don't say", 'avoid words', 'avoid phrases', 'never use the word', 'avoid the word', 'banned words'],
+        "sycophancy_control":   ['unsolicited greeting', 'general acknowledgment', 'closing comment', 'avoid filler', 'sycophan', 'do not flatter', 'no praise', 'do not apologize'],
+        "prompt_secrecy":       ['do not reveal', 'never reveal', 'must not reveal', 'do not discuss these instructions', 'do not repeat these instructions', 'verbatim', 'system instructions', 'do not disclose'],
+        "wellbeing_protocol":   ['self-harm', 'self harm', 'suicide', 'hotline', 'crisis line', 'mental health resource', 'wellbeing', 'well-being', 'safe message'],
+        "temporal_grounding":   ['current date', 'current time', 'today is', 'knowledge cutoff', 'training cutoff', 'as of ', 'this year is'],
     }
     for tag, keywords in rules.items():
         if any(k in text for k in keywords):
@@ -111,14 +114,19 @@ def write_snapshot(model_name, commit, snapshot, base_dir=SNAPSHOT_PUBLIC_DIR):
 
 
 TAG_IMPACT_WEIGHTS = {
-    "safety": 35,
-    "policy": 30,
-    "tool_definition": 25,
-    "capability": 20,
-    "memory": 20,
-    "persona": 15,
-    "formatting": 8,
-    "other": 0,
+    "safety":              35,
+    "policy":              30,
+    "wellbeing_protocol":  30,
+    "prompt_secrecy":      25,
+    "tool_definition":     25,
+    "sycophancy_control":  22,
+    "capability":          20,
+    "memory":              20,
+    "temporal_grounding":  20,
+    "lexical_blocklist":   18,
+    "persona":             15,
+    "formatting":           8,
+    "other":                0,
 }
 
 

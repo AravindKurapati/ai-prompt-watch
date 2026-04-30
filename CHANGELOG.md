@@ -1,6 +1,10 @@
 # CHANGELOG
 
 ## [unreleased]
+- fix(pipeline): point MODELS at real prompt files (Claude opus 4.6/4.7 + sonnet 4.6, GPT-5.1/5.3/5.4/5.5, Gemini 2.5/3/3.1, Grok 3-4.3-beta) instead of explorer HTML and legacy 2024 files
+- feat(pipeline): add 5 new behavioral tag categories — lexical_blocklist, sycophancy_control, prompt_secrecy, wellbeing_protocol, temporal_grounding
+- feat(frontend): extend TAG_COLORS palette to 12 categories with matching colors
+- docs: add FEATURE_prompt-watch-v2 spec covering pipeline canonical-file fix, 5 new behavioral tag categories (lexical_blocklist, sycophancy_control, prompt_secrecy, wellbeing_protocol, temporal_grounding), and combined cross-model post + 1-year Claude forecast
 - feat: replace the Prompt Physics Lab with an evidence-driven Prompt Change Replay for real diffs and snapshots
 - feat: add an interactive Prompt Physics Lab with canvas-based prompt sheet motion and research controls
 - feat: replace the synthetic dashboard backdrop with a generated forensic prompt-desk image and mute model-card color treatment
