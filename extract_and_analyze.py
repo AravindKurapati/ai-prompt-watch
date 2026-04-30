@@ -74,13 +74,18 @@ def tag_diff(diff):
     text = " ".join(diff["added"] + diff["removed"]).lower()
     tags = []
     rules = {
-        "tool_definition": ['"name":', '"parameters":', '"description":', 'function'],
-        "safety":          ['refuse', 'harmful', 'dangerous', 'prohibited', 'must not', 'never', 'safety'],
-        "persona":         ['you are', 'your name', 'assistant', 'personality', 'tone', 'voice'],
-        "capability":      ['can now', 'able to', 'support', 'feature', 'enabled', 'available'],
-        "formatting":      ['markdown', 'bullet', 'heading', 'format', 'style', '.css', 'font'],
-        "memory":          ['remember', 'recall', 'memory', 'conversation history'],
-        "policy":          ['policy', 'guideline', 'terms', 'privacy', 'legal', 'comply'],
+        "tool_definition":      ['"name":', '"parameters":', '"description":', 'function'],
+        "safety":               ['refuse', 'harmful', 'dangerous', 'prohibited', 'must not', 'never', 'safety'],
+        "persona":              ['you are', 'your name', 'assistant', 'personality', 'tone', 'voice'],
+        "capability":           ['can now', 'able to', 'support', 'feature', 'enabled', 'available'],
+        "formatting":           ['markdown', 'bullet', 'heading', 'format', 'style', '.css', 'font'],
+        "memory":               ['remember', 'recall', 'memory', 'conversation history'],
+        "policy":               ['policy', 'guideline', 'terms', 'privacy', 'legal', 'comply'],
+        "lexical_blocklist":    ['avoid filler', 'do not say', "don't say", 'avoid words', 'avoid phrases', 'never use the word', 'avoid the word', 'banned words'],
+        "sycophancy_control":   ['unsolicited greeting', 'general acknowledgment', 'closing comment', 'avoid filler', 'sycophan', 'do not flatter', 'no praise', 'do not apologize'],
+        "prompt_secrecy":       ['do not reveal', 'never reveal', 'must not reveal', 'do not discuss these instructions', 'do not repeat these instructions', 'verbatim', 'system instructions', 'do not disclose'],
+        "wellbeing_protocol":   ['self-harm', 'self harm', 'suicide', 'hotline', 'crisis line', 'mental health resource', 'wellbeing', 'well-being', 'safe message'],
+        "temporal_grounding":   ['current date', 'current time', 'today is', 'knowledge cutoff', 'training cutoff', 'as of ', 'this year is'],
     }
     for tag, keywords in rules.items():
         if any(k in text for k in keywords):
@@ -109,14 +114,19 @@ def write_snapshot(model_name, commit, snapshot, base_dir=SNAPSHOT_PUBLIC_DIR):
 
 
 TAG_IMPACT_WEIGHTS = {
-    "safety": 35,
-    "policy": 30,
-    "tool_definition": 25,
-    "capability": 20,
-    "memory": 20,
-    "persona": 15,
-    "formatting": 8,
-    "other": 0,
+    "safety":              35,
+    "policy":              30,
+    "wellbeing_protocol":  30,
+    "prompt_secrecy":      25,
+    "tool_definition":     25,
+    "sycophancy_control":  22,
+    "capability":          20,
+    "memory":              20,
+    "temporal_grounding":  20,
+    "lexical_blocklist":   18,
+    "persona":             15,
+    "formatting":           8,
+    "other":                0,
 }
 
 
