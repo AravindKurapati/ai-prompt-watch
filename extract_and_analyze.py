@@ -22,18 +22,16 @@ SCHEMA_VERSION = 2
 SNAPSHOT_PUBLIC_DIR = Path("frontend/public/data/snapshots")
 
 MODELS = {
-    "claude":  ["Anthropic/claude.html"],
-    "openai":  ["OpenAI/GPT-4o.md"],
-    "gemini":  ["Google/gemini-workspace.md"],
-    "grok":    ["xAI/grok-4.2.md"],
-    # Perplexity omitted — it is a search wrapper (RAG), not a frontier model
-    # with a substantive evolving system prompt.
+    "claude":  ["Anthropic/claude-opus-4.7.md", "Anthropic/claude-opus-4.6.md", "Anthropic/claude-sonnet-4.6.md"],
+    "openai":  ["OpenAI/gpt-5.5-thinking.md", "OpenAI/gpt-5.4-thinking.md", "OpenAI/gpt-5.3-instant.md", "OpenAI/gpt-5.3-chat-api.md", "OpenAI/gpt-5.1-default.md"],
+    "gemini":  ["Google/gemini-3-pro.md", "Google/gemini-3.1-pro.md", "Google/gemini-2.5-pro-webapp.md"],
+    "grok":    ["xAI/grok-4.3-beta.md", "xAI/grok-4.2.md", "xAI/grok-4.1-beta.md", "xAI/grok-4.md", "xAI/grok-3.md"],
 }
 MODEL_METADATA = {
-    "claude": {"provider": "Anthropic", "canonical_path": "Anthropic/claude.html"},
-    "openai": {"provider": "OpenAI", "canonical_path": "OpenAI/GPT-4o.md"},
-    "gemini": {"provider": "Google", "canonical_path": "Google/gemini-workspace.md"},
-    "grok": {"provider": "xAI", "canonical_path": "xAI/grok-4.2.md"},
+    "claude": {"provider": "Anthropic", "canonical_path": "Anthropic/claude-opus-4.7.md"},
+    "openai": {"provider": "OpenAI", "canonical_path": "OpenAI/gpt-5.5-thinking.md"},
+    "gemini": {"provider": "Google", "canonical_path": "Google/gemini-3-pro.md"},
+    "grok":   {"provider": "xAI", "canonical_path": "xAI/grok-4.3-beta.md"},
 }
 
 SECTION_RULES = {
