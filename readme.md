@@ -3,7 +3,7 @@
 > Track how Claude, ChatGPT, Gemini and Grok's system prompts evolve over time.
 
 
-![AI Prompt Watch dashboard](screenshot.png)
+<img width="1365" height="628" alt="image" src="https://github.com/user-attachments/assets/f505e1e7-0c3f-4095-b707-80696345dc4f" />
 
 ---
 
