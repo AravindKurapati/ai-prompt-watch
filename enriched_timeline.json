@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-05-02T09:54:16.882994",
+  "generated_at": "2026-05-03T09:58:38.605295",
   "models": [
     "claude",
     "openai",
@@ -153,7 +153,7 @@
           "commit_date": "2026-04-23 10:15:39 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "This change adds more examples of how CLAUDE should respond to users based on their personal info and what they say. It also removes some duplicate examples to make the system more efficient. Basically, it's helping CLAUDE get better at having personalized conversations with users."
       },
       {
         "date": "2026-04-21",
@@ -270,7 +270,7 @@
           "commit_date": "2026-04-21 10:12:07 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The change to CLAUDE's system prompt is mainly about updating its knowledge cutoff date to April 20, 2026, and tweaking how it handles mental health crises, web searches, and user conversations. CLAUDE will now search the web more often to provide the most up-to-date info and will handle sensitive topics like mental health crises with more care."
       },
       {
         "date": "2026-04-19",
@@ -380,7 +380,7 @@
           "commit_date": "2026-04-19 09:39:15 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The main change is that Claude's system prompt was updated to reflect a new date, April 16, 2026, instead of April 17, 2026. This affects how Claude formulates web search queries and responds to user questions. Essentially, Claude is now aware that the current date is April 16, 2026, and will use this information to provide more accurate answers."
       },
       {
         "date": "2026-04-01",
@@ -498,7 +498,7 @@
           "commit_date": "2026-04-01 09:59:51 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "They've updated Claude's system to include more info about its products and capabilities, and to always web-search for the latest details. They've also removed some outdated info and changed how Claude handles searching past conversations. Overall, these changes should help Claude provide more accurate and helpful responses."
       },
       {
         "date": "2026-02-17",
@@ -608,7 +608,7 @@
           "commit_date": "2026-02-17 18:02:10 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The change updated the current date in CLAUDE's system prompt from February 7, 2026, to February 17, 2026. Everything else in the prompt remained the same, so it's just a date refresh. This update likely helps CLAUDE provide more accurate and relevant responses that take into account the current date."
       },
       {
         "date": "2026-02-13",
@@ -690,7 +690,7 @@
           "commit_date": "2026-02-13 04:16:12 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "This update is basically about making CLAUDE's system more secure and respectful. It adds guidelines for handling images, like not describing people in detail unless asked, and being careful with potentially sensitive or explicit content. It also warns against helping with creating malicious software, like viruses or hacking tools."
       },
       {
         "date": "2026-02-11",
@@ -755,7 +755,7 @@
           "commit_date": "2026-02-11 01:44:42 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "Claude's system got an update that adds a new feature called \"Styles\" which lets users choose how they want Claude to write and respond. The update also keeps a rule that Claude shouldn't mention these preferences or styles to the user unless it's directly related to the conversation. Basically, Claude is getting more customizable, but it will still keep the user's preferences private."
       },
       {
         "date": "2026-02-08",
@@ -873,7 +873,7 @@
           "commit_date": "2026-02-08 18:20:55 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The update to CLAUDE's system prompt is mainly about adding new instructions on how to handle tasks like creating skills, searching emails, and analyzing data, while also updating the current date to February 07, 2026. It also removes some old instructions and adds new rules for citing sources and applying user preferences."
       }
     ],
     "openai": [
@@ -990,7 +990,7 @@
           "commit_date": "2026-04-28 10:55:12 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The update to OPENAI's system prompt adds more details on how to use citations and rich UI elements, like interactive graphs and sports schedules, in responses. It also removes some redundant information and updates the current date. Overall, the change aims to make the prompt more comprehensive and user-friendly."
       },
       {
         "date": "2026-04-14",
@@ -1106,7 +1106,7 @@
           "commit_date": "2026-04-14 10:07:51 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "The main change is that the system prompt now has an updated current date (2026-04-14) and some minor tweaks to the language and formatting of the instructions. The core rules and guidelines for creating documents, spreadsheets, and slides, as well as ensuring user trust and safety, remain the same."
       }
     ],
     "gemini": [
@@ -1191,7 +1191,7 @@
           "commit_date": "2026-03-31 09:55:57 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "This update is all about how GEMINI uses user data to respond to questions. Now, GEMINI will only use user data if it's really necessary and relevant to the question, and it has to follow some strict rules to make sure it's not being used in a way that's sensitive or inappropriate."
       },
       {
         "date": "2026-03-01",
@@ -1273,7 +1273,7 @@
           "commit_date": "2026-03-01 15:22:27 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "GEMINI's system prompt got an update to include more details about the current time and location, as well as stricter guidelines on how to respond to user queries while prioritizing safety. This means GEMINI will be more careful about refusing requests that could lead to harmful or illegal activities, and will always prioritize safety in its responses."
       },
       {
         "date": "2025-12-22",
@@ -1374,7 +1374,7 @@
           "commit_date": "2025-12-22 08:10:41 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "Gemini's system prompt got an update, focusing on how it should process and respond to user requests in a more structured way. The new rules emphasize thinking silently before acting, and only using tool APIs when explicitly allowed. This change aims to make Gemini's interactions more helpful and efficient."
       }
     ],
     "grok": [
@@ -1455,7 +1455,7 @@
           "commit_date": "2026-02-17 16:02:17 +0000",
           "extraction_method": "markdown_raw"
         },
-        "summary": "Summary unavailable."
+        "summary": "GROK's system prompt got an update that tweaks how web searches and X keyword searches work. The main change is that the \"web_search\" action no longer requires you to specify the number of results you want, and the \"x_keyword_search\" remains mostly the same."
       }
     ]
   },
