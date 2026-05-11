@@ -1,7 +1,7 @@
 # Codex Personality — Friendly
 
 **Source key:** `model_messages.instructions_variables.personality_friendly`  
-**Used by:** `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.3-codex`, `codex-auto-review`  
+**Used by:** `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.3-codex`, `gpt-5.3-codex-spark`, `codex-auto-review`  
 **Fetched at:** 2026-04-26T13:18:08.462205Z  
 **Client version:** 0.125.0  
 

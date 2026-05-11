@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-05-10T10:05:41.314782",
+  "generated_at": "2026-05-11T11:57:40.051390",
   "models": [
     "claude",
     "openai",
@@ -993,6 +993,98 @@
     ],
     "openai": [
       {
+        "date": "2026-05-10",
+        "commit": "c722c552",
+        "full_commit": "c722c552d71fd0de954187f7b46544a3d8c63461",
+        "message": "Update timeline 2026-05-10",
+        "filepath": "OpenAI/gpt-5.5-thinking.md",
+        "diff": {
+          "added": [
+            "## Namespace: bio",
+            "### Target channel: commentary",
+            "### Description",
+            "The `bio` tool allows you to persist information across conversations, so you can deliver more personalized and helpful responses over time. The corresponding user facing feature is known to users as \"memory\".",
+            "Address your message `to=bio.update` and write just plain text. This plain text can be either:",
+            "1. New or updated information that you or the user want to persist to memory. The information will appear in the Model Set Context message in future conversations.",
+            "2. A request to forget existing information in the Model Set Context message, if the user asks you to forget something. The request should stay as close as possible to the user's ask.",
+            "#### When to use the `bio` tool",
+            "Send a message to the `bio` tool if:",
+            "- The user is requesting for you to save or forget information.",
+            "- Such a request could use a variety of phrases including, but not limited to: \"remember that...\", \"store this\", \"add to memory\", \"note that...\", \"forget that...\", \"delete this\", etc.",
+            "- **Anytime** the user message includes one of these phrases or similar, reason about whether they are requesting for you to save or forget information in your analysis message.",
+            "- **Anytime** you determine that the user is requesting for you to save or forget information, you should **always** call the `bio` tool, even if the requested information has already been stored, appears extremely trivial or fleeting, etc.",
+            "- **Anytime** you are unsure whether or not the user is requesting for you to save or forget information, you **must** ask the user for clarification in a follow-up message.",
+            "- **Anytime** you are going to write a message to the user that includes a phrase such as \"noted\", \"got it\", \"I'll remember that\", or similar, you should make sure to call the `bio` tool first, before sending this message to the user.",
+            "- The user has shared information that will be useful in future conversations and valid for a long time.",
+            "- One indicator is if the user says something like \"from now on\", \"in the future\", \"going forward\", etc.",
+            "- **Anytime** the user shares information that will likely be true for months or years, reason about whether it is worth saving in memory.",
+            "- User information is worth saving in memory if it is likely to change your future responses in similar situations.",
+            "#### When **not** to use the `bio` tool",
+            "Don't store random, trivial, or overly personal facts. In particular, avoid:",
+            "- **Overly-personal** details that could feel creepy.",
+            "- **Short-lived** facts that won't matter soon.",
+            "- **Random** details that lack clear future relevance.",
+            "- **Redundant** information that we already know about the user.",
+            "Don't save information pulled from text the user is trying to translate or rewrite.",
+            "**Never** store information that falls into the following **sensitive data** categories unless clearly requested by the user:",
+            "- Information that **directly** asserts the user's personal attributes, such as:",
+            "- Race, ethnicity, or religion",
+            "- Specific criminal record details (except minor non-criminal legal issues)"
+          ],
+          "removed": [
+            "## Namespace: bio",
+            "### Target channel: commentary",
+            "### Description",
+            "The `bio` tool is disabled. Do not send any messages to it. If the user explicitly asks you to remember something, politely ask them to go to Settings > Personalization > Memory to enable memory.",
+            "### Tool definitions",
+            "**update**",
+            "```ts",
+            "```"
+          ],
+          "added_count": 40,
+          "removed_count": 8,
+          "total_change": 48
+        },
+        "behavioral_tags": [
+          "safety",
+          "persona",
+          "capability",
+          "formatting",
+          "memory",
+          "policy"
+        ],
+        "sections_changed": [
+          "identity_persona",
+          "safety_policy",
+          "tool_use",
+          "memory_context",
+          "formatting_output",
+          "workflow_instructions"
+        ],
+        "snapshot_path": "data/snapshots/openai/c722c552.txt",
+        "prompt_length": 94477,
+        "prompt_delta": 3821,
+        "impact_score": 274,
+        "impact_level": "high",
+        "impact_reasons": [
+          "large_prompt_delta",
+          "safety_or_policy_change",
+          "tooling_change",
+          "memory_or_context_change"
+        ],
+        "provenance": {
+          "provider": "OpenAI",
+          "model": "openai",
+          "source_path": "OpenAI/gpt-5.5-thinking.md",
+          "canonical_path": "OpenAI/gpt-5.5-thinking.md",
+          "commit": "c722c552",
+          "full_commit": "c722c552d71fd0de954187f7b46544a3d8c63461",
+          "commit_date": "2026-05-10 10:05:41 +0000",
+          "extraction_method": "markdown_raw"
+        },
+        "summary": "Summary unavailable."
+      },
+      {
         "date": "2026-04-28",
         "commit": "c8ef3f79",
         "full_commit": "c8ef3f79d628a22e577321c980cd1a80b03abb8e",
@@ -1602,10 +1694,10 @@
       "high_impact_changes": 8
     },
     "openai": {
-      "total_changes": 2,
-      "latest_change_date": "2026-04-28",
-      "current_prompt_length": 90656,
-      "prompt_growth": 35298,
+      "total_changes": 3,
+      "latest_change_date": "2026-05-10",
+      "current_prompt_length": 94477,
+      "prompt_growth": 39119,
       "dominant_tags": [
         "capability",
         "formatting",
@@ -1617,14 +1709,14 @@
         "memory_context"
       ],
       "section_counts": {
-        "identity_persona": 2,
-        "safety_policy": 2,
-        "tool_use": 2,
-        "memory_context": 2,
-        "formatting_output": 2,
-        "workflow_instructions": 2
+        "identity_persona": 3,
+        "safety_policy": 3,
+        "tool_use": 3,
+        "memory_context": 3,
+        "formatting_output": 3,
+        "workflow_instructions": 3
       },
-      "high_impact_changes": 2
+      "high_impact_changes": 3
     },
     "gemini": {
       "total_changes": 3,
