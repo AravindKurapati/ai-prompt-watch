@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-05-14T00:00:00",
+  "models": ["claude", "openai"],
+  "model_sources": {
+    "claude": {
+      "provider": "Anthropic",
+      "canonical_path": "Anthropic/claude-opus-4.7.md",
+      "tracked_paths": ["Anthropic/claude-opus-4.7.md"]
+    },
+    "openai": {
+      "provider": "OpenAI",
+      "canonical_path": "OpenAI/gpt-5.5-thinking.md",
+      "tracked_paths": ["OpenAI/gpt-5.5-thinking.md"]
+    }
+  },
+  "timelines": {
+    "claude": [
+      {
+        "date": "2026-05-01",
+        "summary": "Added tool-use guardrails",
+        "behavioral_tags": ["safety"],
+        "sections_changed": ["tool_use"],
+        "snapshot_path": "data/snapshots/claude/2026-05-01.md",
+        "impact_reasons": ["new safety constraint on tool calls"],
+        "provenance": "git",
+        "impact_score": 0.6,
+        "impact_level": "medium",
+        "prompt_length": 12000,
+        "diff": {
+          "added": ["You must refuse to execute dangerous shell commands"],
+          "removed": []
+        }
+      }
+    ],
+    "openai": [
+      {
+        "date": "2026-05-02",
+        "summary": "Expanded code interpreter scope",
+        "behavioral_tags": ["capability"],
+        "sections_changed": ["tool_use"],
+        "snapshot_path": "data/snapshots/openai/2026-05-02.md",
+        "impact_reasons": ["broader code execution permissions"],
+        "provenance": "git",
+        "impact_score": 0.4,
+        "impact_level": "low",
+        "prompt_length": 9500,
+        "diff": {
+          "added": ["Code interpreter can now access network resources"],
+          "removed": []
+        }
+      }
+    ]
+  },
+  "stats": {
+    "claude": {
+      "total_changes": 1,
+      "avg_impact_score": 0.6,
+      "top_tags": {"safety": 1},
+      "prompt_length_trend": [12000]
+    },
+    "openai": {
+      "total_changes": 1,
+      "avg_impact_score": 0.4,
+      "top_tags": {"capability": 1},
+      "prompt_length_trend": [9500]
+    }
+  },
+  "comparison": {
+    "claude": {
+      "identity_persona": "low",
+      "tool_use": "medium",
+      "safety_restrictions": "low",
+      "output_formatting": "low",
+      "knowledge_context": "low",
+      "metadata_other": "low"
+    },
+    "openai": {
+      "identity_persona": "low",
+      "tool_use": "medium",
+      "safety_restrictions": "low",
+      "output_formatting": "low",
+      "knowledge_context": "low",
+      "metadata_other": "low"
+    }
+  }
+}

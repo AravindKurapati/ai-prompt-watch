@@ -87,6 +87,59 @@ npm run dev
 
 ---
 
+## Architecture
+
+```
+asgeirtj/system_prompts_leaks (upstream)
+            |
+            v  (git fetch + checkout via GitHub Actions)
+    +-------------------+
+    | extract_and_analyze.py |
+    |  git diff per model    |
+    |  Groq LLM summaries    |
+    |  rule-based tagging    |
+    |  impact scoring        |
+    +---------+---------+
+              v
+    enriched_timeline.json  (committed to main)
+              |
+              v
+    +-----------------------+
+    | React + Vite frontend |
+    |  Timeline viewer      |
+    |  Side-by-side diffs   |
+    |  Tag filter + charts  |
+    +---------+-------------+
+              v
+    GitHub Pages (auto-deployed)
+```
+
+---
+
+## Running Tests
+
+```bash
+# Pipeline tests (41 tests — tagging, scoring, schema validation)
+pip install groq python-dotenv pytest
+python -m pytest test_pipeline.py -v
+
+# Frontend tests
+cd frontend
+npm install
+npm test
+```
+
+---
+
+## Limitations
+
+- **Prompt source is community-maintained** - depends on [asgeirtj/system_prompts_leaks](https://github.com/asgeirtj/system_prompts_leaks) for raw prompt files; coverage depends on community contributions.
+- **Summaries require Groq API** - the pipeline uses Groq (Llama 3.3 70B) for plain-English change summaries; running locally requires a free API key.
+- **Tag classification is rule-based** - behavioral tags use keyword matching, not ML classification; edge cases may be mistagged.
+- **Four models only** - currently tracks Claude, ChatGPT, Gemini, and Grok; adding a new model requires a new entry in `MODELS` and `MODEL_METADATA`.
+
+---
+
 ## Contributing
 
 New prompt files go in the upstream repo: [asgeirtj/system_prompts_leaks](https://github.com/asgeirtj/system_prompts_leaks). Submit PRs there and they'll automatically appear in this dashboard within 24 hours.
