@@ -1,18 +1,3 @@
-# OpenAI Codex — GPT-5.5
-
-**Slug:** `gpt-5.5`  
-**Description:** Frontier model for complex coding, research, and real-world work.  
-**Client version:** 0.125.0  
-**Fetched at:** 2026-04-26T13:18:08.462205Z  
-**Default reasoning level:** medium  
-**Context window:** 272000  
-**Visibility:** list  
-**Priority:** 0  
-**Body source:** instructions_template (with `{{ personality }}` placeholder — pluggable)  
-**Pluggable personality variants:** `personality_friendly`, `personality_pragmatic` → [personality_friendly_gpt-5.5.md](personality_friendly_gpt-5.5.md), [personality_pragmatic_gpt-5.5.md](personality_pragmatic_gpt-5.5.md)  
-
----
-
 # SYSTEM INSTRUCTIONS
 
 You are Codex, a coding agent based on GPT-5. You and the user share one workspace, and your job is to collaborate with them until their goal is genuinely handled.

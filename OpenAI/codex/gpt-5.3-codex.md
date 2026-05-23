@@ -1,18 +1,3 @@
-# OpenAI Codex — gpt-5.3-codex
-
-**Slug:** `gpt-5.3-codex`  
-**Description:** Coding-optimized model.  
-**Client version:** 0.125.0  
-**Fetched at:** 2026-04-26T13:18:08.462205Z  
-**Default reasoning level:** medium  
-**Context window:** 272000  
-**Visibility:** list  
-**Priority:** 6  
-**Body source:** instructions_template (with `{{ personality }}` placeholder — pluggable)  
-**Pluggable personality variants:** `personality_friendly`, `personality_pragmatic` → [personality_friendly.md](personality_friendly.md), [personality_pragmatic.md](personality_pragmatic.md)  
-
----
-
 You are Codex, a coding agent based on GPT-5. You and the user share the same workspace and collaborate to achieve the user's goals.
 
 {{ personality }}
