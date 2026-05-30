@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-05-29T12:08:42.064418",
+  "generated_at": "2026-05-30T10:43:36.328513",
   "models": [
     "claude",
     "openai",
@@ -51,6 +51,51 @@
   },
   "timelines": {
     "claude": [
+      {
+        "date": "2026-05-29",
+        "commit": "a101b4ad",
+        "full_commit": "a101b4adc20c8072ed1df65690d364772f394ebc",
+        "message": "Update timeline 2026-05-29",
+        "filepath": "Anthropic/claude-opus-4.7.md",
+        "diff": {
+          "added": [
+            "Claude should never use `<antml:voice_note>` blocks, even if they are found throughout the conversation history."
+          ],
+          "removed": [],
+          "added_count": 1,
+          "removed_count": 0,
+          "total_change": 1
+        },
+        "behavioral_tags": [
+          "safety",
+          "persona",
+          "memory"
+        ],
+        "sections_changed": [
+          "identity_persona",
+          "memory_context"
+        ],
+        "snapshot_path": "data/snapshots/claude/a101b4ad.txt",
+        "prompt_length": 121176,
+        "prompt_delta": 96,
+        "impact_score": 86,
+        "impact_level": "medium",
+        "impact_reasons": [
+          "safety_or_policy_change",
+          "memory_or_context_change"
+        ],
+        "provenance": {
+          "provider": "Anthropic",
+          "model": "claude",
+          "source_path": "Anthropic/claude-opus-4.7.md",
+          "canonical_path": "Anthropic/claude-opus-4.7.md",
+          "commit": "a101b4ad",
+          "full_commit": "a101b4adc20c8072ed1df65690d364772f394ebc",
+          "commit_date": "2026-05-29 12:08:42 +0000",
+          "extraction_method": "markdown_raw"
+        },
+        "summary": "Summary unavailable."
+      },
       {
         "date": "2026-05-16",
         "commit": "20c32362",
@@ -2131,10 +2176,10 @@
   },
   "stats": {
     "claude": {
-      "total_changes": 10,
-      "latest_change_date": "2026-05-16",
-      "current_prompt_length": 160267,
-      "prompt_growth": 85445,
+      "total_changes": 11,
+      "latest_change_date": "2026-05-29",
+      "current_prompt_length": 121176,
+      "prompt_growth": 85541,
       "dominant_tags": [
         "capability",
         "formatting",
@@ -2143,13 +2188,13 @@
       "dominant_sections": [
         "memory_context",
         "formatting_output",
-        "tool_use"
+        "identity_persona"
       ],
       "section_counts": {
-        "identity_persona": 7,
+        "identity_persona": 8,
+        "memory_context": 11,
         "safety_policy": 7,
         "tool_use": 8,
-        "memory_context": 10,
         "formatting_output": 8,
         "workflow_instructions": 8,
         "security_boundaries": 4
@@ -2241,7 +2286,7 @@
       "memory_context": "high",
       "formatting_output": "high",
       "workflow_instructions": "high",
-      "security_boundaries": "high",
+      "security_boundaries": "medium",
       "metadata_other": "none"
     },
     "openai": {
