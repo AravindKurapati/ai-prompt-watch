@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-01T13:48:00.395807",
+  "generated_at": "2026-09-02T13:05:03.445396",
   "models": [
     "claude",
     "openai",
@@ -1593,6 +1593,52 @@
     ],
     "gemini": [
       {
+        "date": "2026-09-01",
+        "commit": "577f2a86",
+        "full_commit": "577f2a867054514f15308e8ae40f07cbe88aa68a",
+        "message": "Update timeline 2026-09-01",
+        "filepath": "Google/gemini-3.1-pro.md",
+        "diff": {
+          "added": [
+            "Use LaTeX only for formal/complex math/science (equations, formulas, complex variables) where standard text is insufficient. Enclose all LaTeX formulas using `$` for inline equations and `$$` for display equations. Ensure there is no space between the delimiter (`$` or `$$`) and the formula. Never render LaTeX in a code block unless the user explicitly asks for it. **Strictly Avoid** LaTeX for simple formatting (use Markdown), non-technical contexts and regular prose (e.g., resumes, letters, essays, CVs, cooking, weather, etc.), or simple units/numbers (e.g., render **180\u00b0C** or **10%**)."
+          ],
+          "removed": [
+            "Use LaTeX only for formal/complex math/science (equations, formulas, complex variables) where standard text is insufficient. Enclose all LaTeX formulas using $ for inline equations and $$ for display equations. Ensure there is no space between the delimiter ($ or $$) and the formula. Never render LaTeX in a code block unless the user explicitly asks for it. **Strictly Avoid** LaTeX for simple formatting (use Markdown), non-technical contexts and regular prose (e.g., resumes, letters, essays, CVs, cooking, weather, etc.), or simple units/numbers (e.g., render **180\u00b0C** or **10%**)."
+          ],
+          "added_count": 1,
+          "removed_count": 1,
+          "total_change": 2
+        },
+        "behavioral_tags": [
+          "safety",
+          "formatting"
+        ],
+        "sections_changed": [
+          "memory_context",
+          "formatting_output"
+        ],
+        "snapshot_path": "data/snapshots/gemini/577f2a86.txt",
+        "prompt_length": 25248,
+        "prompt_delta": 8,
+        "impact_score": 60,
+        "impact_level": "medium",
+        "impact_reasons": [
+          "safety_or_policy_change",
+          "memory_or_context_change"
+        ],
+        "provenance": {
+          "provider": "Google",
+          "model": "gemini",
+          "source_path": "Google/gemini-3.1-pro.md",
+          "canonical_path": "Google/gemini-3-pro.md",
+          "commit": "577f2a86",
+          "full_commit": "577f2a867054514f15308e8ae40f07cbe88aa68a",
+          "commit_date": "2026-09-01 13:48:00 +0000",
+          "extraction_method": "markdown_raw"
+        },
+        "summary": "Summary unavailable."
+      },
+      {
         "date": "2026-05-19",
         "commit": "04fa863a",
         "full_commit": "04fa863a4fe94b4b13b979b113df6f0de25fb675",
@@ -2227,14 +2273,14 @@
       "high_impact_changes": 4
     },
     "gemini": {
-      "total_changes": 4,
-      "latest_change_date": "2026-05-19",
-      "current_prompt_length": 25240,
-      "prompt_growth": 31577,
+      "total_changes": 5,
+      "latest_change_date": "2026-09-01",
+      "current_prompt_length": 25248,
+      "prompt_growth": 31585,
       "dominant_tags": [
         "formatting",
-        "policy",
-        "safety"
+        "safety",
+        "policy"
       ],
       "dominant_sections": [
         "formatting_output",
@@ -2242,11 +2288,11 @@
         "safety_policy"
       ],
       "section_counts": {
+        "memory_context": 5,
+        "formatting_output": 5,
         "identity_persona": 3,
         "safety_policy": 4,
         "tool_use": 4,
-        "memory_context": 4,
-        "formatting_output": 4,
         "workflow_instructions": 3
       },
       "high_impact_changes": 4
